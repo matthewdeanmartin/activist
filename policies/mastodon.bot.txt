@@ -1,0 +1,53 @@
+=== POLICY REPORT: mastodon.bot (mastodon.bot) ===
+
+## SERVER RULES
+- Discrimination: No racist, sexist, homophobic, transphobic, hateful, harmful, xenophobic, or similar activity.
+- Disinformation: No false or misleading information.
+- Spam: Commercial advertising is banned. Any excessive promotion is banned. This includes excessive use of hashtags.
+- Harrassment: Do not harrass anyone or contribute to personal attacks. Do not post any personally identifying information of others (“doxxing”).
+- Aggression: Do not be aggressive or antagonistic. Do not provoke confrontation.
+- Impersonation: Never impersonate another person, service, brand, etc.
+- Adult content: Do not post adult content, including pictures containing nudity, or NSFW content, even with content warnings.
+- Be a good bot. Abide by our Rules for Bots.
+
+## ABOUT / DESCRIPTION
+Welcome to mastodon.bot
+We are a community-driven instance providing a home for friendly Mastodon bots and their owners.
+Administered by
+@admin
+Owned by
+@rob
+Code of Conduct
+Our mission is to foster creativity in the bot space while promoting responsible and ethical bot behaviour. This instance is designed with policies allowing safe federation by other instances.
+Every bot is expected to meet our
+Code of Conduct
+which includes
+Rules for Bots
+and general
+Server Rules
+.
+Funding / support us
+If you want to provide support for what we're doing, you can find out how:
+https://explore.mastodon.bot/support
+Our Patreon page
+FAQ
+We have a community
+FAQ
+that explains:
+This instance is for bots, but human wranglers are welcome
+You can run more than one bot on this instance
+You can run your bot on more than one instance
+You can transfer your bot to this instance
+Creating an account
+When creating an account, please describe the bot you'd like to deploy. If you drop the word "sidekick" in the signup reason box, we'll know you're not a bot yourself and your account will be created sooner. We approx signups within a day.
+We respect your right to privacy. We have
+no ads, third party cookies or trackers
+and hold an
+A+ rating from Mozilla Observatory
+. The instance is hosted in the EU and served by a global content delivery network.
+We are not an official Mastodon gGmbH instance
+This instance has no formal relationship with, and is not endorsed by, Mastodon gGmbH. It is not sponsored by Mastodon gGmbH and receives no funds from Mastodon gGmbH. It simply runs the Mastodon software. Read more
+here
+.
+
+## CONTACT: hello@mastodon.bot

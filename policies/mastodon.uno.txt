@@ -1,0 +1,320 @@
+=== POLICY REPORT: Mastodon Uno Social - Italia (mastodon.uno) ===
+
+## SERVER RULES
+- No al trolling, shitposting, bodyshaming, abilismo e bullismo
+
+- No alla diffusione intenzionale di notizie false, fuorvianti o manipolate e alla condivisione di informazioni con intenti antiscientifici.
+- No a comportamenti molesti e tossici, dogpiling o doxxing.
+- No al razzismo, sessismo, misoginia, omofobia, bifobia, lesbofobia, transfobia, afobia
+- No contenuti VM18
+- No al proselitismo e all'intolleranza religiosa
+- No apologia del fascismo - nazismo
+- No allo Spam, al Flood e ai Bot
+- No agli account che pubblicano esclusivamente contenuti generati dall'Intelligenza Artificiale.
+I contenuti creati con l'uso dell'IA generativa devono essere resi noti. Nel caso ci siano dubbi sull'origine basta un riferimento all'autore/creatore o alla fonte da cui proviene l'immagine.
+
+## ABOUT / DESCRIPTION
+⁂
+Benvenutə su Mastodon Uno!
+🌟
+mastodon.uno
+è la principale istanza Mastodon italiana, gestita all'associazione noprofit
+Fedimedia Italia
+e figura tra le
+prime 10 istanze Mastodon al mondo
+secondo fedidb
+. Inoltre, è una delle
+sei istanze consigliate dal sito ufficiale di Mastodon
+joinmastodon.org
+Tra le istanze in italiano, mastodon.uno si distingue per:
+🚀 I nostri valori
+🔨 Difendiamo le libertà digitali senza compromessi
+🌉 Costruiamo ponti, non muri: inclusività e dialogo sono il nostro codice genetico, siamo connessi a tutte le istanze del fediverso senza alcun blocco.
+⚔️ Lottiamo quotidianamente contro i giganti tech, offrendo alternative concrete ai servizi centralizzati USA (
+Servizi devol
+)
+🌍 Server in UE, zero raccolta dati, open-source, no‑profit → un web etico e trasparente (
+Chi Siamo
+)
+✅ Riduciamo l'impatto ambientale usando solo energia rinnovabile e infrastrutture sostenibili
+❤️ Mastodon.uno è parte di Fedimedia Italia APS, un’associazione di promozione sociale impegnata per un web più libero, inclusivo ed etico. Promuoviamo progetti di migrazione da piattaforme private verso ecosistemi decentralizzati e rispettosi della privacy.(
+Fedimedia
+)
+✅
+Il vero valore aggiunto:
+mastodon.uno è
+fortemente integrata con
+diggita.com/a>
+, la popolare istanza Lemmy italiana che raccoglie migliaia di utenti federati.
+Questa integrazione permette di:
+Seguire argomenti tematici
+(es.
+@tecnologia
+,
+@cultura
+,
+@attualità
+) direttamente da Mastodon, senza passare da Diggita (
+Guida a Diggita
+).
+Rilanciare automaticamente i propri messaggi
+aggiungendo il tag
+@gruppo@diggita.com
+, garantendo visibilità anche ai 200+ follower di ogni gruppo tematico (
+Guida ai gruppi lemmy su diggita
+).
+In sintesi, scegliere mastodon.uno significa:
+Entrare in una istanza italiana storica, solida, attiva e rispettosa dei principi del web libero.
+Accedere a una rete di
+gruppi tematici su Diggita
+che amplificano i tuoi contenuti senza richiedere plugin, app o account aggiuntivi.
+Approfittare di un ambiente federato facilmente fruibile, dove è davvero più semplice farsi sentire e farsi vedere rispetto ad altre piattaforme.
+Scegliere mastodon.uno significa entrare in una comunità digitale autentica, dove ogni voce può farsi sentire attraverso canali federati tematici. Per chi vuole essere parte del Fediverso italiano, questa è una delle piattaforme più accoglienti e integrate.
+Qui potete leggere
+Chi Siamo
+Mastodon.uno con oltre 77.000 iscritti è la più grande istanza Italiana del
+social mastodon
+e fa parte di un Network federato composto da 14000 siti web: il Fediverso, qua una breve guida al
+fediverso italiano
+. 
+Ciò significa che nessun singolo sito controlla l'intera rete, piuttosto, come la posta elettronica, i volontari e le organizzazioni gestiscono i propri siti indipendenti nei quali gli utenti possono interagire tra loro anche se registrati in siti differenti.
+Mastodon.uno inoltre gira su server alimentato con energia pulita e green:
+I siti mastodon vengono chiamati "Istanze" e Mastodon.uno è la prima istanza generalista indirizzata ai soli utenti italofoni all'interno del
+fediverso
+e rispetta i principi cardine dei social decentralizzati: indipendenti, etici, liberi, gratuiti, senza pubblicità, senza algoritmi che scelgano cosa devi vedere, senza raccolta dati e autogestiti dalla propria community. Qui la nostra
+Carta dei valori
+Questa istanza italiana è stata creata dal
+gruppo devol
+per dare uno spazio libero di condivisione e discussione a tutti gli utenti di lingua italiana, e che
+gestisce oltre 30 servizi online
+basati sui principi di libertà, riservatezza, federazione e decentralizzazione. Sebbene i messaggi possano anche essere scritti in altre lingue, questa istanza mastodon è riservata esclusivamente ai soli utenti italofoni. Con oltre 10000 utenti attivi è il più grande sito mastodon italiano nel fediverso.
+Alcune guide per partire con mastodon:
+Breve guida in 5 passi
+la guida italiana a Mastodon
+la guida italiana al Fediverso
+Social italiani del fediverso
+cos'è fediverso
+Fediverso Italia
+Guida alla decentralizzazione e al Fediverso con i Devol
+Su Mastodon.uno consigliamo di seguire il manifesto della comunicazione non ostile:
+Benvenuti su Mastodon Uno!
+Mastodon è un social network non commerciale, federato e decentralizzato. Mastodon Uno è una istanza italiana autogestita dalla community che nasce grazie al lavoro dei Devol.
+Mastodon.uno è una istanza generalista in lingua italiana.
+Attention! This instance is for Italian speakers only!
+Perché iscriversi a Mastodon.uno
+Mastodon.uno è una
+istanza generalista
+, indipendente, etica e libera. Vogliamo essere una community felice e benevola, ma anche competente e divertente. Per questo ci siamo dati una policy
+rispettosa dei diritti di tutti
+, per costruire insieme una community sana e priva di comportamenti tossici.
+Ti consigliamo di leggere
+questo documento
+e le
+regole dell'istanza
+per capire se Mastodon.uno è il server che fa per te. Se non ti riconosci o non condividi le regole di questa istanza puoi cercarne un'altra che rispecchi di più la tua sensibilità o i tuoi interessi. In alternativa puoi sempre creare la tua istanza (questo è il bello di Mastodon) e rimanere collegato all'interno della federazione.
+Mastodon.uno rispetta la tua privacy
+Mastodon
+non ti profila
+e non vende i tuoi dati personali, perché è indipendente, non ha azionisti, investitori o gruppi/circoli/centri a cui rispondere.
+Puoi liberamente decidere il
+livello di privacy dei tuoi interventi
+all'interno della community (un contenuto può essere: pubblico, pubblico ma non pubblicato nella timeline pubblica, visibile solo ai followers, messaggio privato visibile sono ai destinatari menzionati).
+I tuoi
+dati personali restano tuoi
+, puoi decidere in qualsiasi momento di cancellarli o scaricarne una copia.
+I server che gestiscono Mastodon.uno sono all'interno della Comunità Europea.
+Mastodon rispetta l'
+anonimato
+, non ti obbliga ad iscriverti con il tuo nome e cognome o con il tuo numero di telefono, puoi mantenere la tua privacy ed utilizzare qualsiasi nickname
+Abbiamo solo bisogno di una tua
+email valida
+per: la verifica, l'eventuale tuo recupero password, l'invio di eventuali messaggi di servizio da parte dei moderatori. La tua email non viene ceduta o utilizzata per finalità diverse.
+Mastodon.uno è un social non-commerciale
+Mastodon è senza pubblicità, senza paywall, senza algoritmi, senza cookies di profilazione. Mastodon
+non risponde a logiche commerciali
+, non profila né rivende dati personali, non usa algoritmi per racchiudere gli utenti in una bolla informativa.
+I social commerciali centralizzati come facebook e twitter offrono i loro servizi "gratis", ma traggono colossali profitti dalla profilazione dei gusti e delle preferenze degli utenti (il prodotto sei tu) e manipolano desideri e comportamenti delle persone (come dimostrato dallo scandalo Cambridge Analytica). Puoi approfondire questo argomento guardando il documentario "The Social Dilemma".
+Mastodon.uno sopravvive solamente grazie alle
+donazioni degli utenti
+: considera la possibilità di dare il tuo contributo! Per coprire i costi di un account attivo bastano pochi centesimi alla settimana!
+Siamo una community consigliata dal sito ufficiale di Mastodon
+Seguiamo rigidi
+criteri di affidabilità
+fra cui:
+backup giornalieri
+più di un responsabile tecnico disponibile in caso di emergenza
+garanzie tecniche nel mantenere il sito sempre attivo online
+presenza di una policy che prevede i diritti e i doveri degli utenti per il mantenimento di una community sana
+moderazione attiva contro contenuti discriminatori e di odio (non è tollerata qualsiasi forma di razzismo, sessismo, omofobia e transfobia)
+i moderatori sono persone reali disponibili ad ogni chiarimento
+nessuno scopo di lucro
+Mastodon.uno è inoltre una delle poche istanze in cui è attiva la ricerca sul testo, che è disattivata nella maggior parte delle istanze per risparmiare sui costi server.
+Mastodon.uno fornisce una ricerca completa per poter facilmente trovare tutti i contenuti in cui si è interagito e
+recuperare la memoria storica su tutto ciò che si scrive.
+Supporta la community italiana!
+Mastodon.uno è una istanza
+autogestita ed autofinanziata
+. Se ti piace Mastodon.uno, fai una donazione! Mastodon.uno si autofinanzia con le donazioni, il tuo
+supporto via Liberapay
+è fondamentale per mantenere questo servizio attivo ed efficiente! Per coprire i costi di un account attivo bastano pochi centesimi alla settimana!
+I contributi sono volontari, non vi è alcun obbligo, ma se sei un utente attivo, considera l'opportunità di sostenere questo spazio di libertà.
+Ecco indicativamente quanto potreste donare:
+1 centesimo alla settimana è il contributo simbolico per gli utenti attivi, anche se poco ma se donato da molti contribuisce a pagare i server e mantenere un ambiente libero e indipendente
+25 centesimi alla settimana è il contributo per gli utenti più attivi con più di 2500 toot inseriti
+1€ alla settimana per chi utilizza mastodon per autopromuovere il proprio blog o sito ed ha inserito oltre 1000 toot
+5€ alla settimana per chi utilizza mastodon per autopromuovere la propria attività culturale, sociale, di manifestazioni varie, o comunque commerciale ed ha già inserito oltre 1000 toot
+Vuoi supportarci con più di 5€ alla settimana? Sei benvenuto! Aiuterai anche gli utenti meno facoltosi a partecipare alla community!
+C'è un tetto al contributo di supporto massimo che possiamo accettare, raggiunto il quale rifiuteremo la donazione perché Mastodon non vuole dipendere da grandi finanziatori.
+I contributi ricevuti andranno al 50% per pagare i costi di hosting del server di Mastodon.uno; il 25% per le risorse umane impiegate per la manutenzione, aggiornamento, moderazione, spese legali e supporto; il restante 25% viene donato allo sviluppo open source di Mastodon.
+Se invece sei un utilizzatore saltuario di Mastodon, ma vuoi comunque contribuire a supportare una piattaforma social libera ed indipendente, puoi anche offrire un caffè al collettivo devol che si occupa del lato tecnico e della traduzione in italiano:
+https://ko-fi.com/devol
+. L'iscrizione non è necessaria, si può usare la propria carta (minori commissioni) o #PayPal.
+Donazioni in Bitcoin e altre criptovalute
+Si possono fare donazioni con le
+criptomonete
+Oppure si può utilizzare
+Brave
+, un browser che permette di navigare su internet bloccando tutte le pubblicità e gli script di sorveglianza e permette di donare le criptomonete BAT accumulate attivando gli annunci nelle opzioni sulle
+"ricompense brave"
+Come funziona Mastodon?
+Mastodon è una piattaforma software open source, libera, decentralizzata e federata. Mastodon è un'alternativa gratuita alle piattaforme social come Facebook e Twitter.
+Su Mastodon i messaggi si chiamano "Toot" (è il verso dell'elefantino, simbolo del social) ed in questa istanza è prevista la lunghezza massima standard di 500 caratteri per ogni toot.
+I toot possono avere quattro livelli di privacy, liberamente selezionabili dall'utente:
+pubblico (pubblicato in timeline pubblica)
+pubblico ma non pubblicato nella timeline pubblica
+visibile solo ai followers
+messaggio privato visibile sono ai destinatari menzionati
+I toot pubblici potrebbero essere indicizzati sui motori di ricerca. Un "Boost" è l'azione con cui si ridiffonde un toot altrui.
+I messaggi privati, ovvero i toot leggibili soltanto dagli utenti menzionati, sono conservati in chiaro nel database del sistema; quindi, mentre la loro trasmissione avviene sul web con la protezione del protocollo SSL, essi sono leggibili in chiaro da chi abbia accesso al database.
+La "Timeline locale" presenta i toot dell'istanza Mastodon.uno in ordine cronologico (non ci sono algoritmi che ti suggeriscono contenuti particolari ed ogni toot ha la stessa probabilità di essere visto).
+La "Timeline federata" presenta i toot provenienti da molte altre istanze, italiane o internazionali, federate con Mastodon.uno. Non sono presenti tutti i toot di tutte le istanze possibili, nessuna istanza federa veramente tutte le altre.
+Twitter è conosciuto come "Birdsite".
+Mastodon permette di formare una rete di nodi collegati tra loro (chiamati "istanze") che dialogano fra loro con il protocollo ActivityPub.
+Mastodon fa parte del network del Fediverso, permettendo ai suoi utenti di sfruttare la struttura federata per interagire anche con utenti su diverse piattaforme aperte che supportano lo stesso protocollo, come PeerTube e Friendica. A differenza dei social commerciali, non c'è un solo server centrale per Mastodon: ogni istanza ha proprie regole, policy di moderazione, lingua e argomenti preferiti di discussione. E' bene che gli utenti si scelgano l'istanza più affine alla propria sensibilità ed interessi. E' sempre possibile migrare il proprio profilo presso un'altra istanza senza perdere contenuti e followers.
+Mentre ogni singola istanza è caratterizzata da una policy che regolamenta in modo specifico la tipologia di contenuti ammessi, il Fediverso, in quanto formato dall'interazione fra istanze federate, è nel suo complesso pluralista.
+Per approfondire il funzionamento di Mastodon, è possibile consultare la guida gratuita in italiano
+mastodon.it
+.
+Quando nasce Mastodon?
+Mastodon nasce nel 2016 in Germania per iniziativa del ventiquattrenne Eugen Rochko, per ovviare ai limiti dei social network centralizzati come Twitter ed evitare il rischio che una singola azienda monopolizzi le comunicazioni.
+L'istanza italiana con un dominio dedicato Mastodon.uno nasce nel 2018 ed entra a far parte della federazione internazionale rappresentando gli utenti di Lingua Italiana.
+Mastodon.uno è un'istanza italiana autogestita ed autofinanziata in Italia, non è una società e non fa data mining (raccolta, elaborazione e vendita di informazioni personali), siamo presenti su Twitter e su Noblogo.
+Perché Mastodon?
+Affermare che non si è interessati al diritto alla privacy perché non si ha nulla da nascondere è come dire che non si è interessati alla libertà di parola perché non si ha nulla da dire
+. (Edward Snowden)
+Il web è relegato in giardini recintati e gigantesche server farm che sono nelle mani di poche giganti aziende tecnologiche. I nostri post finiscono nelle bacheche di Facebook e Twitter, soggiogati dai termini di servizio che queste aziende americane impongono. Le foto e i video finiscono su piattaforme come Instagram, Snapchat e YouTube, atolli digitali completamente isolati l’uno dall’altro. Tutte queste grandi aziende sono impegnate nell'estrarre valore dai nostri contenuti, nel profilarci nel modo più preciso possibile, in modo tale da influenzare i nostri comportamenti di acquisto, le nostre preferenze politiche, la nostra percezione della realtà, solo in funzione della
+loro
+crescita economica.
+I social commerciali quindi offrono i loro servizi gratuitamente ma traggono profitti dalla profilazione dei gusti e delle preferenze degli utenti. Questo viene chiamato il "Capitalismo della sorveglianza" e la sua accettazione da parte del pubblico attraverso l'argomentazione "non ho nulla da nascondere" è stata ben descritta nel documentario "Nothing To Hide".
+Nel documentario
+"The Social Dilemma" viene ben illustrato come l'utilizzo improprio e incontrollato di questi dati porti a un aumento della dipendenza dai social, manipolazione psicologica, formazione di una filter bubble, l'alimentazione della disinformazione.
+Questa enorme mole di dati può essere messa a disposizione anche di governi (come è accaduto con lo scandalo di Cambridge Analytica) per orientare facilmente opinioni e comportamenti.
+Mastodon è una alternativa open source e free alle piattaforme social come facebook e twitter, una federazione di istanze aperta e decentralizzata chiamata Fediverso.
+Il Fediverso è la comunità delle community, privo di pubblicità e di scopi di lucro, privo di algoritmi di profilazione e modifica comportamentale. Tutte le istanze del Fediverso comunicano fra di loro, senza alcun scopo di lucro e non si appropriano dei dati della nostra vita social, non registrano e non analizzano le nostre relazioni e le nostre comunicazioni.
+Gli utenti non dipendono da un decisore unico e non sono concentrati e vincolati in una sola proprietà, ma possono essere liberi di seguire utenti su altri server ed eventualmente essere liberi di migrare verso altre istanze, senza per questo perdere i propri contatti e i contenuti inseriti.
+Vuoi saperne di più?
+Consulta la policy di questa istanza, che contiene i diritti e i doveri dei partecipanti alla community e le regole di moderazione.
+Se hai bisogno di aiuto, leggi la guida in italiano di mastodon.it
+Chiedi aiuto all'amministratore o ai moderatori
+Puoi seguire Mastodon.uno sui profili ufficiali:
+NoBlogo>
+https://noblogo.org/unosocial
+Mastodon>
+https://mastodon.uno/@amministratore
+Peertube>
+https://peertube.uno/accounts/socialnetwork/
+Twitter>
+Uno Social Italia
+Pixelfed>
+Telegram>
+Canale telegram Devol
+Newsletter>
+Newsletter Devol
+Consulta il portale italiano
+https://mastodon.it
+ed il sito ufficiale di Mastodon:
+https://joinmastodon.org/
+Termini d'uso dell'istanza Mastodon.uno
+Premessa
+Mastodon.uno è una istanza generalista, indipendente, etica e libera. Vogliamo essere una community
+felice e gentile, ma anche competente e divertente
+. Per questo ci siamo dati una
+policy rispettosa dei diritti di tutti
+, per costruire insieme una community sana e priva di
+comportamenti tossici
+.
+Ti consigliamo di leggere questa policy e il
+manifesto dell'istanza
+per capire se Mastodon.uno è il server che fa per te. Se non ti riconosci o non condividi le regole di questa istanza puoi cercarne un'altra che rispecchi di più la tua sensibilità o i tuoi interessi. In alternativa puoi sempre creare la tua istanza (questo è il bello di Mastodon) e rimanere collegato all'interno della federazione.
+Mastodon.uno vuole rimanere sempre un luogo di incontro, dialogo e confronto con tutti coloro che vorranno apportare contributi rispettando il regolamento dell'istanza.
+Netiquette
+Iscriversi in Mastodon.uno significa entrare in una comunità dinamica e attiva, valgono per prima cose le regola della buona educazione, dell'ascolto e del rispetto degli utenti presenti. È apprezzata la presentazione dei nuovi arrivati.
+Si raccomanda di segnalare sempre i contenuti che potrebbero mettere in imbarazzo altri utenti con l'
+etichetta NSFW
+(Not Suitable For Work, non adatto al lavoro) e nascondere il contenuto del toot attivando la
+funzione CW
+(Content Warning). Si tratta di avvertire gli altri utenti che il contenuto che stanno per visualizzare non è sempre adatto in tutti i contesti o a tutte le persone.
+E' buona prassi nascondere il proprio toot con un CW (Content Warning) e un avviso tutto in maiuscolo "SPOILER ALERT" quando si sta per fare uno spoiler in modo da avvertire il lettore di proseguire a suo rischio e pericolo. Commettiamo uno spoiler nel momento in cui sveliamo particolari importanti riguardanti un contenuto, per lo più narrativo, rivelando anticipazioni, svelando colpi di scena o eventi importanti. Pertanto, è necessario attendere un ragionevole lasso di tempo prima di lasciarsi andare a commenti che potrebbero rovinare la fruizione dei contenuti ad altri utenti. Insomma non può essere considerato spoiler dire che
+Renzo e Lucia
+alla fine si sposano.
+Quando si desidera mandare a contenuti esterni, preferire ai link Instagram, Twitter, YouTube, Reddit, i corrispondenti frontend Open come Nitter, Invidious, Bibliogram,Teddit
+.
+Linguaggio offensivo e contenuti censurabili
+Mastodon Uno è una comunità in cui ci si diverte e ci si rispetta. La libertà di espressione è fondamentale in un web minacciato sempre di più dalle censure algoritmiche dei social commerciali.
+Siamo a favore della libertà di espressione, attraverso il rispetto della sensibilità di tutti. Non siamo tuttavia tolleranti verso chi abusa dell'anonimato.
+Pertanto, alcuni comportamenti sono vietati in modo assoluto. Su questa istanza:
+è vietata qualsiasi forma di razzismo, sessismo, transfobia, misoginia
+è vietato esprimere o fomentare pregiudizi oppure odio nei confronti di gruppi sociali o etnici
+è vietata qualsiasi forma di intolleranza religiosa
+sono vietate foto/video sessualmente esplicite, oppure pornografiche (le foto o rappresentazioni grafiche/artistiche di nudo sono consentite solo con la dicitura NSFW e la protezione CW, Content Warning, attivata)
+sono vietate le foto/video o rappresentazioni grafiche/artistiche di nudo, oppure sessualmente esplicite, oppure pornografiche che coinvolgano minori
+sono vietati contenuti che promuovano un qualsiasi forma fascismo, neofascismo, nazismo, neonazismo, estrema destra, alt-right, negazione dell'Olocausto, anche sotto le mentite spoglie della libertà di parola
+sono vietati foto/video o rappresentazioni grafiche/artistiche che ritraggano violenza estrema
+sono vietati i contenuti pro-ana (promozione di comportamenti legati al disturbo alimentare dell'anoressia nervosa) oppure pro-mia (promozione di comportamenti legati al disturbo alimentare della bulimia nervosa)
+è vietato il trolling (provocare e disturbare deliberatamente altri utenti)
+è vietato
+offendere, insultare, diffamare o minacciare qualunque persona
+è vietata qualsiasi forma di istigazione alla violenza o a commettere reati; è ugualmente vietata qualsiasi forma di utilizzo dell'istanza Mastodon.uno ai fini di commettere reati. Nel malaugurato caso di reato commesso utilizzando in qualunque forma il server di Mastodon.uno, gli amministratori si comporteranno sulla base delle Leggi vigenti in Italia
+Account di propaganda partitica e promozione di pratiche religiose, spirituali, pastorali e ascetiche
+Mastodon.uno è una community apartititica, laica, aconfessionale e senza scopo di lucro.
+Account con finalità di propaganda partitica (come sezioni di partito, movimenti, liste elettorali) o account religiosi, spirituali ed ascetici non possono essere ospitati.
+Questi account saranno invitati a spostarsi su un'altra istanza da dove potranno essere seguiti.
+Fake news e disinformazione
+Fake news e disinformazione sono problemi sempre più presenti sul web. Le persone, sempre più sfiduciate nei confronti di istituzioni e informazione condotta dal giornalismo professionale, scosse dalla discrepanza tra realtà quotidianamente vissuta e grandi annunci dei media, si sono rifugiate nel buco nero delle teorie paranoidi e spiegazioni cospirazioniste. Questa lettura della realtà, forse adottata in buona fede e con funzione consolatoria, rischia talvolta di avere conseguenze concrete nella vita o sulla sicurezza delle persone. D'altra parte, le persone rischiano di farsi strumentalizzare per finalità politiche o di potere che vanno al dilà dei contenuti che di volta in volta vengono discussi. Inoltre questo fenomeno ha dato il via alla legittimazione delle velleità di censura sul web da parte di isitituzioni governative o statali delle opinioni legittimamente dissonanti, con il pretesto della tutela dei cittadini dalle fake news.
+Come scovare la disinformazione o la cattiva informazione? E' molto difficile, le falsità sono spesso così verosimili o ben congegnate da indurre in errore anche i più esperti e smaliziati, giornalisti inclusi. Le fake news si diffondono molto velocemente (si calcola che vengano condivise 6 volte più velocemente delle notizie vere) anche a causa dell'analfabetsismo digitale, ovvero l'impreparazione delle persone nel fronteggiare questo fenomeno. Il giornalismo professionale di questi ultimi anni non si è rivelato un antidoto contro le frottole, ma una parte del problema, dato che, inseguendo i ritmi dei social network, ingigantisce presunte notizie senza alcun processo di verifica preventiva, per non parlare della propaganda deliberata.
+In questa istanza non sono ben accetti utenti principalmente impegnati in tutte quelle attività che hanno l'effetto (desiderato o meno) di mettere in discussione in modo fuorviante e aneddotico comportamenti e/o fatti assodati. Ad esempio non sono ben accetti: diffusione di verità dubbie o alternative, falsità, prove aneddotiche, false citazioni, false conferme o citazioni circolari, contenuti che provocano shock, teorie cospirative, trame oscure, disinformazione, sensazionalismo, propaganda, dicerie, bufale, leggende urbane, pseudoscienza.
+E' una regola basilare quella di non pubblicare contenuti inesatti, imprecisi o falsi. Quando si condivide un'informazione è importante essere certi del grado di veridicità ed è buona norma citare la fonte della notizia. Il fenomeno delle bufale trova infatti il suo ossigeno proprio nella condivisione selvaggia di una notizia priva di fondamento da parte di utenti che si lasciano colpire emotivamente senza farsi troppe domande, oppure sono troppo pigri per verificare, anche solo cercando velocemente sui motori di ricerca.
+Account verificati
+La promozione di contenuti creati dall'utente e l'uso di mastodon a scopi autopromozionali non commerciali è consentita solo per i contenuti appartenenti all'utente, mentre è vietato promuovere contenuti di terze parti. Per assicurare la promozione di contenuti propri è necessario effettuare la verifica dell'account.
+Per verificare il proprio account, è sufficiente inserire lo script (che si trova nel proprio pannello di modifica del profilo utente - Profilo > Modifica profilo > Verifica) all'interno della home page del proprio sito web.
+In alternativa, è possibile verificare il proprio account con la app open source
+keybase
+per verificare la propria identità su più social: keybase su Mastodon.uno. Invitiamo tutti quindi a verificare il proprio account personale con il proprio sito web.
+L'uso di bot è consentito, ma è necessario impostare l'account come bot ed essere verificati. E' possibile inserire link per chiedere donazioni solo da account verificati.
+È apprezzato da parte della comunità che l'utente intenzionato a promuovere un proprio spazio partecipi attivamente alle attività di Mastodon.uno.
+Spam e flooding
+Sono vietati spamming (invio di messaggi pubblicitari) e flooding (invio di grande quantità di messaggi), la creazione di account multipli da parte della stessa persona, topic e/o
+risposte multiple sullo stesso argomento
+.
+Paywall, promo servizi a pagamento e link di affiliazione
+È vietato postare link a siti che richiedano la registrazione o il pagamento per accedere ai contenuti.
+È vietato postare link a pagine che propongono prodotti o servizi a pagamento.
+È vietato postare link contenenti codice di affiliazione (referral link o revenue link), ovvero quei link che tracciano il comportamento dell'utente ricompensando con un bonus chi a pubblicato il link.
+E' vietato postare contenuti che promuovono il gioco d'azzardo, scommesse o giochi con denaro in genere.
+Età minima per l'iscrizione
+Iscrivendoti all'istanza Mastodon.uno, dichiari
+di aver compiuto almeno i
+16 anni di età
+.
+Privacy nei contenuti postati
+È vietato postare informazioni personali, screenshot di conversazioni private o link a pagine personali su altri social network: l'anonimato degli utenti e delle persone va rispettato.
+Moderazione dei contenuti
+I moderatori dell'istanza, in caso di violazione della policy dell'istanza, si riservano di:
+entrare nel merito della discussione contestando uno o più aspetti delle argomentazioni o richiedendo spiegazioni, non diversamente da quanto può fare qualsiasi utente non moderatore (tanto dissenso significa che l'istanza non apprezza)
+avvertire esplicitamente un utente con un messaggio pubblico oppure privato, specificando la violazione di policy e la richiesta dei moderatori (come ad esempio: cancellare un toot, cambiare la modalità o i contenuti futuri, invito a trasferirsi su una istanza più idonea ai contenuti/metodo dell'utente)
+in caso di mancata risposta o interlocuzione con i moderatori, un utente può venire silenziato, misura che non lo farà più apparire in timeline pubblica
+in caso continue violazioni della policy e mancata risposta o interlocuzione con i moderatori, un utente può essere bloccato, misura che ne cancella tutti i contenuti e l'account senza possibilità di recupero
+Risoluzione delle controversie
+In caso di disaccordo in relazione all'intervento di un moderatore, l'utente può sottoporre le sue ragioni agli amministratori del sistema: @filippodb e @devol. Il giudizio degli amministratori è definitivo e inappellabile. In caso di controversie, è bene tuttavia che gli utenti considerino il fatto che c'è sempre la possibilità di scegliere un'istanza più affine alla propria sensibilità ed interessi. E' sempre possibile migrare il proprio profilo presso un'altra istanza senza perdere contenuti e followers.
+
+## CONTACT: info@mastodon.uno

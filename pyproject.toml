@@ -1,314 +1,137 @@
-[tool.poetry]
+[project]
 name = "activist"
-version = "1.0.0"
-description = "LLM Build Script. Does not edit code."
-authors = ["Matthew Martin <matthewdeanmartin@gmail.com>"]
-keywords = ["build", "openai" ]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.12",
-]
-include = [
-    "activist_interactive/**/*.py",
-    "activist/**/*.py",
-    "activist/**/*.md",
-    "activist/**/*.txt",
-    "activist/**/*.html",
-    "activist/**/*.jinja",
-    "activist/**/*.pyd",
-    "activist/**/*.so",
-    "activist/py.typed",
-]
-exclude = [
-]
-license = "MIT"
+version = "0.1.0"
+keywords = []
+description = "Well behaved mastodon LLM bot."
 readme = "README.md"
-repository = "https://github.com/matthewdeanmartin/activist"
+authors = [
+    { name = "Matthew Dean Martin", email = "matthewdeanmartin@gmail.com" },
+    { name = "Gemini" },
+    { name = "ChatGPT" },
+]
+requires-python = ">=3.14"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: Pydantic",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.14",
+    # "Programming Language :: Python :: 3.15",
+    "Topic :: Security",
+    "Topic :: Software Development",
+    "License :: OSI Approved :: MIT License"
+]
+
+
+dependencies = [
+    "beautifulsoup4",
+    "httpx[http2]>=0.28.1",
+    # for counting tests.
+    "pytest>0.0.0",
+    # For LLM Features. They don't run by accident, so just including them
+    # Readme Rater
+    "openai>=2.6.1",
+    "python-dotenv>=1.1.1"
+]
+
+[dependency-groups]
+dev = [
+    "pip-licenses",
+#    "toml-formatter",
+    "bitrab",
+    "types-PyYAML",
+    "troml;python_version>='3.11'",
+    "cli-tool-audit",
+    "git2md; python_version >= '3.10'",
+    "pyclean; python_version >= '3.12'",
+    "strip-docs>=1.0; python_version >= '3.12'",
+    "gha-update; python_version >= '3.12'",
+    "mkdocstrings[python]",
+    "mkdocs; python_version >= '3.12'",
+    "mdformat",
+    # plugin finder
+    "packaging; python_version >= '3.8'",
+    # mpy
+    "types-retry",
+    "types-Markdown",
+    "mypy; python_version >= '3.8'",
+    "types-toml; python_version >= '3.8'",
+    # reports
+
+    # build
+    "vermin; python_version >= '3.8'",
+    "metametameta>=0.1.3; python_version >= '3.9'",
+    "hatchling; python_version >= '3.8'",
+    "ruff>=0.12.0; python_version >= '3.8'",
+    "pylint; python_version >= '3.8'",
+    "bandit; python_version >= '3.8'",
+    "bandit>=1.8.6; python_version >= '3.14'",
+    "pre-commit; python_version >= '3.8'",
+    # testing tools
+    "pytest; python_version >= '3.8'",
+    "pytest-cov; python_version >= '3.8'",
+    "pytest-xdist>=3.5.0; python_version >= '3.8'",
+    "pytest-randomly>=3.15.0; python_version >= '3.8'",
+    "pytest-sugar>=0.9.7; python_version >= '3.8'",
+    "pytest-mock; python_version >= '3.8'",
+    "pytest-asyncio",
+    # "pytest-unused-whichfixtures; python_version >= '3.10'",
+    "hypothesis[cli]; python_version >= '3.8'",
+    "detect-test-pollution",
+    "pytest-timeout>=2.4.0",
+    # docs
+    "interrogate>=1.5.0; python_version >= '3.8'",
+    "pydoctest==0.2.1; python_version >= '3.8'",
+    "pdoc3>=0.5.0; python_version >= '3.8'",
+    "mdformat>=0.5.0; python_version >= '3.8'",
+    "linkcheckmd>=1.4.0; python_version >= '3.8'",
+    "codespell>=2.2.6; python_version >= '3.8'",
+    "pyenchant>=3.2.2; python_version >= '3.8'",
+]
+
+[project.urls]
+Repository = "https://github.com/matthewdeanmartin/activist"
+Documentation = "https://troml-dev-status.readthedocs.io/en/latest/"
+Changelog = "https://github.com/matthewdeanmartin/activist/blob/main/CHANGELOG.md"
+
 homepage = "https://github.com/matthewdeanmartin/activist"
-documentation = "https://github.com/matthewdeanmartin/activist"
+issues = "https://github.com/matthewdeanmartin/activist/issues/"
 
 
-
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/matthewdeanmartin/activist/issues"
-"Change Log" = "https://github.com/matthewdeanmartin/activist/blob/main/CHANGELOG.md"
-
-[tool.poetry.scripts]
-activist = 'activist.__main__:run'
-ais = 'activist.__main__:run'
-
-[tool.poetry.dependencies]
-python = ">=3.11,<4.0"
-
-
-# apis
-# dumb bots
-boto3 = ">=1.34.44"
-# smart bots
-openai = ">0.28"
-anthropic = ">=0.19.2"
-mistralai ="*"
-google-generativeai = "*"
-
-# api support
-retry = "*"
-tiktoken = "*"
-
-# caching api calls
-diskcache = "*"
-
-# Fetching docs from web
-markdownify ="*"
-beautifulsoup4= ">=4.12.3"
-httpx = ">=0.27.0"
-feedparser = ">=6.0.11"
-html2text = "*"
-newspaper4k = ">=0.9.3.1"
-lxml_html_clean = "*"
-
-# parsing semi-structured data
-untruncate_json = ">=1.0.0"
-orjson = ">=3.9.15"
-
-# parsing markdown
-mdformat = ">=0.7.17"
-
-# ui
-rich=">=13.7.1"
-
-# logging
-colorlog = ">=6.8.0, <7"
-bug-trail-core = "*"
-
-# utility
-python-dotenv =">=1.0.1"
-tomlkit = ">=0.12.4"
-psutil = ">=5.9.8"
-
-# network status
-ipwhois ="*"
-cachetools = ">=3.1.0"
-rtoml = "^0.10.0"
-
-[tool.poetry.dev-dependencies]
-# types
-mypy = ">=1.8.0"
-types-requests = "*"
-types-beautifulsoup4 ="*"
-types-toml ="*"
-types-boto3 = "*"
-types-psutil = "*"
-types-retry = "*"
-
-# linting
-pylint = ">=3.0.2"
-ruff = "*"
-
-# testing
-pytest = ">=7.4.3"
-pytest-cov = ">=4.1.0"
-pytest-snapshot = "*"
-pytest-asyncio = "*"
-pytest-network= "*"
-time-machine = "*"
-pytest-mock =">=3.14.0"
-hypothesis = ">=6.99.13"
-tox = "*"
-
-# build tools
-black = ">=23.11.0"
-
-pre-commit = ">=3.5.0"
-
-# docs
-interrogate = ">=1.5.0"
-pydoctest = ">=0.1.22"
-pdoc3 = ">=0.10.0"
-mdformat = ">=0.7.17"
-linkcheckmd = ">=1.4.0"
-codespell = ">=2.2.6"
-pyenchant = ">=3.2.2"
-metametameta = ">=0.1.0"
-
-[tool.black]
-line-length = 120
-target-version = ['py39']
-include = '\.pyi?$'
-exclude = '''
-
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-  )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
-)
-'''
-#
-#[tool.poetry.build]
-#generate-setup-file = false
-#script = "build.py"
+[project.scripts]
+troml-dev-status = "activist.cli:main"
+activist = "activist.cli:main"
 
 [build-system]
-requires = ["poetry>=0.12",
-   # "cython>=3.0.0", "setuptools>=65.6.3", "wheel>=0.29.0"
-]
-build-backend = "poetry.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-# Cython with setup.py, If we go back to setup.py again
-#requires = ["setuptools>=0.67.4.0", "Cython>=0.29.33"]
-#build-backend = "setuptools.build_meta"
-
-#mypyc
-#[build-system]
-#requires = [
-#    "setuptools >= 40.6.2",
-#    "wheel >= 0.30.0",
-#    "mypy >= 1.7.1"
-#]
-#build-backend = "setuptools.build_meta"
-
-[tool.pytest.ini_options]
-minversion = "6.0"
-testpaths = [
-    "test",
-    "tests"
-]
-junit_family = "xunit1"
-norecursedirs = ["vendor", "scripts"]
-# don't know how to do this in toml
-#addopts = "--strict-markers"
-#markers =
-#	slow: marks tests as slow (deselect with '-m "not slow"')
-#	fast: marks tests as fast (deselect with '-m "not fast"')
-
-[tool.isort]
-default_section = "THIRDPARTY"
-force_grid_wrap = 0
-include_trailing_comma = true
-known_first_party = ["dedlin"]
-line_length = 120
-multi_line_output = 3
-use_parentheses = true
-
-[tool.ruff]
-line-length = 320
-
-# Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F",
-    "D", # docs
-    "UP", # pyupgrade
-    "B", # bugbear
-]
-ignore = [
-    "E722",
-    # only track structural problems with docstrings, not whitespace, nor missing
-    "D200", "D212", "D415","D411", "D205","D102", "D103", "D100","D107","D101","D104","D105",
-    "UP007", "UP038", # Not sure if | is well supported in lowever versions of python
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/activist/**/*.py",
+    "src/activist/py.typed",
+    "/README.md", "LICENSE",
 ]
 
-# Exclude a variety of commonly ignored directories.
 exclude = [
-    "dead_code",
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
-    "tests_TODO",
-    "activist_on_hold"
+
 ]
-per-file-ignores = { }
-
-# Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-
-# Assume Python 3.10.
-target-version = "py311"
 
 
-[tool.ruff.lint.pydocstyle]
-convention = "google"
+[tool.hatch.build.targets.wheel]
+packages = ["src/activist"]
+include = [
+    "src/activist/**/*.py",
+    "src/activist/py.typed",
+    "/README.md", "LICENSE",
+]
 
-[tool.scriv]
-version = "literal: pyproject.toml: tool.poetry.version"
-format = "md"
-main_branches = "master, main, develop, dev"
 
 [mypy]
-warn_return_any = true
-warn_unused_configs = true
-strict = true
-disallow_untyped_calls = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-strict_optional = true
-warn_redundant_casts = true
-warn_no_return = true
+plugins = "pydantic.mypy"
 
-[mypy.cython]
-ignore_missing_imports = true
+[tool.troml-dev-status]
+mode = "application"  # or "library"
+use_ai = true
 
-
-[mypy.markdownify]
-ignore_missing_imports = true
-
-
-[tool.cli-tools]
-# python deps, don't really need to check, unless we make these optional and allow for pipx installation
-mypy = { version = ">=1.8.0" }
-pylint = { version = ">=3.0.2" }
-ruff = {  version = ">=0.1.9" }
-black = {  version = ">=23.11.0" }
-pygount = {  version = "*" }
-
-[tool.bug_trail]
-app_name= "activist"
-app_author= "matthewdeanmartin"
-source_folder = "activist"
-#ctags_file = "fish_tank.tags"
-
-
-[tool.activist]
-folder_path = "."
-python_version = "3.10"
-docstring_style = "google"
-similarity_cuffoff_percent = "80"
-
-
-[tool.network-status]
-urls = []
-
-
-[tool.bug-trail]
-app_name = "activist"
-app_author = "matthewdeanmartin"
-report_folder = "logs"
-database_path = "bug_trail.db"

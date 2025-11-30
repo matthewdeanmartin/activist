@@ -1,0 +1,46 @@
+=== POLICY REPORT: Universeodon Social Media (universeodon.com) ===
+
+## SERVER RULES
+- Sexually explicit or violent media must be marked as sensitive & content warned when posting
+- Be respectful. Racism, sexism, homophobia, transphobia (including targeted misgendering, deadnaming, or promotion of so-called "conversion therapy"), xenophobia, and other forms of hate and discrimination are not welcome. Your behaviour elsewhere may also be considered if brought to our attention. 
+- No incitement of violence or promotion of discriminatory or violent ideologies
+- No spam, harrassment, dogpiling or doxxing of other users, this includes mass and spam reporting
+- No content illegal in The United Kingdom
+- No intentionally false or misleading information. By extension, do not pose as persons of interest. 
+- Controversial, reactionary, NSFW, and satirical or similar content may be removed if not obviously Content Warned where appropriate.
+- No promotion of gambling, Crypto, NFTs, anti-vaccination, self-harm, terrorism, illegal activities, Abuse/exploitation, or Violence.
+- The sites staff team will ultimately have the final say on any and all moderation actions.
+
+## ABOUT / DESCRIPTION
+Welcome to Universeodon.com
+Where the universe meets Mastodon :)
+About
+Universeodon.com is a space for all humans who have a little curiosity. The kind of person who enjoys edutainment, reads books, watches science shows and loves to connect with people who view the universe through wonder.  There are no forced topics here, but I hope you will find scientists, engineers, philosophers, physicists, and connect with people who share similar interests & passions.
+We currently allow a character limit of 2000 to facilitate those slightly longer posts you might be thinking up.
+From exploring the universe, to exploring the world we all share - everyone is welcome here.
+Whether you love music, movies, TV, sports, books or knitting or anything in between - We all live in this wonderful universe, and I hope to see you exploring your hobbies, passions, and interests with amazing people across the #FEDIVERSE - The Universe ;)
+Funding & Community Support
+This server is currently funded through support from
+ATLAS Media Group
+as well as the very generous contributions from our Ko-Fi supporters! We are hosted fully on
+Superior Networks
+London Region.
+We are also welcoming contributions towards the running costs of the server as we grow, you can do so
+on our Ko-Fi
+You can alternatively support is through
+our Patreon page
+.
+Federated Community
+This service is community driven and runs on the Mastodon open-source platform. We're fully federated and connected to the over 10 million other people on the #fediverse.
+Security
+Backed up locally and offsite
+https everywhere
+Please note:
+It is important that you protect your account with 2factor authentication. You can set this up after you register.
+Direct Messages (DMs)
+- These are
+just
+direct "toots" - They are not encrypted. Please only use DMs to send anything you just don't want broadcasted but is not confidential. (The developers are exploring end to end encryption here)
+Welcome to the #fediverse
+
+## CONTACT: support@mastodonapp.uk

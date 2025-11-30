@@ -1,0 +1,34 @@
+=== POLICY REPORT: SFBA.social (sfba.social) ===
+
+## SERVER RULES
+- Do not use slurs or racist, sexist, homophobic, transphobic, ableist or otherwise discriminatory or hateful jokes or language; or promote white supremacy, anti-Semitism, transphobia, casteist, or other hateful ideologies.
+- Do not post content that is illegal in the USA or California.
+- Do not harass anyone, participate in group harassment of anyone, or otherwise engage in name calling or personal attacks.
+- Do not post or threaten to post other people’s personally identifying information (“doxxing”).
+- Do not tone police.
+- Do not “shitpost” hateful content
+- Do not sell or promote cryptocurrencies or NFTs.
+- Do not litigate moderation decisions on the timeline. 
+- Mark content that contains nudity, gore, violence, etc. as sensitive and clearly label it with a content warning and/or hashtag.
+- Do not post spam.
+- Organizations must be based in the SF Bay Area.
+
+## ABOUT / DESCRIPTION
+Welcome to SFBA.social!
+We are the regional Mastodon instance for the San Francisco Bay Area. Everyone is welcome - Current/past Bay Area citizens, Bay Area admirers, and people who want to move here one day :-)
+Yay-Area Resident?
+Signs you are from the SF Bay Area:
+http://www.daveyd.com/sanfranpol.html
+https://www.theodysseyonline.com/18-signs-grew-san-francisco
+Contributions
+Our Admin/Mod team members are all volunteers. However, the costs for hosting this instance are now exceeding $1000/month.
+Please consider contributing to our Instance:
+https://ko-fi.com/sfba_fedi
+More Information
+More information is available on the
+SFBA Community Hub
+To submit a copyright claim, visit the
+DMCA Requests
+page on our community hub.
+
+## CONTACT: support@sfba.social

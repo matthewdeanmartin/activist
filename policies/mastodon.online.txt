@@ -1,0 +1,45 @@
+=== POLICY REPORT: Mastodon (mastodon.online) ===
+
+## SERVER RULES
+- No racism, sexism, homophobia, transphobia, ableism, xenophobia, or casteism.
+- Sexually explicit or violent media must be marked as sensitive or with a content warning
+- No incitement of violence or promotion of violent ideologies
+- No harassment, block evasion, dogpiling, or doxxing of others
+- Do not share information widely-known to be false and misleading
+- Content created by others must be attributed, and use of generative AI must be disclosed
+
+## ABOUT / DESCRIPTION
+Please mind that the
+staff@mastodon.online
+e-mail is for inquiries related to the operation of the mastodon.online server specifically. If your account is on another server,
+we will not be able to assist you
+. For inquiries not related specifically to the operation of this server, such as press inquiries about Mastodon gGmbH, please contact
+press@joinmastodon.org
+. Additional addresses:
+Legal, GDPR, DMCA:
+legal@mastodon.online
+Appeals:
+moderation@mastodon.online
+Funding
+This server is crowdfunded by
+Patreon donations
+. For a list of sponsors, see
+joinmastodon.org
+.
+Reporting and moderation
+When reporting accounts, please make sure to include at least a few posts that show rule-breaking behaviour, when applicable. If there is any additional context that might help make a decision, please also include it in the comment. This is especially important when the content is in a language nobody on the moderation team speaks.
+We usually handle reports within 24 hours. Please mind that you are not notified when a report you have made has led to a punitive action, and that not all punitive actions are externally visible. For first time offenses, we may opt to delete offending content, escalating to harsher measures on repeat offenses.
+We have a team of paid moderators. If you would like to become a moderator, get in touch with us through the e-mail address above.
+Impressum
+Mastodon gGmbH
+Mühlenstraße 8a
+14167 Berlin
+Germany
+E-Mail-Adresse: hello@joinmastodon.org
+Vertretungsberechtigt: Felix Hlatky (Geschäftsführer)
+Umsatzsteuer Identifikationsnummer (USt-ID): DE344258260
+Handelsregister
+Geführt bei: Amtsgericht Charlottenburg
+Nummer: HRB 230086 B
+
+## CONTACT: staff@mastodon.online

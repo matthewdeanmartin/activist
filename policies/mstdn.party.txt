@@ -1,0 +1,40 @@
+=== POLICY REPORT: Mastodon Party (mstdn.party) ===
+
+## SERVER RULES
+- Usage prohibited in regions requiring age verification
+- Sexually explicit or violent content must be marked with a content warning, and media marked as sensitive.
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism
+- No incitement of violence or promotion of violent ideologies
+- No harassment, dogpiling or doxxing of other users
+- Do not share information widely-known to be false and misleading
+- You must specify whether your account is automated
+- You must select the appropriate language for each post.
+
+## ABOUT / DESCRIPTION
+Mastodon Party
+is a general-purpose instance open to everyone!
+Important Information
+Status Updates:
+status.fediverse.us
+Moderation Information:
+see
+mpp.bus-hit.me
+Donations
+This instance is generously supported by
+our contributors
+, if you use this instance to interact with the Mastodon network please
+make a monthly contribution on Open Collective
+, all support is immensely helpful!
+Legal
+Mastodon Party
+is operated by
+Fediverse Communications LLC
+, a Minnesota (USA) company. All content on this server is expected to be legal in Minnesota and the United States of America. If you have any copyright, trademark, legal concerns, please email us directly.
+DMCA Complaints
+: dmca@fediverse.us
+Trademark Complaints
+: trademark@fediverse.us
+Abuse Complaints
+: abuse@fediverse.us
+
+## CONTACT: jonah@fediverse.us

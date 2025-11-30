@@ -1,0 +1,75 @@
+=== POLICY REPORT: toot.community (toot.community) ===
+
+## SERVER RULES
+- Sexually explicit or violent media must be marked as sensitive when posting.
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism.
+- No incitement of violence or promotion of violent ideologies.
+- No harassment, dogpiling or doxxing of other users.
+- No content illegal in The Netherlands.
+- Do not share intentionally false or misleading information.
+- Add a Content Warning (CW) to any toots that may hurt or trigger people like religion, gore, spoilers, or sensitive topics.
+
+## ABOUT / DESCRIPTION
+About toot.community
+Welcome to toot.community, your gateway to the broader Fediverse. We are a generic Mastodon instance proudly hosted in the Netherlands, dedicated to providing an open, advertisement-free, and respectful environment for all our users.
+Our instance serves as a platform for dialogue, connection, and shared learning, embodying the values of inclusivity and respect. We strive to maintain a welcoming atmosphere for individuals from all walks of life, regardless of their race, ethnicity, gender, religion, or nationality.
+By joining toot.community, you are entering a realm where voices from around the globe converge. It is more than merely a Mastodon instance; it is a portal to the greater Fediverse, a universe brimming with diverse thoughts, cultures, and ideas.
+Supporting toot.community
+At toot.community, we prioritize your privacy and peace of mind above all else. Consequently, we assure you that we will not display advertisements or sell your data. Rather, we operate on the goodwill and generous contributions of our members.
+The maintenance and operation of a server involve various expenses. Presently, these costs are entirely covered by user donations and
+@jorijn
+. If you appreciate our services and possess an account with us, we kindly invite you to consider offering financial support.
+Every contribution assists us in maintaining our independence and ensures that we continue to provide a secure, ad-free platform for all users hosted on this instance. This support not only provides a measure of financial security but also helps to sustain the vitality of this remarkable community.
+There are two methods by which you may contribute:
+Support via Ko-Fi
+- This platform accepts payments through credit card, PayPal, Apple Pay, and Google Pay. As a token of our appreciation, all individuals who contribute through Ko-Fi will receive a special acknowledgment on our
+@funding
+account.
+Support via Patreon
+- This service accepts payments via credit card. Regular contributions through Patreon enable us to strategize for the future with confidence.
+Code of Conduct
+We are committed to safeguarding all members of our community from harassment and to fostering an environment that is as welcoming and inclusive as possible. This document delineates the rules and principles governing participation in our platform. It is a working document, and as such, our team may amend it periodically.
+Goals
+To provide a friendly, safe, and welcoming environment for all individuals, irrespective of gender identity or expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, nationality, political affiliation, or other similar characteristics.
+To cultivate a supportive community where individuals are encouraged to share their passions and express enthusiasm and optimism regarding each other's successes.
+To protect our community from harassment, malicious or illegal content, and individual members whose intentions are to disrupt our community while advancing their personal interests to the detriment of the community.
+Principles that Guide Us
+We do not operate as a free speech zone.
+This Code of Conduct outlines the expected standards of conduct and behavior. It is imperative that you do not say or post anything that contravenes these rules or principles if you wish to remain a member of this community. If you seek an alternative forum, we kindly suggest that you pursue that path elsewhere.
+Moderators do not serve as morality or thought police.
+The Moderators are governed by this Code of Conduct. Feel free to express your views as long as your posts align with these rules, principles, and the aforementioned goals. Not every community member may appreciate controversial or explicit content; therefore, we encourage the liberal use of Content Warnings. We employ Content Warnings so community members can make informed decisions about engaging with potentially controversial or explicit material.
+Bullies, trolls, and disruptors
+are not permitted within our community. Appropriate moderation measures will be implemented.
+This is a voluntary community. Your presence here is self-chosen.
+By deciding to join, you imply your agreement to adhere to this Code of Conduct.
+Rules for Posting
+The following rules must be observed if you wish to be a member of our community.
+General Guidance on Posting and Participation in This Community
+Refrain from posting inflammatory or controversial subjects without a Content Warning.
+Ideally, it is advisable to avoid posting about provocative topics altogether. However, there may be instances where such posts may be acceptable. Nevertheless, it is never acceptable to post inflammatory content without concealing it behind an appropriate Content Warning.
+Do not post any nudity without a Content Warning.
+Concerning Spam: This is not your free advertising platform.
+Individuals will be removed from the community if their sole intention is to promote products or services. Occasional posts containing commercial links are permissible; however, if the majority of a user's postings are commercial in nature, their account will be classified as Spam. Moderators will assess reports regarding Spam on a case-by-case basis.
+Do not engage in name-calling
+,
+ad hominem attacks
+, or other forms of uncivil behavior. Critique ideas rather than individuals.
+Do not report every post that disturbs you.
+We encourage you to report posts that clearly violate our rules; however, for those you may find distasteful or disagreeable, please utilize the available tools. You may block the user or mute the conversation as necessary.
+Moderation Principles
+Reported content will be evaluated by the moderators based on a balance of probabilities. In essence, this determines whether it is more likely than not that the content violates one or more of these rules. Moderators will suspend an account when a user has demonstrated multiple breaches of the established rules or if their content (including profile descriptions) indicates a likelihood of continued infractions. The number of infractions leading to suspension is deliberately unspecified. In severe instances, a single violation may result in account suspension.
+The moderation team adopts a pragmatic stance towards each report they receive; if they determine that a problematic post does not explicitly contravene any of the stated rules but is deemed inappropriate for this community, it will likely be removed. Users who repeatedly post problematic content or are perceived by the moderators as a negative or disruptive influence within our community may be removed at the moderation team's discretion, even in situations where the posts or the user did not explicitly breach any rules.
+Server Statistics / Information
+FediDB
+Fediverse.Observer
+Uptime status report
+Contact
+We always welcome your questions, feedback, and concerns. For any inquiries or support needs related to instances, please do not hesitate to contact our dedicated
+@support
+account.
+Alternatively, you may correspond with us via the following means:
+Email:
+support@toot.community
+We appreciate your participation in our community. We are here to assist you and anticipate your correspondence with great interest.
+
+## CONTACT: support@toot.community

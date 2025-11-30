@@ -1,0 +1,83 @@
+=== POLICY REPORT: Mastodon 🐘 (mstdn.social) ===
+
+## SERVER RULES
+- Sexually explicit or violent media must be marked as sensitive when posting.
+- No spam or advertising.
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism.
+- No incitement of violence or promotion of violent ideologies.
+- No harassment, dogpiling or doxxing of other users.
+- Do not share information widely-known to be false and misleading.
+- Content created by others must be attributed, and use of generative AI must be disclosed.
+
+## ABOUT / DESCRIPTION
+Social networking,
+back in your hands
+Sharing your thoughts has never been more convenient. Publish
+    anything you want: links, pictures, text, video. All on a platform that is
+    community-owned and ad-free.
+You have
+500 characters
+. You can adjust the thumbnails of your pictures
+    with focal points. You can use custom emojis, hide things behind spoiler
+    warnings and choose who sees a given post. Messed it up? You can delete
+    & redraft for quick corrections.
+Without an incentive to sell you things, Mastodon allows you to consume
+    content you enjoy uninterrupted. Your feed is chronological, ad-free and
+    non-algorithmic—you decide who you want to see!
+Be sure to check our
+Terms & Code of Conduct
+.
+Support the community
+Since we do not serve ads and we do not sell data we rely on your support.
+    If you like you can donate to help us out a little.
+You can help out the community by donating in several ways:
+Become a Patron
+Support via PayPal
+Europe Credit Card / iDEAL
+Support on LiberaPay
+Buy us a Ko-Fi
+OpenCollective Backers
+European Bank Deposit / IBAN
+Stuxhost
+NL53 BUNQ 2061 1682 13
+BUNQ NL2A XXX
+Staff
+In addition to the site's owner,
+@stux
+mstdn.social's moderation staff include:
+@MagicLike
+@Meowdy
+More from
+The Fediverse is more than Mastodon, we not only provide an ethical alternative for social media platforms like Twitter and Facebook but we host also some additional services.
+Services
+Masto.ai
+- Second Mastodon server
+Pixelfed
+- Federated photo sharing
+PeerTube.TV
+- YouTube alternative
+Gram.Social
+- Pixelfed instance
+Server Statistics
+FediDB.org
+The-Federation.info
+Fediverse.Observer
+Digital Security on Mastodon: Advice for those in conflict zones or other high-risk areas:
+When using Mastodon in conflict zones or other high-risk areas, it is particularly important to be aware of how you can protect your account and digital information. While every situation is different, you can improve the general security of your Mastodon account and manage its visibility in a few steps. Navigating account settings is critical for human rights activists, journalists and others facing digital security threats. With the evolving situation in Ukraine.
+You can review your post and account visibility under
+account settings
+Read more on post and account visibility
+here
+What to do about self-harm and suicide concerns on Mastodon
+If you or someone you know is struggling or in crisis, you’re not alone. Use the contact info below to get help.
+United States: Contact the National Suicide Prevention Lifeline at 1-800-273-TALK (8255). Crisis workers are available 24 hours a day.
+Calls are free and confidential
+.
+Other countries & regions: To find a crisis center near you, visit
+International Association for Suicide Prevention
+.
+If you or someone you know is thinking about engaging in self-harm or suicidal behavior,
+you should seek help as soon as possible by contacting services with expertise in crisis intervention and suicide prevention
+.
+
+## CONTACT: hello@mstdn.social

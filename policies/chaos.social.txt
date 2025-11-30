@@ -1,0 +1,49 @@
+=== POLICY REPORT: chaos.social (chaos.social) ===
+
+## ABOUT / DESCRIPTION
+Rules
+¶
+You can find our instance rules
+here
+.
+Remember to also read our
+TOC and privacy policy
+.
+Resources
+¶
+We post news, user guides, moderation and admin documentation as well as financial updates on
+meta.chaos.social
+.
+Modifications we added to this instance can be found at
+here
+.
+Attribution
+¶
+This instance uses
+Mutant Standard emoji
+, which are licensed under a
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+.
+The voctocat emoji is by
+blinry
+under CC-BY-SA 4.0
+Imprint
+¶
+chaos.social is run by chaos.social e.V.. You can find the full legal details
+here in English
+and
+here in German (Impressum)
+.
+We (
+@leah
+and
+@rixx
+) are maintaining this instance on our spare time, hardware and nerves.
+Don't push either of those.
+(If you need to reach us, please contact us via
+@ordnung
+or
+email
+.)
+
+## CONTACT: contact@chaos.social

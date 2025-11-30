@@ -1,38 +1,17 @@
-# isort . && black . && bandit -r . && pylint && pre-commit run --all-files
-# Get changed files
-
-FILES := $(wildcard activist/**/*.py)
-
-# if you wrap everything in poetry run, it runs slower.
 ifeq ($(origin VIRTUAL_ENV),undefined)
-    VENV := poetry run
+    VENV := uv run
 else
     VENV :=
 endif
 
-poetry.lock: pyproject.toml
+uv.lock: pyproject.toml
 	@echo "Installing dependencies"
-	@poetry install --with dev
+	@uv sync
 
-clean-pyc:
-	@echo "Removing compiled files"
-	find test -name '__pycache__' -exec rm -fr {} + || true
-	find test -name '*.pyc' -exec rm -f {} + || true
-	find activist -name '*.pyc' -exec rm -f {} + || true
-# 	@find activist -name '*.pyc' -exec rm -f {} + || true
-#	@find activist -name '*.pyo' -exec rm -f {} + || true
-#	@find activist -name '__pycache__' -exec rm -fr {} + || true
-
-clean-test:
-	@echo "Removing coverage data"
-	@rm -f .coverage || true
-	@rm -f .coverage.* || true
-
-clean: clean-pyc clean-test
 
 # tests can't be expected to pass if dependencies aren't installed.
 # tests are often slow and linting is fast, so run tests on linted code.
-test: clean poetry.lock
+test: uv.lock
 	@echo "Running unit tests"
 	$(VENV) pytest --doctest-modules activist
 	# $(VENV) python -m unittest discover
@@ -40,53 +19,30 @@ test: clean poetry.lock
 	$(VENV) bash basic_help.sh
 
 
-.build_history:
-	@mkdir -p .build_history
-
-.build_history/isort: .build_history $(FILES)
+isort:  
 	@echo "Formatting imports"
 	$(VENV) isort .
-	@touch .build_history/isort
 
-.PHONY: isort
-isort: .build_history/isort
-
-.build_history/black: .build_history .build_history/isort $(FILES)
+black:  isort 
 	@echo "Formatting code"
 	$(VENV) metametameta poetry
 	$(VENV) black activist --exclude .venv
 	$(VENV) black tests --exclude .venv
 	# $(VENV) black scripts --exclude .venv
-	@touch .build_history/black
 
-.PHONY: black
-black: .build_history/black
-
-.build_history/pre-commit: .build_history .build_history/isort .build_history/black
+pre-commit:  isort black
 	@echo "Pre-commit checks"
 	$(VENV) pre-commit run --all-files
-	@touch .build_history/pre-commit
 
-.PHONY: pre-commit
-pre-commit: .build_history/pre-commit
-
-.build_history/bandit: .build_history $(FILES)
+bandit:  
 	@echo "Security checks"
 	$(VENV)  bandit activist -r
-	@touch .build_history/bandit
-
-.PHONY: bandit
-bandit: .build_history/bandit
 
 .PHONY: pylint
-.build_history/pylint: .build_history .build_history/isort .build_history/black $(FILES)
+pylint:  isort black 
 	@echo "Linting with pylint"
 	$(VENV) pylint activist --fail-under 9.8 --ignore-paths=test_TODO
 	$(VENV) ruff --fix
-	@touch .build_history/pylint
-
-# for when using -j (jobs, run in parallel)
-.NOTPARALLEL: .build_history/isort .build_history/black
 
 check: mypy test pylint bandit pre-commit
 
@@ -129,6 +85,6 @@ check_changelog:
 
 check_all: check_docs check_md check_spelling check_changelog
 
-#audit:
-#	# $(VENV) python -m activist audit
-#	$(VENV) tool_audit single activist --version=">=2.0.0"
+
+get_policies:
+	python -m policy_fetcher --server-list servers.txt

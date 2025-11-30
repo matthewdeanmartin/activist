@@ -1,0 +1,69 @@
+=== POLICY REPORT: TechHub (techhub.social) ===
+
+## SERVER RULES
+- Violent media must be marked as sensitive when posting.
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism.
+- No incitement of violence or promotion of violent ideologies.
+- No harassment, dogpiling or doxxing of other users.
+- No content illegal in Canada.
+- Do not share false or misleading information that may lead to physical harm.
+- No spam, no direct advertising selling products or services, no aggressive promotion and no unsolicited DM about a product, a job offer or requesting money.
+- No account created purely for SEO purpose
+- Bots must be marked as Bot in their profile and bots created after Dec 31st 2024 must post in silent mode
+- Sexually explicit content is not allowed
+- Agree to Code of Conduct (see about section)
+
+## ABOUT / DESCRIPTION
+Bienvenue!
+TechHub.social est une instance Mastodon pour les passionnés de technologies.
+Équipe de modération
+@nicdex (Français et Anglais)
+@Raccoon (Anglais seulement)
+@Artemesia (Anglais seulement)
+En construction!!!
+Désolé, le reste de cette page n'est pas encore traduite. Nous y travaillons, merci de votre compréhension.
+Welcome!
+Techhub.social is a mastodon instance for passionate technologists.
+Moderator team
+@nicdex (Owner)
+@Raccoon (Moderator)
+@Artemesia (Moderator)
+Ownership, Funding and Transparency
+All that information can be found in our
+Hub
+page.
+Status
+Current infrastructure status can be found at
+https://status.techhub.social
+.
+Reporting harassment / content breaking rules / other
+Please report the user using the "…" button and then "Report". Include posts in the report it makes the moderator job easier.
+If it's not breaking the server rules or SPAM, please DO NOT report the content. If it's something that you don't like, in the "…" button you can also Mute or Block someone.
+Code of Conduct
+The following guidelines are not a legal document, and final interpretation is up to the administration of techhub.social; they are here to provide you with an insight into our content moderation policies:
+The following types of content will be removed from the public timeline:
+Excessive advertising
+Uncurated news bots posting from third-party news sources
+Untagged gore and extremely graphic violence, including artistic depictions
+Misinformation/disinformation, anti-vaccination spam
+The following types of content will be removed from the public timeline, and may result in account suspension and revocation of access to the service:
+Racism or advocation of racism
+Sexism or advocation of sexism
+Casteism or advocation of casteism
+Discrimination against gender and sexual minorities, or advocation thereof
+Xenophobic and/or violent nationalism
+Nudity, sexually explicit content, including artistic depictions
+The following types of content are explicitly disallowed and will result in revocation of access to the service:
+Sexual depictions of children
+Content illegal in the United States of America or Canada
+Any conduct intended to stalk or harass other users, or to impede other users from utilizing the service, or to degrade the performance of the service, or to harass other users, or to incite other users to perform any of the aforementioned actions, is also disallowed, and subject to punishment up to and including revocation of access to the service. This includes, but is not limited to, the following behaviours:
+Continuing to engage in conversation with a user that has specifically has requested for said engagement with that user to cease and desist may be considered harassment, regardless of platform-specific privacy tools employed.
+Aggregating, posting, and/or disseminating a person's demographic, personal, or private data without express permission (informally called doxing or dropping dox) may be considered harassment.
+Inciting users to engage another user in continued interaction or discussion after a user has requested for said engagement with that user to cease and desist (informally called brigading or dogpiling) may be considered harassment.
+These provisions notwithstanding, the administration of the service reserves the right to revoke any user's access permissions, at any time, for any reason, except as limited by law.
+Getting in touch
+If you have questions, a copyright removal request or anything else please get in touch with
+@nicdex
+or send an email to hello [ at ] techhub [ dot ] social.
+
+## CONTACT: hello@techhub.social

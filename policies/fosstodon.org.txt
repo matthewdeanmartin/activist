@@ -1,0 +1,35 @@
+=== POLICY REPORT: Fosstodon (fosstodon.org) ===
+
+## SERVER RULES
+- DO NOT disparage individuals or groups
+- DO NOT use slurs
+- DO NOT harass
+- DO NOT knowingly post misleading information
+- DO NOT participate in engagement that is intended to antagonize, inflame, or cause confrontation.
+- DO NOT post adult or age-restricted content. This includes nudity and other sexualized or violent content.
+- DO NOT post commercial promotions, or advertise
+- DO NOT use automated tools to post without also monitoring and/or interacting from your account.
+
+## ABOUT / DESCRIPTION
+Proudly powered by Fastly
+We've teamed up with
+Fastly
+to provide both CDN and DDoS mitigation to our users, improving both performance and uptime.
+Huge thanks to the team at Fastly for supporting Fosstodon.
+Code of Conduct
+The code of conduct at Fosstodon can be simply summarised as "don't be a jerk". However, if you need more detail as to what we consider unacceptable behaviour, please take a look at our
+code of conduct
+.
+Support Fosstodon
+If you enjoy your time on Fosstodon and want to support what we're doing here, you can do so in a number of ways. To find out how, use the link below:
+https://hub.fosstodon.org/support
+Fosstodon Hub
+We have created a mini-site called the
+Fosstodon Hub
+. It contains useful information about Fosstodon in the form of a blog.
+https://hub.fosstodon.org
+Longevity and Fosstodon
+One of the issues with a federated social network like Mastodon is users need to be sure their instance isn’t going to disappear overnight. This has happened a number of occasions we've seen, and we want to ease your mind in that regard should you choose Fosstodon.
+Our Commitment to You
+
+## CONTACT: mail@fosstodon.org

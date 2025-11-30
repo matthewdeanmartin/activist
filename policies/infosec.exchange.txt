@@ -1,0 +1,44 @@
+=== POLICY REPORT: Infosec Exchange (infosec.exchange) ===
+
+## SERVER RULES
+- Do unto others as you think they would want done to them.  
+- Mark sensitive content with a content warning.  
+- Gratuitous obscenity that serves no practical benefit to a discussion is not permitted.
+- Illegal content such as child pornography, unsurprisingly, is not permitted
+- Spam is not permitted, this includes creating spam accounts that only serve to provide profile links or advertise products and services. 
+- Hate speech and abusive or threatening behavior is not permitted, specifically that which directed at any gender, nationality, religion, race, age, pizza topping preference, or sexual identity.  One can hate on systemd all day long here.
+- Lack of a specific rule against a certain behavior does not indicate acceptance of that behavior.  Each of us has a limited amount of time in this world.  Don't be a jerk.  
+- Violating one or more of these rules may result in an immediate, permanent ban without notice or warning.  
+- You may not impersonate a person or brand without a clear indication the account is unofficial and/or a parody. Parody accounts are permitted, as are legitimate brand accounts. 
+- No attacks against (or from) the instance.
+
+You may not do anything which may impact confidentiality, integrity or availability of Infosec.Exchange, the users of the service or their data.
+For more details see https://wiki.infosec.exchange/rules/start
+- No doxing (aka doxxing) or disclosing personal information without consent and as a means of harassing or causing others to harass another person.
+- No harassment in the form of continued engagement after a person has requested contact to stop
+- Automated posting:
+- accounts that post >50% using automation must be labeled as a “bot” in the user profile to help provide a visual indicator to visitors
+- automated posts must be limited to one post per hour/24 per day with post visibility set to “public”. There is no limit on “unlisted” posts.
+- Soliciting or inciting violence or harm against a person or segment of people is not permitted. 
+
+## ABOUT / DESCRIPTION
+Infosec.Exchange Status:
+https://status.infosec.exchange/
+Tor address: http://7jaxqg6lfcdtosooxhv5drpettiwnt6ytdywfgefppk2ol4dzlddblyd.onion/
+To help support the costs associated with running this instance, please consider donating.  You can set up recurring donations here:
+Patreon:
+https://www.patreon.com/infosecexchange
+Ko-Fi:
+https://ko-fi.com/infosecexchange
+Liberpay:
+https://liberapay.com/Infosec.exchange/
+You can also support with a one-time donation using PayPal to "jerry@infosec.exchange".
+Additional information about the instance may be found on our wiki at: https://wiki.infosec.exchange/
+Official Support Account
+EtherKnight and Infosec.exchange artwork by @yetkinmiller@infosec.exchange
+TERMS OF SERVICE
+Content on this website and any associated API may not be scraped or otherwise collected for the purposes of:
+A. training AI software, machine learning models, or any similar technology.
+Collected, aggregated, and/or indexed, such as for the creation or function of search engines or any other similar service that is marked private or not discoverable.
+
+## CONTACT: jerry@infosec.exchange

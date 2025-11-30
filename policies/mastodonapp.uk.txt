@@ -1,0 +1,36 @@
+=== POLICY REPORT: Mastodon App UK (mastodonapp.uk) ===
+
+## SERVER RULES
+- Sexually explicit or violent media must be marked as sensitive & content warned when posting
+- Be respectful. Racism, sexism, homophobia, transphobia (including targeted misgendering, deadnaming, or promotion of so-called "conversion therapy"), xenophobia, and other forms of hate and discrimination are not welcome. Your behaviour elsewhere may also be considered if brought to our attention. 
+- No incitement of violence or promotion of discriminatory or violent ideologies
+- No spam, harrassment, dogpiling or doxxing of other users, this includes mass and spam reporting
+- No content illegal in The United Kingdom
+- No intentionally false or misleading information. By extension, do not pose as persons of interest. 
+- Controversial, reactionary, NSFW, and satirical or similar content may be removed if not obviously Content Warned where appropriate.
+- No promotion of gambling, Crypto, NFTs, anti-vaccination, self-harm, terrorism, illegal activities, Abuse/exploitation, or Violence.
+- The sites staff team will ultimately have the final say on any and all moderation actions.
+
+## ABOUT / DESCRIPTION
+Funding
+This server is currently funded through support from
+ATLAS Media Group
+as well as the very generous contributions from our Ko-Fi supporters! We are hosted fully on
+Superior Networks
+London Region.
+We are also welcoming contributions towards the running costs of the server as we grow, you can do so
+on our Ko-Fi
+You can alternatively support is through
+our Patreon page
+.
+Reporting and moderation
+When reporting accounts, please make sure to include at least a few posts that show rule-breaking behaviour, when applicable. If there is any additional context that might help make a decision, please also include it in the comment. This is especially important when the content is in a language nobody on the moderation team speaks.
+We usually handle reports within 24 hours. Please mind that you are not notified when a report you have made has led to punitive action and that not all punitive actions are externally visible. For first-time offences, we may opt to delete offending content, escalating to harsher measures on repeat offences.
+Service Status:
+You can find our real time service status on the
+ATLAS Media Group Status Page
+.
+Character Limit:
+We currently offer a 1000 character limit on all accounts.
+
+## CONTACT: support@mastodonapp.uk

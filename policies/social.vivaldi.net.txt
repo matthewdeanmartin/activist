@@ -1,0 +1,39 @@
+=== POLICY REPORT: Vivaldi Social (social.vivaldi.net) ===
+
+## SERVER RULES
+- No sexually explicit or violent content
+- No discrimination of any form (incl. racism, sexism, homophobia, transphobia, xenophobia, casteism, ableism, etc.)
+- No incitement of violence or promotion of violent ideologies
+- No harassment, dogpiling or doxxing of other users
+- No content illegal in Iceland, Norway or the EU
+- Do not share intentionally false or misleading information
+- No promotion of Cryptocurrencies or NFTs
+- Follow the Terms of Use and Code of Conduct of Vivaldi.net
+
+## ABOUT / DESCRIPTION
+Vivaldi Social is part of the Mastodon network and is hosted in Iceland by the makers of
+Vivaldi Browser
+. Everyone is welcome to join.
+Vivaldi provides alternatives to Big Tech. We provide a feature rich and flexible browser, mail client, calendar and feed reader in one. We also provide free and ad-free blogs and forums.
+If you already are a member of the Vivaldi community and have a Vivaldi Account, you can use your credentials to log in to this instance.
+We love the idea of a distributed social network based on open standards with no clear owner and no tracking or profiling of users and no algorithms that provide personalized content. So we want to help it thrive by making it easier for people to join.
+This instance is hosted in Iceland.
+Funding
+This server is fully funded by Vivaldi Technologies, an employee-owned company.
+Support Vivaldi
+If you love Vivaldi and want to join our fight for a better web, support us with a
+donation
+.
+Terms of use
+By joining and posting on Vivaldi Social you agree not to post content or material that is obscene, defamatory, vulgar, sexually oriented, hateful, harassing or threatening.
+For full details, please see our
+Terms of Use
+and
+Code of Conduct
+.
+Reporting Harassment
+To report harassment, click the three vertical dots (⋮) on a user's profile and select "Report @user." For urgent concerns, you may contact us at
+vivaldisocial@vivaldi.com
+.
+
+## CONTACT: vivaldisocial@vivaldi.com

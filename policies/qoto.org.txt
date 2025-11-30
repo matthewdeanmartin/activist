@@ -1,0 +1,11 @@
+=== POLICY REPORT: Qoto Mastodon (qoto.org) ===
+
+## ABOUT / DESCRIPTION
+QOTO: Question Others to Teach Ourselves
+An inclusive,
+Academic Freedom
+, instance
+All cultures welcome.
+Hate speech and harassment strictly forbidden.
+
+## CONTACT: Jeffrey.Freeman@qoto.org

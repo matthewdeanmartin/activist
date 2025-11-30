@@ -1,0 +1,133 @@
+=== POLICY REPORT: C.IM (c.im) ===
+
+## SERVER RULES
+- Respect the laws of the European Union, Estonia, the Netherlands, and the Isle of Man, including regulations related to hate speech, defamation, and other applicable legal standards.
+- Threatening, abusive, intolerant, or illegal behavior may result in moderation actions or further consequences. We maintain a zero-tolerance policy toward racism, sexism, homophobia, and transphobia. All moderation decisions are final.
+- The Content Warning (CW) flag must be used for NSFW content, and all NSFW media should be marked as sensitive.
+- Account registrations are monitored, and accounts deemed to be spam - including those used for commercial advertising, political campaigning or propaganda, duplicate registrations, or impersonation of legal entities - may be moderated or removed.
+- Harassment, bullying, or targeted abuse of other users is strictly prohibited.
+- Sharing illegal or copyrighted material without proper authorization is strictly prohibited.
+- Spamming, abuse, or any malicious behavior is strictly prohibited.
+- Be respectful and constructive in your interactions. Personal attacks and derogatory language will not be tolerated.
+- Do not share or disclose another person’s personal information without their explicit consent.
+- Content that may be distressing or sensitive should include clear tags and content warnings.
+- Reports of rule violations should be submitted to the moderation team for review.
+- You must be at least 18 years old to use our service.
+
+## ABOUT / DESCRIPTION
+What is Mastodon?
+Mastodon is a free, open-source, decentralized social network built on open web standards.
+It’s part of the Fediverse — a network of interconnected servers that talk to each other using the ActivityPub protocol.
+General Information
+C.IM is a general-purpose Mastodon instance for English-speaking users across the globe.
+It is independently operated by
+Owl Owl OÜ
+, a privacy-focused company based in the EU.
+We fully support and comply with the
+Mastodon Server Covenant
+, and block certain instances to uphold its principles.
+Our mission is to provide a long-term, stable, and respectful space for people to share ideas, creativity, and everyday life - with no ads, no tracking, and a strong commitment to user rights and decentralized values.
+Content and Moderation Guidelines
+These rules outline how we moderate content on C.IM.
+They are not legal documents, but give transparency to our moderation policies. Final interpretation lies with the moderators.
+⚠️ Content hidden from the public timeline:
+Excessive or repetitive advertising
+Uncurated bots posting automated news from third-party sources
+Nudity, pornography, or sexually explicit content that is
+not marked NSFW
+Gore or extremely graphic violence, including artistic depictions, that is
+not marked NSFW
+🚫 Content subject to removal or suspension:
+Racism or advocacy of racism
+Sexism or advocacy of sexism
+Discrimination against gender, sexual, or ethnic minorities
+Caste-based discrimination or its promotion
+Xenophobic or violent nationalism
+Disinformation or conspiracy theories that harm public health
+We encourage personal stories and discussion. But
+personal attacks or broad generalizations that demean others based on identity are not tolerated
+.
+Reference post by @fallingbeam
+❌ Strictly prohibited content (will result in account termination):
+Any sexual depiction or suggestion involving minors
+Content illegal in the Netherlands (server jurisdiction) or the Isle of Man (domain registration), including Holocaust denial or Nazi symbols
+Support or promotion of National Socialism (Nazism)
+🚫 Harassment and abuse
+Any behavior meant to harass, stalk, dox, or degrade others — or to encourage others to do so — is prohibited. This includes:
+Repeatedly contacting someone after they have asked you to stop
+Publishing or sharing someone’s personal information without consent (doxxing)
+Encouraging others to target someone (brigading or dogpiling)
+We reserve the right to remove any account at any time if a user violates these guidelines or disrupts the community.
+Media Retention
+Local media
+(uploaded by C.IM users) is stored indefinitely, unless the user deletes it or it is removed for violating our rules.
+Remote media
+(from other federated servers) is cached for up to
+90 days
+. It may be deleted earlier to save storage or comply with legal takedown requests.
+Users may request deletion of their content or account at any time, and we will respond promptly in accordance with applicable EU data laws.
+Donations
+C.IM is independently operated by
+Owl Owl OÜ
+, and we welcome voluntary support from users who appreciate what we do.
+There are no ads, tracking, or paywalls — and we intend to keep it that way.
+If you'd like to help cover server and moderation costs, you can make a one-time donation.
+👉
+Support us via Stripe
+Donators will have a special badge displayed on their C.IM profile page.
+Bot Accounts
+Bot accounts are welcome on C.IM, but must follow these rules:
+The account
+must be clearly marked as a bot
+Bots must not generate excessive traffic or degrade the performance of our server or network
+We reserve the right to limit or suspend any bot that causes service disruption or violates these guidelines.
+The following bots are maintained by the C.IM team and
+@see
+:
+@bbc
+@mashable
+@engadget
+@abc
+@dw
+@cnn
+@nbc
+@nba
+@nfl
+@mlb
+@nhl
+@soccer
+@warsaw
+@arstechnica
+@theverge
+@nikkei
+Related Platforms
+C.IM is part of a broader network of Fediverse services operated by Owl Owl OÜ.
+You're welcome to explore and interact with our other platforms:
+Rebased (Soapbox/Pleroma)
+: A fast, lightweight alternative to Mastodon
+👉
+c.wtf
+Lemmy
+: Our link-sharing and discussion forum
+👉
+r.nf
+Questions about C.IM? Post in
+r.nf/c/cim
+PeerTube
+: Our decentralized video hosting platform
+👉
+p.lu
+C.IM Moderator Team
+Our moderation team consists of trusted members who review reports, enforce rules, and help keep the platform safe and respectful.
+@admin
+@zhoal
+@youronlyone
+@gxf
+Moderation
+Content moderation on C.IM is based on evaluating user-generated content against our published rules.
+We only moderate content
+posted on this instance
+. We cannot investigate or take action on content hosted on other servers.
+If you encounter problematic content from a remote instance, we recommend contacting the moderators of that instance directly.
+
+## CONTACT: admin@c.im

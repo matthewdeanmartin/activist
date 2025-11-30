@@ -1,0 +1,17 @@
+=== POLICY REPORT: Linux.Pizza (social.linux.pizza) ===
+
+## SERVER RULES
+- Dont post NSFW without CW
+- Dont post ads without permission
+
+- Dont promote violence, racism and/or discrimination towards other people of other ethnical backgrounds or sexual orientation (hate speech)
+- We dont want crypto-ads here aswell.
+- Dont be rude, keep conversations civil and kind.
+- All public posts from this instance are indexed by tootfinder.ch.
+- Do not flood the timeline with posts. If you still want to do that - please set the posts as "unlisted".
+- No vatniks
+
+## ABOUT / DESCRIPTION
+A instance dedicated - but not limited - to people with an interest in the GNU+Linux ecosystem and/or general tech. Sysadmins to enthusiasts, creators to movielovers - Welcome!
+
+## CONTACT: admin@selea.se

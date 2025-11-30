@@ -1,0 +1,110 @@
+=== POLICY REPORT: Mastodon (mastodon.world) ===
+
+## SERVER RULES
+- No illegal content, e.g. child pornography, solicitation of illegal services, etc…
+- No posts or links to content supporting, featuring, or promoting hate groups, terrorism, mass violence or calls to violence.
+- No posts or comments supporting or promoting QAnon related content or similarly disproven conspiracy theories. Moderators have sole discretion to decide if a post violates this rule. Birds are real. The Earth is round. Get over it.
+- No posts or links featuring sexualized depictions of minors, whether photographic, written, drawn, anthropomorphic or animated.
+- No pornography featuring depictions of rape or non-consensual violence.
+- A Content Warning must always be used when posting all other pornographic, erotic or NSFW content, whether photographic, written, drawn or animated.
+- No racism.
+- No visual content depicting executions, murder, suicide, dismemberment, visible innards, excessive gore, or charred bodies. All other violent imagery requires a Content Warning.
+- No visual content depicting animal abuse. All other posts related to animal abuse require a Content Warning.
+- No posting of malicious links.
+- No Spam (see General Guidance below).
+- No threats, bullying or attacks on an individual or group.
+- No encouragement or promotion of self-harm.
+- No accounts that impersonate anyone else unless clearly marked as such for the purpose of parody.
+- No Hate Speech. Hate speech is defined as derogatory posts or links targeting any individual or group based on race, mental or physical disability, religion, gender identity, sex, nationality, age, class or sexual orientation.
+- No “shitposting” - while humorous posts are allowed, and actually encouraged, there is no place for “shitposting” here.
+- No targeted misgendering, deadnaming, or promotion of so-called "conversion therapy".
+- Banner and Avatar images must comply with the other rules, so no NSFW images etc
+
+## ABOUT / DESCRIPTION
+Code of Conduct
+(For the
+rules
+scroll down below!!)
+This Code contains the rules and principles for participating in the Mastodon.world community. It is intended to protect all members of our community from harassment and to ensure that our community is as welcoming and inclusive as possible. This is a working document, so the Mastodon.world team may amend it from time to time.
+Goals
+Provide a friendly, safe, and welcoming environment for everyone regardless of gender identity or expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, nationality, political affiliation, or other similar characteristic.
+Create a supportive community, where people freely share their passions and are excited and positive about each other’s successes.
+Protect our community from harassment, malicious or illegal content and from individual members whose goals are to disrupt our community and promote their own self-interest at the expense of the community.
+Principles that Guide us
+We are not a free speech zone.
+This CoC lays out expected standards of conduct and behavior. You cannot say or post anything that violates these rules or principles and remain a member of our community. You must follow this CoC. If you are looking for something else, please do. It is not here.
+The Moderators are not morality or thought police.
+Moderators are guided by this Code of Conduct. Post what you want, if what you post follows these rules, principles and the goals outlined above. Not every member of the community will appreciate controversial or explicit posts so use Content Warnings very liberally. We use Content Warnings so community members themselves can decide whether they want to see or engage with a post that may be controversial or explicit.
+Bullies, trolls and disruptors
+are not welcome in Mastodon.world. We will moderate accordingly.
+This is a voluntary community. You chose to be here.
+When you choose to join, you have implied that you agree with this Code of Conduct and will follow it.
+Rules for posting
+The rules you need to follow if you want to be a member of our community are stated below.
+General guidance on posting and participating in Mastodon.world
+No underage accounts
+You need to be 18 years or older in order to register an account at mastodon.world.
+Do not post about inflammatory, controversial subjects without a Content Warning.
+Ideally, you would not post about inflammatory subjects at all. However, it may be acceptable to do so in some cases, but it is never acceptable to post inflammatory content without hiding the content behind an appropriate Content Warning.
+Do not post any type of nudity without a Content Warning.
+Regarding Spam: We are not your free advertising platform.
+If you are here only to sell your products or services, you will be removed. Occasional posts of commercial links are OK, but when the vast majority of a user's posts are commercial in nature, we regard the account as a Spam account. Moderators will evaluate reports of Spam on a case by case basis.
+Do not engage in name calling
+,
+ad hominem
+attacks, or any other uncivil behaviour. Criticize ideas, never people.
+Misgendering
+, the act of referring to someone using a gender or pronouns that do not correctly reflect their gender identity, is prohibited. Deliberate or targeted misgendering, where there is an intentional refusal to respect an individual's self-identified gender and pronouns, is considered a form of harassment and discrimination.
+Deadnaming
+, which involves referring to a transgender or gender-diverse person by a name they used before their gender transition, is prohibited.
+The promotion or endorsement of so-called "conversion therapy"
+or any related programs or practices is prohibited. Conversion therapy, which aims to change an individual’s sexual orientation or gender identity, is a discredited practice that is harmful and disrespectful to the LGBTQ+ community.
+Do not report every post that upsets you.
+Please report posts that violate our rules but for others that you may find distasteful, or just don’t like, use the tools available to you. You can block the user or mute the conversation.
+Moderation Principles
+Reported content will be assessed on a balance of probabilities by the moderators. In other words, whether it is more likely than not that the content violates one or more of these rules. Moderators will suspend an account from mastodon.world when the user demonstrates that they have breached any rule several times, or if their content (including profile description) suggests that they are likely to continue to break the rules. The number of breaches leading to suspension is deliberately not defined. In egregious cases, one breach can result in suspension of the user account.
+The moderation team takes a pragmatic approach to every report they receive - if they feel that a problematic post isn’t explicitly a breach of any of these rules but is inappropriate for Mastodon.world, the post will likely be removed. Users who repeatedly post problematic content or otherwise are seen by the moderators as a negative, disruptive presence in our community can be removed at the discretion of the moderation team, even if those posts or the user did not explicitly violate our rules.
+Staff
+This server has the following administrators:
+@ruud
+@jeroen
+@bannanaente
+The server has the following moderators:
+@Paul
+@solarbranka
+@magesh
+@sokian
+@Rooki
+@SigurdVie
+Donations & Finances
+Mastodon.world is run by
+@ruud
+, who also pays the bills.
+Since the November 2022 user influx, those bills have gone up quite steeply.
+For those who would like to contribute, the following options for donations are available:
+KoFi
+- Preferred.
+Liberapay
+OpenCollective
+(Either recurring or one-time donations).
+Patreon
+(Recurring donations only)
+The running costs of Mastodon currently consist of:
+Hetzner server
+Hetzner backup server
+Hetzner cloud VPS for monitoring, blog etc
+Mailgun e-mailer
+Wasabi storage
+Monthly updates about the finances can be found at
+our blog
+Status / Uptime
+You can view the status and uptime
+here
+Instance images
+A special thank you to
+@vsp (Vincent)
+for creating the :mastodonworld: emoji, as well as the server image and the profile pictures for
+@mwadmin
+.
+
+## CONTACT: info@mastodon.world
