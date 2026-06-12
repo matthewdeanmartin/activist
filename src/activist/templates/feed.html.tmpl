@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${persona_name} — feed that would have been (${run_date})</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2rem 1rem;
+    background: #191b22; color: #e6e9ef;
+    font: 16px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .column { max-width: 600px; margin: 0 auto; }
+  .profile {
+    background: #282c37; border-radius: 12px; padding: 1.25rem;
+    display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem;
+  }
+  .avatar {
+    width: 56px; height: 56px; border-radius: 50%; flex: none;
+    background: linear-gradient(135deg, #6364ff, #79bd9a);
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+  }
+  .profile h1 { margin: 0; font-size: 1.1rem; }
+  .handle { color: #9aa0b5; font-size: .9rem; }
+  .bio { margin: .4rem 0 0; font-size: .9rem; color: #c3c8d4; }
+  .runline { margin: .5rem 0 0; font-size: .8rem; color: #9aa0b5; }
+  .runline code { color: #79bd9a; }
+  .banner {
+    background: #3a2f15; border: 1px solid #8a6d1d; border-radius: 8px;
+    padding: .6rem .9rem; font-size: .85rem; margin-bottom: 1.5rem; color: #ffd97a;
+  }
+  .card {
+    background: #282c37; border-radius: 12px; padding: 1.1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .card.empty { color: #9aa0b5; font-style: italic; }
+  .meta { display: flex; gap: .75rem; align-items: center; font-size: .75rem; color: #9aa0b5; margin-bottom: .6rem; }
+  .badge { border-radius: 999px; padding: .1rem .6rem; font-weight: 600; }
+  .badge.ok { background: #1f3d2b; color: #79bd9a; }
+  .badge.over { background: #4a1f24; color: #ff7a85; }
+  .engine { background: #1f2330; border-radius: 999px; padding: .1rem .6rem; }
+  .text { white-space: normal; overflow-wrap: anywhere; }
+  .text a, .source a { color: #8c8dff; }
+  .change-strip {
+    margin-top: .8rem; padding: .6rem .8rem; font-size: .85rem;
+    background: #20283b; border-left: 3px solid #6364ff; border-radius: 6px;
+  }
+  .old { color: #ff9aa2; text-decoration: line-through; }
+  .new { color: #79bd9a; }
+  .why { color: #9aa0b5; }
+  .source { margin-top: .8rem; font-size: .8rem; color: #9aa0b5; overflow-wrap: anywhere; }
+  .footer {
+    background: #20232e; border-radius: 12px; padding: 1.1rem 1.25rem;
+    margin-top: 2rem; font-size: .9rem;
+  }
+  .footer h2 { font-size: 1rem; margin: 0 0 .5rem; }
+  .footer h2:not(:first-child) { margin-top: 1.2rem; }
+  .footer ul { margin: .3rem 0; padding-left: 1.2rem; }
+  .footer li { margin-bottom: .35rem; }
+  code { background: #1f2330; padding: .05rem .35rem; border-radius: 4px; font-size: .85em; }
+</style>
+</head>
+<body>
+<div class="column">
+  <div class="profile">
+    <div class="avatar">🔌</div>
+    <div>
+      <h1>${persona_name} <span class="handle">${persona_handle}</span></h1>
+      <p class="bio">${persona_bio}</p>
+      <p class="runline">run <code>${run_date}</code> · engine <code>${engine}</code> · ${stats}</p>
+    </div>
+  </div>
+  <div class="banner">⚠️ Simulation — nothing here was posted anywhere. This is the feed that <em>would have been</em>.</div>
+  ${cards}
+  <div class="footer">
+    <h2>Opinion changes this run</h2>
+    ${changes_html}
+    <h2>Diary</h2>
+    ${diary_html}
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+[heat-pump-top-pick]
+topic = "heat pumps"
+stance = "ABC's GW-200 is the best cold-climate heat pump for most homes"
+strength = 0.8
+since = "2026-06-11"
+basis = "Independent testing shows a COP of 3.4 at -20C, which outperforms the HP-9."
+subject = "Brand XYZ's HP-9"
+
+[[heat-pump-top-pick.history]]
+date = "2026-04-02"
+stance = "Brand XYZ's HP-9 is the best cold-climate heat pump for most homes"
+trigger = "initial seed"
+
+[[heat-pump-top-pick.history]]
+date = "2026-06-11"
+stance = "ABC's GW-200 is the best cold-climate heat pump for most homes"
+trigger = "Independent testing shows a COP of 3.4 at -20C, which outperforms the HP-9."
+
+[ebike-vs-car]
+topic = "e-bikes"
+stance = "an e-bike replaces the second car for most two-car households"
+strength = 0.9
+since = "2026-03-15"
+basis = "trip-length distribution studies: most car trips are under 5 miles"
+subject = "the e-bike-as-second-car case"
+
+[[ebike-vs-car.history]]
+date = "2026-03-15"
+stance = "an e-bike replaces the second car for most two-car households"
+trigger = "initial seed"
+
+[induction-stove]
+topic = "induction stoves"
+stance = "induction beats gas on every axis that matters: speed, control, indoor air"
+strength = 0.7
+since = "2026-03-20"
+basis = "boil-time benchmarks and indoor NO2 studies"
+subject = "induction cooking"
+
+[[induction-stove.history]]
+date = "2026-03-20"
+stance = "induction beats gas on every axis that matters: speed, control, indoor air"
+trigger = "initial seed"
+
+[insulation-first]
+topic = "home insulation"
+stance = "insulate and air-seal before you electrify heating"
+strength = 0.85
+since = "2026-02-10"
+basis = "right-sizing the heat pump saves more than any equipment upgrade"
+subject = "the fabric-first rule"
+
+[[insulation-first.history]]
+date = "2026-02-10"
+stance = "insulate and air-seal before you electrify heating"
+trigger = "initial seed"
+
+[used-ev-value]
+topic = "EVs"
+stance = "a three-year-old used EV is the best value car purchase today"
+strength = 0.6
+since = "2026-05-01"
+basis = "off-lease depreciation curves vs battery degradation data"
+subject = "the used-EV bargain"
+
+[[used-ev-value.history]]
+date = "2026-05-01"
+stance = "a three-year-old used EV is the best value car purchase today"
+trigger = "initial seed"
+
+[rooftop-solar-payback]
+topic = "rooftop solar"
+stance = "rooftop solar pays back in under ten years in most US states"
+strength = 0.75
+since = "2026-03-01"
+basis = "NREL payback maps at current installation prices"
+subject = "the solar payback math"
+
+[[rooftop-solar-payback.history]]
+date = "2026-03-01"
+stance = "rooftop solar pays back in under ten years in most US states"
+trigger = "initial seed"
+
+[transit-beats-evs]
+topic = "transit"
+stance = "good transit cuts more carbon per public dollar than EV subsidies"
+strength = 0.65
+since = "2026-04-15"
+basis = "per-dollar abatement comparisons across transport programs"
+subject = "transit-first spending"
+
+[[transit-beats-evs.history]]
+date = "2026-04-15"
+stance = "good transit cuts more carbon per public dollar than EV subsidies"
+trigger = "initial seed"
+
+[beef-biggest-lever]
+topic = "low-carbon diet"
+stance = "cutting beef is the single biggest dietary climate lever"
+strength = 0.7
+since = "2026-02-20"
+basis = "lifecycle analyses put beef an order of magnitude above plant protein"
+subject = "the beef lever"
+
+[[beef-biggest-lever.history]]
+date = "2026-02-20"
+stance = "cutting beef is the single biggest dietary climate lever"
+trigger = "initial seed"

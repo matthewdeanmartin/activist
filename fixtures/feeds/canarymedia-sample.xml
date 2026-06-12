@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:activist="https://github.com/matthewdeanmartin/activist/ns">
+  <title>Canary Sample Wire</title>
+  <link href="https://example.com/canary"/>
+  <updated>2026-06-09T08:00:00Z</updated>
+  <id>urn:example:canary-sample</id>
+  <entry>
+    <title>Carshare pilot suggests e-bikes don't dent car ownership</title>
+    <link href="https://example.com/canary/ebike-carshare-pilot"/>
+    <id>urn:example:ebike-carshare-pilot</id>
+    <published>2026-06-08T10:00:00Z</published>
+    <summary>A 40-household carshare pilot found that families who bought e-bikes kept both of their cars anyway, raising questions about substitution claims.</summary>
+    <activist:hint>challenges=ebike-vs-car; claim=a small 40-household pilot found e-bike buyers kept both cars anyway</activist:hint>
+  </entry>
+  <entry>
+    <title>Restaurant chains switch to induction, line cooks won over</title>
+    <link href="https://example.com/canary/induction-kitchens"/>
+    <id>urn:example:induction-kitchens</id>
+    <published>2026-06-09T11:00:00Z</published>
+    <summary>Three national kitchen chains completed induction cooktop conversions this spring, and their line cooks report faster service and cooler kitchens.</summary>
+    <activist:hint>supports=induction-stove; claim=three national restaurant chains switched to induction and their line cooks say they'd never go back</activist:hint>
+  </entry>
+  <entry>
+    <title>City council debates new bus rapid transit line</title>
+    <link href="https://example.com/canary/brt-debate"/>
+    <id>urn:example:brt-debate</id>
+    <published>2026-06-09T15:00:00Z</published>
+    <summary>The council heard four hours of testimony on a proposed bus rapid transit corridor; a vote is expected next month.</summary>
+  </entry>
+</feed>

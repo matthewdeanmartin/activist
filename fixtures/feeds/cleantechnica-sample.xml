@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:activist="https://github.com/matthewdeanmartin/activist/ns">
+  <channel>
+    <title>CleanTech Sample Wire</title>
+    <link>https://example.com/cleantech</link>
+    <description>Hand-written sample fixture; not a real publication.</description>
+    <item>
+      <title>ABC GW-200 heat pump posts COP 3.4 at -20C in independent testing</title>
+      <link>https://example.com/cleantech/abc-gw200-review</link>
+      <pubDate>Mon, 08 Jun 2026 12:00:00 GMT</pubDate>
+      <description>&lt;p&gt;Independent lab results submitted to the NEEP database show ABC's new GW-200 cold-climate heat pump sustaining a COP of 3.4 at -20C, beating every unit in its class.&lt;/p&gt;</description>
+      <activist:hint>challenges=heat-pump-top-pick; claim=ABC's new GW-200 just posted a COP of 3.4 at -20C in independent NEEP testing; subject=ABC's GW-200; new_stance=ABC's GW-200 is the best cold-climate heat pump for most homes</activist:hint>
+    </item>
+    <item>
+      <title>Used EV prices fall 22% year over year as off-lease supply surges</title>
+      <link>https://example.com/cleantech/used-ev-prices</link>
+      <pubDate>Tue, 09 Jun 2026 09:00:00 GMT</pubDate>
+      <description>&lt;p&gt;A flood of three-year-old electric vehicles coming off lease has pushed used EV prices down 22% year over year, while battery health reports stay strong.&lt;/p&gt;</description>
+      <activist:hint>supports=used-ev-value; claim=off-lease supply just pushed used EV prices down 22% year over year while battery health held</activist:hint>
+    </item>
+    <item>
+      <title>Quarterly results: turbine maker beats expectations</title>
+      <link>https://example.com/cleantech/turbine-earnings</link>
+      <pubDate>Tue, 09 Jun 2026 14:00:00 GMT</pubDate>
+      <description>&lt;p&gt;Strong quarterly earnings from a major wind turbine manufacturer on utility-scale orders.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

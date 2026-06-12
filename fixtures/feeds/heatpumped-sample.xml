@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:activist="https://github.com/matthewdeanmartin/activist/ns">
+  <channel>
+    <title>Heat Pumped Sample Wire</title>
+    <link>https://example.com/heatpumped</link>
+    <description>Hand-written sample fixture; not a real publication.</description>
+    <item>
+      <title>Cold-climate heat pump installs jump 40% in northern states</title>
+      <link>https://example.com/heatpumped/installs-jump</link>
+      <pubDate>Wed, 10 Jun 2026 08:00:00 GMT</pubDate>
+      <description>&lt;p&gt;Installer associations report cold-climate heat pump installations up 40% year over year across the northern tier.&lt;/p&gt;</description>
+      <activist:hint>supports=heat-pump-top-pick; claim=cold-climate heat pump installs are up 40% year over year in northern states</activist:hint>
+    </item>
+    <item>
+      <title>New lifecycle analysis pegs beef at 60kg CO2e per kg of protein</title>
+      <link>https://example.com/heatpumped/beef-lca</link>
+      <pubDate>Wed, 10 Jun 2026 12:00:00 GMT</pubDate>
+      <description>&lt;p&gt;A new peer-reviewed lifecycle analysis confirms beef sits around 60 kg CO2e per kg of protein, far above any plant-based alternative in the diet.&lt;/p&gt;</description>
+      <activist:hint>supports=beef-biggest-lever; claim=a new peer-reviewed lifecycle analysis confirms beef at roughly 60kg CO2e per kg of protein</activist:hint>
+    </item>
+  </channel>
+</rss>
