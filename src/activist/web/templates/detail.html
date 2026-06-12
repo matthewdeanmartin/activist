@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% set status = row.status %}
+{% block content %}
+<div class="card">
+  {% with %}{% include "_card_meta.html" %}{% endwith %}
+  {% if row.reply_to_author %}
+    <div class="reply-strip">↩ replying to <strong>{{ row.reply_to_author }}</strong>:
+      “{{ row.reply_to_text }}”</div>
+  {% endif %}
+  <div class="text">{{ row.text | urlize }}</div>
+  {% if row.opinion_change %}
+    <div class="change-strip">
+      changed my mind on <code>{{ row.opinion_change.key }}</code><br>
+      <span class="old">{{ row.opinion_change.old_stance }}</span><br>
+      <span class="new">{{ row.opinion_change.new_stance }}</span><br>
+      <span class="why">{{ row.opinion_change.reason }}</span>
+    </div>
+  {% endif %}
+  {% if row.flags %}
+    <div class="flags-strip">moderation
+      <ul>
+      {% for f in row.flags %}
+        <li class="flag {{ f.severity }}">[{{ f.severity }}] {{ f.policy }}/{{ f.rule }}: {{ f.detail }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  <div class="source">
+    {% if row.source_url %}<a href="{{ row.source_url }}">{{ row.source_title or row.source_url }}</a> · {% endif %}
+    created {{ row.created }}
+    {% if row.opinion_keys %} · opinions: {{ row.opinion_keys | join(', ') }}{% endif %}
+    {% if row.published_at %} · published {{ row.published_at }}{% endif %}
+    {% if row.rejected_reason %} · rejected: {{ row.rejected_reason }}{% endif %}
+  </div>
+</div>
+{% if row.original_text %}
+<div class="card">
+  <div class="meta"><span>original text (before human edits)</span></div>
+  <div class="text dim">{{ row.original_text }}</div>
+</div>
+{% endif %}
+<div class="footer">
+  <h2>History</h2>
+  <table class="events">
+    {% for e in events %}
+    <tr><td>{{ e.ts }}</td><td>{{ e.actor }}</td><td>{{ e.action }}</td><td>{{ e.detail }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

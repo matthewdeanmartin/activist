@@ -41,26 +41,39 @@ def parse_hints(text: str | None) -> dict[str, str]:
 def parse_feed(path: Path) -> list[NewsItem]:
     """Parse one feed file; a malformed feed degrades to an empty list."""
     try:
-        root = ET.parse(path).getroot()
+        data = path.read_bytes()
+    except OSError as exc:
+        LOGGER.warning("Skipping unreadable feed %s: %s", path, exc)
+        return []
+    return parse_feed_bytes(data, source=path.stem)
+
+
+def parse_feed_bytes(data: bytes, source: str) -> list[NewsItem]:
+    """Parse a raw RSS/Atom body (live HTTP or file); malformed → empty list.
+
+    ``source`` is a label for logs and the fallback feed title.
+    """
+    try:
+        root = ET.fromstring(data)
     except ET.ParseError as exc:
-        LOGGER.warning("Skipping malformed feed %s: %s", path, exc)
+        LOGGER.warning("Skipping malformed feed %s: %s", source, exc)
         return []
     if root.tag == "rss":
-        return _parse_rss(root, path)
+        return _parse_rss(root, source)
     if root.tag == f"{ATOM}feed":
-        return _parse_atom(root, path)
-    LOGGER.warning("Skipping %s: unrecognized root element %r", path, root.tag)
+        return _parse_atom(root, source)
+    LOGGER.warning("Skipping %s: unrecognized root element %r", source, root.tag)
     return []
 
 
-def _parse_rss(root: ET.Element, path: Path) -> list[NewsItem]:
-    feed_title = root.findtext("channel/title") or path.stem
+def _parse_rss(root: ET.Element, source: str) -> list[NewsItem]:
+    feed_title = root.findtext("channel/title") or source
     items: list[NewsItem] = []
     for el in root.findall("channel/item"):
         title = (el.findtext("title") or "").strip()
         url = (el.findtext("link") or "").strip()
         if not title or not url:
-            LOGGER.warning("Skipping item without title/link in %s", path)
+            LOGGER.warning("Skipping item without title/link in %s", source)
             continue
         items.append(
             NewsItem(
@@ -76,15 +89,15 @@ def _parse_rss(root: ET.Element, path: Path) -> list[NewsItem]:
     return items
 
 
-def _parse_atom(root: ET.Element, path: Path) -> list[NewsItem]:
-    feed_title = root.findtext(f"{ATOM}title") or path.stem
+def _parse_atom(root: ET.Element, source: str) -> list[NewsItem]:
+    feed_title = root.findtext(f"{ATOM}title") or source
     items: list[NewsItem] = []
     for el in root.findall(f"{ATOM}entry"):
         title = (el.findtext(f"{ATOM}title") or "").strip()
         link_el = el.find(f"{ATOM}link")
         url = (link_el.get("href") or "").strip() if link_el is not None else ""
         if not title or not url:
-            LOGGER.warning("Skipping entry without title/link in %s", path)
+            LOGGER.warning("Skipping entry without title/link in %s", source)
             continue
         published = el.findtext(f"{ATOM}published") or el.findtext(f"{ATOM}updated") or ""
         summary = el.findtext(f"{ATOM}summary") or el.findtext(f"{ATOM}content") or ""

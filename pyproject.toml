@@ -35,6 +35,7 @@ dependencies = [
     "python-dotenv>=1.1.1",
     # TOML writing (stdlib tomllib is read-only); used for opinions.toml + feed.toml
     "tomli-w>=1.0.0",
+    "flask>=3.1.3",
 ]
 
 [dependency-groups]
@@ -113,6 +114,8 @@ build-backend = "hatchling.build"
 include = [
     "src/activist/**/*.py",
     "src/activist/templates/*.tmpl",
+    "src/activist/web/templates/*.html",
+    "src/activist/web/static/*.css",
     "src/activist/py.typed",
     "/README.md", "LICENSE",
 ]
@@ -127,6 +130,8 @@ packages = ["src/activist"]
 include = [
     "src/activist/**/*.py",
     "src/activist/templates/*.tmpl",
+    "src/activist/web/templates/*.html",
+    "src/activist/web/static/*.css",
     "src/activist/py.typed",
     "/README.md", "LICENSE",
 ]

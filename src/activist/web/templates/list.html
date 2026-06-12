@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not rows %}
+  <div class="card empty">nothing with status “{{ status.replace('_', ' ') }}”</div>
+{% endif %}
+{% for row in rows %}
+  <a class="card-link" href="{{ url_for('queue.detail', content_id=row.id) }}">
+  <div class="card">
+    {% with %}{% include "_card_meta.html" %}{% endwith %}
+    {% if row.reply_to_author %}
+      <div class="reply-strip">↩ replying to {{ row.reply_to_author }}</div>
+    {% endif %}
+    <div class="text">{{ row.text[:240] }}{% if row.text | length > 240 %}…{% endif %}</div>
+    {% if status == 'published' and row.published_at %}
+      <div class="source">published {{ row.published_at }}
+        {% if row.mastodon_status_id %} · status {{ row.mastodon_status_id }}{% endif %}</div>
+    {% elif status == 'rejected' and row.rejected_reason %}
+      <div class="source">rejected: {{ row.rejected_reason }}</div>
+    {% elif row.source_title %}
+      <div class="source">{{ row.source_title }}</div>
+    {% endif %}
+  </div>
+  </a>
+{% endfor %}
+{% endblock %}

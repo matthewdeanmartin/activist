@@ -166,3 +166,7 @@ cython_debug/
 # activist POC
 out/
 .env
+
+# activist runtime artifacts
+data/
+.cache/

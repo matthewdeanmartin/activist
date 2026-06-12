@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>activist — review queue</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="column">
+  <div class="profile">
+    <div class="avatar">🔌</div>
+    <div>
+      <h1>activist <span class="handle">review queue · {{ app_cfg.mastodon_id }}</span></h1>
+      <p class="runline">
+        {% if last_fetch %}last fetch <code>{{ last_fetch.ts }}</code> — {{ last_fetch.detail }}
+        {% else %}no fetch recorded yet{% endif %}
+      </p>
+    </div>
+  </div>
+  <nav class="tabs">
+    {% for s in tab_order %}
+      {% if s != 'publishing' or counts[s] > 0 %}
+      <a href="{{ url_for('queue.queue_list', status=s) }}"
+         class="tab {% if s == status %}active{% endif %}">{{ s.replace('_', ' ') }}
+         <span class="count">{{ counts[s] }}</span></a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

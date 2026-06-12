@@ -1,0 +1,37 @@
+# Activist runtime config. Secrets stay in .env (MASTODON_ID_*, OPENROUTER_*).
+# Everything here is meant to be reviewed in a git diff.
+
+[identity]
+mastodon_id = "TECH"             # picks MASTODON_ID_TECH_* from .env
+instances = ["mastodon.social"]  # policy + pacing targets (policies/<domain>.txt)
+
+[fetch]
+interval_minutes = 60
+cache_dir = ".cache/feeds"       # ETag/Last-Modified conditional GET cache
+article_body = false             # true = fetch + extract full article text
+
+[[feed]]
+name = "CleanTechnica"
+url = "https://cleantechnica.com/feed/"
+
+[[feed]]
+name = "Canary Media"
+url = "https://www.canarymedia.com/rss"
+
+[replies]
+enabled = false                  # flips on in fetcher Phase F3
+interval_minutes = 15
+
+[engine]
+name = "mockbot"                 # "openrouter" for real runs; mockbot stays the offline default
+
+[moderation]
+engine = "mockmod"               # "openrouter" layers LLM judgment on top
+
+[ui]
+host = "127.0.0.1"
+port = 8765
+
+[poster]
+live = false                     # HARD GATE — see spec/poster_service.md Phase P2
+check_interval_minutes = 5

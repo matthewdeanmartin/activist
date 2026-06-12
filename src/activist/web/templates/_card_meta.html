@@ -1,0 +1,10 @@
+<div class="meta">
+  <span class="badge kind">{{ row.kind }}</span>
+  <span class="badge {{ 'ok' if row.char_count <= 500 else 'over' }}">{{ row.char_count }} ch</span>
+  {% if row.error_flags() %}<span class="flag error">{{ row.error_flags() | length }} error</span>{% endif %}
+  {% if row.warn_flags() %}<span class="flag warn">{{ row.warn_flags() | length }} warn</span>{% endif %}
+  {% if row.scheduled_for %}<span>slot {{ row.scheduled_for }}</span>{% endif %}
+  {% if row.engine %}<span class="engine">{{ row.engine }}</span>{% endif %}
+  <span>{{ row.identity }}</span>
+  {% if row.original_text %}<span class="badge edited">edited</span>{% endif %}
+</div>

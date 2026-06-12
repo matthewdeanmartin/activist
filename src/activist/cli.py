@@ -24,6 +24,10 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     if args.command == "run":
         return _cmd_run(args)
+    if args.command == "fetch":
+        return _cmd_fetch(args)
+    if args.command == "ui":
+        return _cmd_ui(args)
     if args.command == "replies":
         return _cmd_replies(args)
     if args.command == "moderate":
@@ -54,6 +58,19 @@ def _build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--max-posts", type=int, default=None, help="override persona post cap")
     p_run.add_argument("--dry-state", action="store_true", help="do not write opinions/memory")
     _add_instance_args(p_run)
+
+    p_fetch = sub.add_parser(
+        "fetch", help="fetch live RSS feeds from activist.toml, digest, and dedupe"
+    )
+    p_fetch.add_argument("--config", type=Path, default=Path("activist.toml"))
+    p_fetch.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="report what's new without touching the cache, seen.jsonl, or the store",
+    )
+
+    p_ui = sub.add_parser("ui", help="run the local review dashboard (read-only in U1)")
+    p_ui.add_argument("--config", type=Path, default=Path("activist.toml"))
 
     p_rep = sub.add_parser(
         "replies", help="draft replies to inbound mentions (simulated; consent gates in code)"
@@ -160,6 +177,55 @@ def _cmd_run(args: argparse.Namespace) -> int:
         print("(dry-state: persona/ untouched)")
     else:
         print("state updated — review with: git diff persona/")
+    return 0
+
+
+def _cmd_fetch(args: argparse.Namespace) -> int:
+    from .config import ConfigError, load_config
+    from .fetch import fetch_news
+    from .store import Store
+
+    try:
+        cfg = load_config(args.config)
+    except ConfigError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    if not cfg.feeds:
+        print("no [[feed]] entries in config; nothing to fetch", file=sys.stderr)
+        return 1
+    result = fetch_news(cfg, dry_run=args.dry_run)
+    print(
+        f"{len(cfg.feeds)} feeds: {result.feeds_ok} fetched, "
+        f"{result.feeds_unchanged} unchanged (304), {result.feeds_failed} failed."
+    )
+    for outcome in result.outcomes:
+        if outcome.status == "failed":
+            print(f"  FAILED {outcome.name}: {outcome.detail}")
+    print(f"{len(result.new_items)} new items ({result.seen_skipped} already seen):")
+    for item in result.new_items:
+        topics = result.relevant_topics.get(item.id, [])
+        tag = f" [{', '.join(topics)}]" if topics else " [off-beat]"
+        print(f"  {item.id} {item.title}{tag}")
+    if args.dry_run:
+        print("(dry-run: cache, seen.jsonl, and store untouched)")
+    else:
+        summary = f"{len(result.new_items)} new, {result.seen_skipped} seen, {result.feeds_failed} failed"
+        Store(cfg.db_path).log_event("-", "fetcher", "fetch", summary)
+    return 0 if result.feeds_failed < len(cfg.feeds) else 1
+
+
+def _cmd_ui(args: argparse.Namespace) -> int:
+    from .config import ConfigError, load_config
+    from .web import create_app
+
+    try:
+        cfg = load_config(args.config)
+    except ConfigError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    app = create_app(cfg)
+    print(f"review queue: http://{cfg.ui_host}:{cfg.ui_port}/")
+    app.run(host=cfg.ui_host, port=cfg.ui_port)
     return 0
 
 
