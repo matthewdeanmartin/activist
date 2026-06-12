@@ -16,7 +16,8 @@ def test_load_persona_from_repo_seed():
 
 
 def test_opinions_round_trip(tmp_path):
-    original = state.load_opinions(REPO_ROOT / "persona" / "opinions.toml")
+    # the pristine snapshot: the live persona/opinions.toml mutates with runs
+    original = state.load_opinions(REPO_ROOT / "tests" / "seed_opinions.toml")
     assert "heat-pump-top-pick" in original
     assert original["heat-pump-top-pick"].subject == "Brand XYZ's HP-9"
     assert original["heat-pump-top-pick"].history[0]["trigger"] == "initial seed"

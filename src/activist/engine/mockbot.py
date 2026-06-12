@@ -10,7 +10,16 @@ from __future__ import annotations
 
 import hashlib
 
-from ..models import DraftPost, NewsItem, Opinion, OpinionChange, Persona, Reaction, SaidEntry
+from ..models import (
+    DraftPost,
+    Mention,
+    NewsItem,
+    Opinion,
+    OpinionChange,
+    Persona,
+    Reaction,
+    SaidEntry,
+)
 from .base import CONVICTION_THRESHOLD
 
 
@@ -58,6 +67,54 @@ class MockBot:
         return Reaction(
             post=None,
             diary_note=f"Read '{item.title}' — on my beat, but I had nothing to add.",
+        )
+
+    def reply(
+        self,
+        mention: Mention,
+        persona: Persona,
+        opinions: dict[str, Opinion],
+        knowledge: str,
+        recent_said: list[SaidEntry],
+        created: str,
+    ) -> Reaction:
+        if mention.hints.get("hostile") == "true":
+            return Reaction(
+                post=None,
+                diary_note=f"Declined a hostile mention from {mention.author}; not feeding it.",
+            )
+        asked = mention.hints.get("asks", "")
+        opinion = opinions.get(asked)
+        if opinion is None:
+            return Reaction(
+                post=None,
+                diary_note=(
+                    f"Mention from {mention.author} engaged nothing I hold an opinion on; "
+                    "stayed quiet rather than padding the thread."
+                ),
+            )
+        body = (
+            f"{mention.author} Good question — I think {opinion.stance}. "
+            f"My basis: {opinion.basis}."
+        )
+        text = f"{body}\n\n{persona.disclosure}"
+        post = DraftPost(
+            id=_post_id(mention.id, opinion.key),
+            created=created,
+            status="draft",
+            text=text,
+            char_count=len(text),
+            source_url="",
+            source_title=f"mention from {mention.author}",
+            opinion_keys=[opinion.key],
+            engine=self.name,
+            reply_to_id=mention.id,
+            reply_to_author=mention.author,
+            reply_to_text=mention.text,
+        )
+        return Reaction(
+            post=post,
+            diary_note=f"Replied to {mention.author} about {opinion.topic}.",
         )
 
     # --- behaviors ----------------------------------------------------------

@@ -45,6 +45,7 @@ class Persona:
     voice_rules: list[str]
     topics: list[str]
     max_posts_per_run: int = 6
+    posts_per_hour: int = 4  # app policy §3 pacing; scheduler enforces it
 
 
 @dataclass
@@ -59,7 +60,7 @@ class OpinionChange:
 @dataclass
 class DraftPost:
     id: str
-    created: str
+    created: str  # scheduled slot, spaced to satisfy the effective hourly limit
     status: str  # always "draft" in this phase
     text: str  # the would-be toot, including disclosure footer
     char_count: int  # Mastodon default limit is 500
@@ -68,6 +69,23 @@ class DraftPost:
     opinion_keys: list[str]
     engine: str
     opinion_change: OpinionChange | None = None
+    # set only on reply drafts (Phase 3)
+    reply_to_id: str = ""
+    reply_to_author: str = ""
+    reply_to_text: str = ""
+
+
+@dataclass
+class Mention:
+    """One inbound mention (simulated from a fixture file in this phase)."""
+
+    id: str
+    author: str  # full handle, e.g. "@solarfan@mastodon.social"
+    text: str
+    author_bio: str = ""
+    author_is_bot: bool = False
+    created: str = ""
+    hints: dict[str, str] = field(default_factory=dict)  # fixture-only, like NewsItem.hints
 
 
 @dataclass
@@ -79,6 +97,16 @@ class SaidEntry:
     topic: str
     opinion_keys: list[str]
     summary: str
+
+
+@dataclass
+class Flag:
+    """One moderation finding attached to a post. Flags never drop posts."""
+
+    severity: str  # "error" | "warn"
+    policy: str  # "app" or an instance domain, e.g. "infosec.exchange"
+    rule: str  # short id, e.g. "char-limit", "human-claim"
+    detail: str
 
 
 @dataclass

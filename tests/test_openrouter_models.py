@@ -7,7 +7,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from activist.engine.openrouter import OpenRouterBot, _env_file_values, candidate_models
+from activist.engine.openrouter import RotatingCompleter, _env_file_values, candidate_models
 
 ENV_TEXT = """\
 # comment line
@@ -50,14 +50,6 @@ def test_candidate_models_dedupes(env_file, monkeypatch):
     ]
 
 
-def _bot(models, client):
-    bot = object.__new__(OpenRouterBot)  # skip __init__: no key/client needed
-    bot.models = models
-    bot._active = 0
-    bot._client = client
-    return bot
-
-
 def _fake_client(behavior):
     """behavior: model -> reply string, or an Exception to raise."""
 
@@ -78,31 +70,36 @@ def test_rotation_skips_failing_model_and_sticks():
             "paid-model": "ok from paid",
         }
     )
-    bot = _bot(["free-model", "paid-model"], client)
-    assert bot._complete("s", "u") == "ok from paid"
-    assert bot.name == "openrouter:paid-model"
+    completer = RotatingCompleter(["free-model", "paid-model"], client)
+    assert completer.complete("s", "u") == "ok from paid"
+    assert completer.active_model == "paid-model"
     # next call goes straight to the surviving model
-    assert bot._complete("s", "u") == "ok from paid"
+    assert completer.complete("s", "u") == "ok from paid"
 
 
 def test_empty_completion_counts_as_failure():
     client = _fake_client({"free-model": "   ", "paid-model": "real reply"})
-    bot = _bot(["free-model", "paid-model"], client)
-    assert bot._complete("s", "u") == "real reply"
-    assert bot.name == "openrouter:paid-model"
+    completer = RotatingCompleter(["free-model", "paid-model"], client)
+    assert completer.complete("s", "u") == "real reply"
+    assert completer.active_model == "paid-model"
 
 
 def test_first_model_working_is_kept():
     client = _fake_client({"free-model": "free reply", "paid-model": "paid reply"})
-    bot = _bot(["free-model", "paid-model"], client)
-    assert bot._complete("s", "u") == "free reply"
-    assert bot.name == "openrouter:free-model"
+    completer = RotatingCompleter(["free-model", "paid-model"], client)
+    assert completer.complete("s", "u") == "free reply"
+    assert completer.active_model == "free-model"
 
 
 def test_all_models_failing_raises_with_context():
     client = _fake_client(
         {"free-model": RuntimeError("404"), "paid-model": RuntimeError("401")}
     )
-    bot = _bot(["free-model", "paid-model"], client)
+    completer = RotatingCompleter(["free-model", "paid-model"], client)
     with pytest.raises(RuntimeError, match="All OpenRouter candidates failed"):
-        bot._complete("s", "u")
+        completer.complete("s", "u")
+
+
+def test_no_models_rejected():
+    with pytest.raises(ValueError):
+        RotatingCompleter([], _fake_client({}))

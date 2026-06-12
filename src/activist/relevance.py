@@ -22,17 +22,21 @@ SYNONYMS: dict[str, list[str]] = {
 }
 
 
-def match_topics(item: NewsItem, topics: list[str]) -> list[str]:
-    """Return the persona beats this item touches, in beats order."""
-    text = f"{item.title} {item.summary}".lower()
+def match_topics_text(text: str, topics: list[str]) -> list[str]:
+    """Return the persona beats this text touches, in beats order."""
+    haystack = text.lower()
     matched: list[str] = []
     for topic in topics:
         synonyms = SYNONYMS.get(topic, []) or [topic.lower()]
         for syn in synonyms:
-            if re.search(rf"\b{re.escape(syn)}\b", text):
+            if re.search(rf"\b{re.escape(syn)}\b", haystack):
                 matched.append(topic)
                 break
     return matched
+
+
+def match_topics(item: NewsItem, topics: list[str]) -> list[str]:
+    return match_topics_text(f"{item.title} {item.summary}", topics)
 
 
 def is_relevant(item: NewsItem, topics: list[str]) -> bool:

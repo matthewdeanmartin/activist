@@ -29,3 +29,6 @@ topics = [
 
 [limits]
 max_posts_per_run = 6
+# App policy §3: pacing. The scheduler spaces draft timestamps to the
+# strictest of this and any --instance policy's parsed hourly limit.
+posts_per_hour = 4

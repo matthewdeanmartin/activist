@@ -28,8 +28,19 @@ def read_feed(path: Path) -> dict:
         return tomllib.load(fh)
 
 
+def write_feed_doc(path: Path, doc: dict) -> None:
+    """Write back a full feed document (e.g. after a moderation pass)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("wb") as fh:
+        tomli_w.dump(doc, fh, multiline_strings=True)
+
+
 def _post_dict(post: DraftPost) -> dict:
     data = asdict(post)
     if data["opinion_change"] is None:
         del data["opinion_change"]
+    # reply fields only appear on reply drafts; keep top-level posts clean
+    for key in ("reply_to_id", "reply_to_author", "reply_to_text"):
+        if not data[key]:
+            del data[key]
     return data

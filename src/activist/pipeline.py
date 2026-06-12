@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import ingest, relevance, render, state
+from . import ingest, ratelimit, relevance, render, state
 from .engine import PersonaEngine
 from .engine.base import POST_CHAR_LIMIT
 from .models import DraftPost, NewsItem, Opinion, OpinionChange, SaidEntry
@@ -28,6 +28,8 @@ class RunConfig:
     engine: PersonaEngine
     dry_state: bool = False
     max_posts: int | None = None  # None = persona's limit
+    # target instances; their policies tighten the scheduler's hourly pacing
+    instance_policies: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -48,10 +50,12 @@ def run(cfg: RunConfig) -> RunResult:
     seen_ids = state.load_seen_ids(memory_dir)
     recent_said = state.load_said(memory_dir, n=5)
     max_posts = cfg.max_posts if cfg.max_posts is not None else persona.max_posts_per_run
+    per_hour = ratelimit.effective_hourly_limit(persona.posts_per_hour, cfg.instance_policies)
 
     items = ingest.parse_fixtures_dir(cfg.fixtures_dir)
     log: list[str] = [f"RUN date={cfg.date} engine={cfg.engine.name} fixtures={cfg.fixtures_dir}"]
     log.append(f"INGEST items={len(items)}")
+    log.append(f"PACING {per_hour}/hour (app={persona.posts_per_hour}, instances={sorted(cfg.instance_policies)})")
 
     posts: list[DraftPost] = []
     changes: list[OpinionChange] = []
@@ -85,7 +89,7 @@ def run(cfg: RunConfig) -> RunResult:
 
         relevant_ops = _relevant_opinions(opinions, matched, item)
         knowledge = state.knowledge_sections(knowledge_path, matched)
-        created = f"{cfg.date}T09:{len(posts):02d}:00"
+        created = ratelimit.slot_time(cfg.date, len(posts), per_hour)
         reaction = cfg.engine.react(item, persona, relevant_ops, knowledge, recent_said, created)
         if reaction.diary_note:
             diary.append(reaction.diary_note)
@@ -135,6 +139,8 @@ def run(cfg: RunConfig) -> RunResult:
             "items_ingested": len(items),
             "items_relevant": relevant_count,
             "posts": len(posts),
+            "posts_per_hour": per_hour,
+            "instances": sorted(cfg.instance_policies),
             "diary": "\n".join(diary),
         },
         posts,

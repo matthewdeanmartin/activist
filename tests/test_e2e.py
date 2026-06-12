@@ -14,8 +14,20 @@ DATE = "2026-06-11"
 
 @pytest.fixture
 def workspace(tmp_path, repo_root):
+    """Repo persona/fixtures, but reset to the pristine seed.
+
+    The live persona/ mutates with every real run (opinions change, memory
+    fills with seen items), so tests pin opinions to tests/seed_opinions.toml
+    and start with empty memory.
+    """
     shutil.copytree(repo_root / "persona", tmp_path / "persona")
     shutil.copytree(repo_root / "fixtures", tmp_path / "fixtures")
+    shutil.copyfile(
+        repo_root / "tests" / "seed_opinions.toml", tmp_path / "persona" / "opinions.toml"
+    )
+    memory = tmp_path / "persona" / "memory"
+    shutil.rmtree(memory, ignore_errors=True)
+    memory.mkdir()
     return tmp_path
 
 

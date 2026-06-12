@@ -13,6 +13,7 @@ from .models import Opinion, Persona, SaidEntry
 
 SEEN_FILE = "seen.jsonl"
 SAID_FILE = "said.jsonl"
+MENTIONS_FILE = "mentions.jsonl"
 DIARY_FILE = "diary.md"
 
 
@@ -34,6 +35,7 @@ def load_persona(path: Path) -> Persona:
         voice_rules=voice.get("rules", []),
         topics=data.get("beats", {}).get("topics", []),
         max_posts_per_run=limits.get("max_posts_per_run", 6),
+        posts_per_hour=limits.get("posts_per_hour", 4),
     )
 
 
@@ -145,6 +147,25 @@ def append_said(memory_dir: Path, entries: list[SaidEntry]) -> None:
                 )
                 + "\n"
             )
+
+
+def load_handled_mentions(memory_dir: Path) -> set[str]:
+    """Mention ids already replied to, declined, or gated."""
+    path = memory_dir / MENTIONS_FILE
+    if not path.exists():
+        return set()
+    ids: set[str] = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            ids.add(json.loads(line)["id"])
+    return ids
+
+
+def append_handled_mentions(memory_dir: Path, rows: list[dict]) -> None:
+    memory_dir.mkdir(parents=True, exist_ok=True)
+    with (memory_dir / MENTIONS_FILE).open("a", encoding="utf-8") as fh:
+        for row in rows:
+            fh.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
 def append_diary(memory_dir: Path, date: str, engine: str, notes: list[str]) -> None:

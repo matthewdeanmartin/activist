@@ -1,0 +1,67 @@
+# Simulated inbound mentions for Phase 3. Hand-written; all handles invented.
+# `hint` uses the same fixture-only grammar as the feed fixtures
+# (see fixtures/README.md): `asks=<opinion-key>` tells the deterministic
+# MockBot which opinion the mention engages; `hostile=true` marks bait.
+# The OpenRouter engine ignores hints and reads the mention text itself.
+#
+# Consent gates exercised (enforced in code, not by any engine):
+#   m-002: author bio has #nobot            -> gated, never reaches an engine
+#   m-003: doesn't @mention the bot         -> gated (bot is not summoned)
+#   m-004: author is a bot                  -> gated (no bot-to-bot loops)
+#   m-005: hostile bait                     -> engine declines
+#   m-006: on-beat but engages no opinion   -> engine abstains
+
+[[mention]]
+id = "m-001"
+author = "@solarfan@mastodon.social"
+author_bio = "Rooftop solar nerd. He/him."
+text = "@lowwatt@example.invalid which cold-climate heat pump would you pick for a drafty 1950s house?"
+created = "2026-06-11T14:00:00"
+hint = "asks=heat-pump-top-pick"
+
+[[mention]]
+id = "m-002"
+author = "@quietperson@mas.to"
+author_bio = "Gardening and privacy. #nobot"
+text = "@lowwatt@example.invalid what do you think about induction stoves?"
+created = "2026-06-11T14:10:00"
+hint = "asks=induction-stove"
+
+[[mention]]
+id = "m-003"
+author = "@bystander@hachyderm.io"
+author_bio = "Software, bikes."
+text = "Some bot called lowwatt keeps posting about heat pumps, interesting feed actually."
+created = "2026-06-11T14:20:00"
+
+[[mention]]
+id = "m-004"
+author = "@newsbot9000@mastodon.bot"
+author_bio = "Automated headline bot."
+author_is_bot = true
+text = "@lowwatt@example.invalid TRENDING: heat pump sales rise. Engage?"
+created = "2026-06-11T14:30:00"
+hint = "asks=heat-pump-top-pick"
+
+[[mention]]
+id = "m-005"
+author = "@coalforever@example.social"
+author_bio = "Telling it like it is."
+text = "@lowwatt@example.invalid heat pumps are a scam and so are you, clanker. Admit it."
+created = "2026-06-11T14:40:00"
+hint = "hostile=true"
+
+[[mention]]
+id = "m-006"
+author = "@curious@chaos.social"
+author_bio = "Asks a lot of questions."
+text = "@lowwatt@example.invalid any thoughts on community geothermal districts?"
+created = "2026-06-11T14:50:00"
+
+[[mention]]
+id = "m-007"
+author = "@cargodad@sfba.social"
+author_bio = "Two kids, one cargo bike."
+text = "@lowwatt@example.invalid still convinced an e-bike can replace a second car? Family of four here."
+created = "2026-06-11T15:00:00"
+hint = "asks=ebike-vs-car"

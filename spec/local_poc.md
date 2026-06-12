@@ -439,17 +439,54 @@ Steps when you're ready:
 
 ## 10. Roadmap after this POC
 
-- **Phase 2 — Moderator bot.** A second engine pass over `feed.toml`: each
-  draft is checked against (a) the app's own policy
-  (`docs/draft_governing_policy.md` / `spec/*_RECOMMENDED_LLM_POLICY.md`) and
-  (b) a target instance's policy (`policies/<server>.txt`, already fetched by
-  `policy_fetcher`). Output: per-post `[[post.flags]]` entries in the same
-  TOML, rendered as warning badges in the HTML. Posts are flagged, never
+- **Phase 2 — Moderator bot.** ✅ Implemented 2026-06-11
+  (`src/activist/moderation/`). A second pass over `feed.toml`:
+
+  ```
+  activist moderate out/<date>/feed.toml --instance infosec.exchange --instance mas.to [--engine openrouter]
+  ```
+
+  Two layers. `MockModerator` (always runs): the code-enforceable content
+  rules from `docs/draft_governing_policy.md` — char limit, disclosure footer
+  present, source link present, hashtag bans, cold @-mentions,
+  human-experience-claim regexes, unverified links in replies.
+  `OpenRouterModerator` (`--engine openrouter`, layered on top): reads the
+  full policy texts against each post for the judgment calls — tone, sarcasm,
+  controversy, impersonation. Same free-first model rotation as the persona
+  engine (shared `RotatingCompleter`).
+
+  **Rate limiting is NOT moderation.** Pacing lives in `ratelimit.py` as
+  ordinary code: `activist run`/`activist replies` take `--instance DOMAIN`
+  (repeatable), parse hourly limits out of `policies/<server>.txt` prose
+  ("one post per hour" etc.), take the strictest of those and the persona's
+  `posts_per_hour` (app policy §3, default 4), and schedule draft `created`
+  timestamps at the resulting spacing (4/hour → 15-minute slots, 1/hour →
+  hourly). The moderator never sees rate rules.
+
+  Output: `[[post.flags]]` (severity/policy/rule/detail) written back into
+  the same feed.toml plus a `[run.moderation]` summary; the HTML gets a
+  purple moderation strip per flagged post and a 🛡️/⏳ status in the header.
+  Re-moderation replaces prior flags (idempotent). Posts are flagged, never
   silently dropped — the human adjudicates.
-- **Phase 3 — Replies.** Simulated inbound mentions (fixture file of replies),
-  same engine seam generates reply drafts, same moderator pass, same HTML
-  review surface. Consent rules from the governing policy (reply only when
-  mentioned, #nobot respect) enforced in code.
+- **Phase 3 — Replies.** ✅ Implemented 2026-06-11 (`src/activist/replies.py`,
+  `fixtures/mentions-sample.toml`).
+
+  ```
+  activist replies [--mentions fixtures/mentions-sample.toml] [--engine openrouter] [--instance DOMAIN]
+  ```
+
+  Simulated inbound mentions (TOML fixture) → consent gates **in ordinary
+  code** before any engine sees a mention: explicit @mention of the bot's
+  handle required (silence until summoned), `#nobot` in the author bio
+  respected, bot authors skipped (no bot-to-bot loops), already-handled
+  mentions deduped via `memory/mentions.jsonl`. Survivors go through the
+  same `PersonaEngine` seam (`MockBot.reply` / `OpenRouterBot.reply` with a
+  reply-specific prompt), the same rate-limit slot scheduling, and out to
+  `out/<date>/replies.toml` + `replies.html` (reply cards show a quoted
+  "↩ replying to" strip). `activist moderate` works on replies.toml
+  unchanged; replies are exempt from cold-mention and missing-source-link,
+  and any URL in a reply is flagged `unverified-link` (the pipeline supplied
+  none, so the model invented it — caught live on the first real Gemma run).
 - **Later.** Live RSS fetching with on-disk cache; approval queue with
   persisted approve/reject status in `feed.toml`; actual Mastodon posting
   behind the human-approval gate.

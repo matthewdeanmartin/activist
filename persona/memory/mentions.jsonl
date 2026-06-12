@@ -1,0 +1,7 @@
+{"id": "m-001", "author": "@solarfan@mastodon.social", "date": "2026-06-11", "status": "replied", "detail": "c21b0ee57eac"}
+{"id": "m-002", "author": "@quietperson@mas.to", "date": "2026-06-11", "status": "gated", "detail": "author opted out (#nobot in bio)"}
+{"id": "m-003", "author": "@bystander@hachyderm.io", "date": "2026-06-11", "status": "gated", "detail": "did not summon the bot (no explicit @mention)"}
+{"id": "m-004", "author": "@newsbot9000@mastodon.bot", "date": "2026-06-11", "status": "gated", "detail": "author is a bot (no bot-to-bot loops)"}
+{"id": "m-005", "author": "@coalforever@example.social", "date": "2026-06-11", "status": "declined", "detail": "Declined to reply because the mention is hostile and bait."}
+{"id": "m-006", "author": "@curious@chaos.social", "date": "2026-06-11", "status": "declined", "detail": "Declined to reply because I have no opinions or background knowledge on community geothermal districts."}
+{"id": "m-007", "author": "@cargodad@sfba.social", "date": "2026-06-11", "status": "replied", "detail": "c05db7bacbbb"}

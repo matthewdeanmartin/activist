@@ -21,6 +21,7 @@ def make_persona(**overrides) -> Persona:
         voice_rules=[],
         topics=["heat pumps", "e-bikes", "EVs", "transit"],
         max_posts_per_run=6,
+        posts_per_hour=4,
     )
     defaults.update(overrides)
     return Persona(**defaults)

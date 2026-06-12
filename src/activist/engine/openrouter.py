@@ -25,7 +25,16 @@ import os
 import tomllib
 from pathlib import Path
 
-from ..models import DraftPost, NewsItem, Opinion, OpinionChange, Persona, Reaction, SaidEntry
+from ..models import (
+    DraftPost,
+    Mention,
+    NewsItem,
+    Opinion,
+    OpinionChange,
+    Persona,
+    Reaction,
+    SaidEntry,
+)
 from .base import POST_CHAR_LIMIT
 from .mockbot import _post_id
 
@@ -74,6 +83,86 @@ def candidate_models(env_path: Path | None = None) -> list[str]:
 def _rotation_enabled() -> bool:
     return os.environ.get("OPENROUTER_ROTATE_MODELS", "true").strip().lower() in {"1", "true", "yes"}
 
+
+class RotatingCompleter:
+    """Tries model candidates in order; sticks with the first that answers.
+
+    Shared by the persona engine and the LLM moderator. A model that errors
+    (rate limit, 404, empty reply) is skipped for the rest of the session.
+    """
+
+    def __init__(self, models: list[str], client) -> None:
+        if not models:
+            raise ValueError("at least one model candidate is required")
+        self.models = models
+        self._client = client
+        self._active = 0
+
+    @property
+    def active_model(self) -> str:
+        return self.models[self._active]
+
+    def complete(self, system: str, user: str) -> str:
+        last_exc: Exception | None = None
+        for idx in range(self._active, len(self.models)):
+            model = self.models[idx]
+            try:
+                response = self._client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": system},
+                        {"role": "user", "content": user},
+                    ],
+                )
+                content = (response.choices[0].message.content or "").strip()
+                if not content:
+                    raise RuntimeError("empty completion")
+                self._active = idx  # stick with the first model that answers
+                return content
+            except Exception as exc:  # noqa: BLE001 - any API failure means rotate
+                last_exc = exc
+                if idx + 1 < len(self.models):
+                    LOGGER.warning(
+                        "Model %s failed (%s); rotating to %s", model, exc, self.models[idx + 1]
+                    )
+                    self._active = idx + 1
+        raise RuntimeError(
+            f"All OpenRouter candidates failed ({', '.join(self.models)}); last error: {last_exc}"
+        ) from last_exc
+
+
+def make_completer(model: str | None = None) -> RotatingCompleter:
+    """Env-driven factory: .env candidates, rotation switch, OpenAI client."""
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv()
+    except ImportError:
+        pass
+    from openai import OpenAI  # already a project dependency
+
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "OPENROUTER_API_KEY is not set. Put it in .env or the environment "
+            "(see spec/local_poc.md §9)."
+        )
+    if model:
+        # explicit --model bypasses env-driven candidates
+        models = [m.strip() for m in model.split(",") if m.strip()]
+    else:
+        models = candidate_models()
+    if not _rotation_enabled():
+        models = models[:1]
+    LOGGER.info("OpenRouter model candidates (in order): %s", ", ".join(models))
+    client = OpenAI(
+        base_url=os.environ.get("OPENROUTER_BASE_URL", DEFAULT_BASE_URL),
+        api_key=api_key,
+        timeout=120.0,
+        max_retries=1,
+    )
+    return RotatingCompleter(models, client)
+
 SYSTEM_TEMPLATE = """You are {name} ({handle}), a Mastodon account on the low-carbon \
 lifestyle beat. Bio: {bio}
 
@@ -120,42 +209,53 @@ published: {published}
 summary: {summary}
 """
 
+REPLY_SYSTEM_TEMPLATE = """You are {name} ({handle}), a Mastodon account on the \
+low-carbon lifestyle beat. Bio: {bio}
+
+Someone @-mentioned you and a human operator approved engaging. Draft ONE reply.
+
+Voice: {tone}
+Rules:
+{rules}
+
+Hard constraints:
+- You are a bot and never claim human experiences.
+- The reply must be at most {char_limit} characters INCLUDING the mandatory \
+footer "{disclosure}".
+- Address the author by their handle; be warm, direct, and substantive.
+- Ground the reply in the opinions provided below; do not invent positions.
+- No new hashtags, no @-mentions of anyone but the author.
+- If the mention is hostile, bait, or engages nothing you hold an opinion \
+on, decline: return an empty post. Threads do not need filler.
+
+Respond with TOML only, no prose, no code fences:
+
+post = \"\"\"the reply text, or empty to decline\"\"\"
+diary_note = "one short sentence about what you did and why"
+"""
+
+REPLY_USER_TEMPLATE = """## Your current opinions (TOML)
+{opinions}
+
+## Background knowledge you hold
+{knowledge}
+
+## Your recent posts (for continuity)
+{recent}
+
+## The mention you are replying to
+from: {author}
+text: {mention_text}
+"""
+
 
 class OpenRouterBot:
     def __init__(self, model: str | None = None) -> None:
-        try:
-            from dotenv import load_dotenv
-
-            load_dotenv()
-        except ImportError:
-            pass
-        from openai import OpenAI  # already a project dependency
-
-        api_key = os.environ.get("OPENROUTER_API_KEY")
-        if not api_key:
-            raise RuntimeError(
-                "OPENROUTER_API_KEY is not set. Put it in .env or the environment "
-                "(see spec/local_poc.md §9)."
-            )
-        if model:
-            # explicit --model bypasses env-driven candidates
-            self.models = [m.strip() for m in model.split(",") if m.strip()]
-        else:
-            self.models = candidate_models()
-        if not _rotation_enabled():
-            self.models = self.models[:1]
-        self._active = 0
-        LOGGER.info("OpenRouter model candidates (in order): %s", ", ".join(self.models))
-        self._client = OpenAI(
-            base_url=os.environ.get("OPENROUTER_BASE_URL", DEFAULT_BASE_URL),
-            api_key=api_key,
-            timeout=120.0,
-            max_retries=1,
-        )
+        self._completer = make_completer(model)
 
     @property
     def name(self) -> str:
-        return f"openrouter:{self.models[self._active]}"
+        return f"openrouter:{self._completer.active_model}"
 
     def react(
         self,
@@ -199,34 +299,81 @@ class OpenRouterBot:
                 return Reaction(post=None, diary_note=f"Read '{item.title}' — model reply unparseable, abstained.")
         return self._to_reaction(data, item, persona, opinions, created)
 
-    def _complete(self, system: str, user: str) -> str:
-        """Call the active model; on failure rotate to the next candidate."""
-        last_exc: Exception | None = None
-        for idx in range(self._active, len(self.models)):
-            model = self.models[idx]
+    def reply(
+        self,
+        mention: Mention,
+        persona: Persona,
+        opinions: dict[str, Opinion],
+        knowledge: str,
+        recent_said: list[SaidEntry],
+        created: str,
+    ) -> Reaction:
+        system = REPLY_SYSTEM_TEMPLATE.format(
+            name=persona.name,
+            handle=persona.handle,
+            bio=persona.bio,
+            tone=persona.voice_tone,
+            rules="\n".join(f"- {r}" for r in persona.voice_rules),
+            char_limit=POST_CHAR_LIMIT,
+            disclosure=persona.disclosure,
+        )
+        user = REPLY_USER_TEMPLATE.format(
+            opinions=_opinions_toml(opinions),
+            knowledge=knowledge or "(none)",
+            recent="\n".join(f"- {s.date}: {s.summary}" for s in recent_said) or "(none)",
+            author=mention.author,
+            mention_text=mention.text,
+        )
+        raw = self._complete(system, user)
+        try:
+            data = tomllib.loads(_strip_fences(raw))
+        except tomllib.TOMLDecodeError as exc:
+            LOGGER.warning("Reply was not valid TOML, retrying once: %s", exc)
+            raw = self._complete(
+                system, user + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only."
+            )
             try:
-                response = self._client.chat.completions.create(
-                    model=model,
-                    messages=[
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": user},
-                    ],
+                data = tomllib.loads(_strip_fences(raw))
+            except tomllib.TOMLDecodeError:
+                return Reaction(
+                    post=None,
+                    diary_note=f"Mention from {mention.author} — model reply unparseable, stayed quiet.",
                 )
-                content = (response.choices[0].message.content or "").strip()
-                if not content:
-                    raise RuntimeError("empty completion")
-                self._active = idx  # stick with the first model that answers
-                return content
-            except Exception as exc:  # noqa: BLE001 - any API failure means rotate
-                last_exc = exc
-                if idx + 1 < len(self.models):
-                    LOGGER.warning(
-                        "Model %s failed (%s); rotating to %s", model, exc, self.models[idx + 1]
-                    )
-                    self._active = idx + 1
-        raise RuntimeError(
-            f"All OpenRouter candidates failed ({', '.join(self.models)}); last error: {last_exc}"
-        ) from last_exc
+        text = (data.get("post") or "").strip()
+        diary = data.get("diary_note", f"Considered a mention from {mention.author}.")
+        if not text:
+            return Reaction(post=None, diary_note=diary)
+        if mention.author not in text:
+            text = f"{mention.author} {text}"
+        if persona.disclosure not in text:
+            text = f"{text}\n\n{persona.disclosure}"
+        if len(text) > POST_CHAR_LIMIT:
+            LOGGER.warning("Reply failed guardrails (%d chars), abstaining.", len(text))
+            return Reaction(
+                post=None,
+                diary_note=f"Reply to {mention.author} failed guardrails; stayed quiet.",
+            )
+        keys = [k for k in opinions][:1] or ["reply"]
+        return Reaction(
+            post=DraftPost(
+                id=_post_id(mention.id, keys[0]),
+                created=created,
+                status="draft",
+                text=text,
+                char_count=len(text),
+                source_url="",
+                source_title=f"mention from {mention.author}",
+                opinion_keys=keys,
+                engine=self.name,
+                reply_to_id=mention.id,
+                reply_to_author=mention.author,
+                reply_to_text=mention.text,
+            ),
+            diary_note=diary,
+        )
+
+    def _complete(self, system: str, user: str) -> str:
+        return self._completer.complete(system, user)
 
     def _to_reaction(
         self,
