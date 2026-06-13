@@ -28,6 +28,19 @@ class ModerationResult:
     flags: list[Flag] = field(default_factory=list)
 
 
+def moderate_post(
+    post: dict,
+    ctx: ModerationContext,
+    llm_moderator: ModeratorEngine | None = None,
+) -> list[Flag]:
+    """Flags for one post dict — the inline seam the live fetch chain uses
+    before a draft ever reaches the queue store."""
+    flags = MockModerator().review(post, ctx)
+    if llm_moderator is not None:
+        flags.extend(llm_moderator.review(post, ctx))
+    return flags
+
+
 def moderate_feed(
     feed_path: Path,
     ctx: ModerationContext,

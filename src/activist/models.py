@@ -70,22 +70,31 @@ class DraftPost:
     engine: str
     opinion_change: OpinionChange | None = None
     # set only on reply drafts (Phase 3)
-    reply_to_id: str = ""
+    reply_to_id: str = ""  # notification/mention id — the dedup key, not for threading
     reply_to_author: str = ""
     reply_to_text: str = ""
+    # the real Mastodon status this reply threads onto (fetcher F3). Empty on
+    # fixture replies and top-level posts; the poster needs it for in_reply_to_id.
+    reply_to_status_id: str = ""
+    # match the audience of what we answer — never widen a DM into a public reply.
+    # "" means "use the config default" (top-level posts always leave this empty).
+    visibility: str = ""
 
 
 @dataclass
 class Mention:
     """One inbound mention (simulated from a fixture file in this phase)."""
 
-    id: str
+    id: str  # the notification id — the checkpoint/dedup key, NOT the status id
     author: str  # full handle, e.g. "@solarfan@mastodon.social"
     text: str
     author_bio: str = ""
     author_is_bot: bool = False
     created: str = ""
     hints: dict[str, str] = field(default_factory=dict)  # fixture-only, like NewsItem.hints
+    # carried from the live API (fetcher F3); empty on fixture mentions.
+    status_id: str = ""  # the status to thread the reply onto (in_reply_to_id)
+    visibility: str = ""  # public | unlisted | private | direct — the reply must match
 
 
 @dataclass

@@ -1,5 +1,5 @@
 """Deterministic moderator: the code-enforceable content rules from the app
-policy (docs/draft_governing_policy.md).
+policy (the packaged governing_policy.md by default).
 
 Rate limiting is deliberately NOT here — pacing is enforced upstream by the
 scheduler (activist.ratelimit) when drafts are created. This moderator only

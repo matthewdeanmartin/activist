@@ -16,7 +16,7 @@ from pathlib import Path
 
 import httpx
 
-from . import __version__, relevance, state
+from . import __version__, ratelimit, relevance, state
 from .config import AppConfig, FeedConfig
 from .digest import digest_item
 from .ingest import parse_feed_bytes
@@ -89,7 +89,7 @@ def _save_validators(cache_dir: Path, url: str, response: httpx.Response) -> Non
                 "url": url,
                 "etag": response.headers.get("ETag", ""),
                 "last_modified": response.headers.get("Last-Modified", ""),
-                "fetched_at": dt.datetime.now().isoformat(timespec="seconds"),
+                "fetched_at": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
             }
         ),
         encoding="utf-8",
@@ -127,13 +127,19 @@ def fetch_news(
     client: httpx.Client | None = None,
     dry_run: bool = False,
     topics: list[str] | None = None,
+    mark_seen: bool | None = None,
 ) -> FetchResult:
     """Fetch all configured feeds, digest, and dedupe against seen.jsonl.
 
     Unless ``dry_run``, new items are appended to persona/memory/seen.jsonl
     with the same row shape the pipeline writes (id, url, title, date_seen,
     topics, relevant). ``topics`` defaults to the persona's beats.
+
+    ``mark_seen`` defaults to ``not dry_run``; the full chain passes False
+    because the engine pass writes richer seen rows itself.
     """
+    if mark_seen is None:
+        mark_seen = not dry_run
     own_client = client is None
     if client is None:
         client = make_client()
@@ -169,9 +175,151 @@ def fetch_news(
                         "relevant": bool(matched),
                     }
                 )
-        if not dry_run and seen_rows:
+        if mark_seen and seen_rows:
             state.append_seen(cfg.persona_dir / "memory", seen_rows)
     finally:
         if own_client:
             client.close()
+    return result
+
+
+@dataclass
+class ChainResult:
+    """One full fetch→engine→moderate→store pass (fetcher Phase F2)."""
+
+    fetch: FetchResult
+    posts: list = field(default_factory=list)  # DraftPosts the engine produced
+    inserted: int = 0
+    duplicates: int = 0
+    errors: int = 0  # moderation error flags across inserted drafts
+    warns: int = 0
+    feed_toml: Path | None = None  # legacy debug artifact, if written
+    feed_html: Path | None = None
+    log_lines: list[str] = field(default_factory=list)
+
+
+def run_news_chain(
+    cfg: AppConfig,
+    engine,
+    store,
+    dry_run: bool = False,
+    client: httpx.Client | None = None,
+    now: dt.datetime | None = None,
+    llm_moderator=None,
+) -> ChainResult:
+    """fetch → digest → dedupe → engine → moderate → pending_review rows.
+
+    ``dry_run`` previews the whole chain without touching the cache,
+    persona/, the store, or out/.
+    """
+    import sqlite3
+
+    from .moderation import ModerationContext, moderate_post
+    from .moderation.policies import load_app_policy, load_instance_policy
+    from .pipeline import apply_engine_state, react_to_items
+    from .queue_io import write_feed, _post_dict
+    from .store import row_from_draft
+
+    persona = state.load_persona(cfg.persona_dir / "persona.toml")
+    opinions = state.load_opinions(cfg.persona_dir / "opinions.toml")
+    memory_dir = cfg.persona_dir / "memory"
+    seen_ids = state.load_seen_ids(memory_dir)
+    recent_said = state.load_said(memory_dir, n=5)
+    instance_policies = {
+        domain: load_instance_policy(cfg.policies_dir, domain)
+        for domain in cfg.instances
+        if domain not in cfg.instance_rate_limits
+    }
+    app_limit = cfg.rate_limit_posts_per_hour or persona.posts_per_hour
+    per_hour = ratelimit.effective_hourly_limit(
+        app_limit, instance_policies, cfg.instance_rate_limits
+    )
+    now = ratelimit.aware_utc(now or dt.datetime.now(dt.UTC))
+    date = now.date().isoformat()
+
+    fetch_result = fetch_news(
+        cfg, client=client, dry_run=dry_run, topics=persona.topics, mark_seen=False
+    )
+    result = ChainResult(fetch=fetch_result)
+    result.log_lines.append(
+        f"FETCH feeds_ok={fetch_result.feeds_ok} unchanged={fetch_result.feeds_unchanged} "
+        f"failed={fetch_result.feeds_failed} new={len(fetch_result.new_items)} "
+        f"seen={fetch_result.seen_skipped}"
+    )
+    result.log_lines.append(
+        f"PACING {per_hour}/hour (app={app_limit}, instances={sorted(cfg.instances)})"
+    )
+
+    last_slot = store.last_scheduled_for(cfg.mastodon_id)
+    out = react_to_items(
+        fetch_result.new_items,
+        persona=persona,
+        opinions=opinions,
+        knowledge_path=cfg.persona_dir / "knowledge.md",
+        seen_ids=seen_ids,
+        recent_said=recent_said,
+        date=date,
+        engine=engine,
+        max_posts=persona.max_posts_per_run,
+        slot_for=lambda index: ratelimit.continued_slot(index, per_hour, now, last_slot),
+    )
+    result.posts = out.posts
+    result.log_lines.extend(out.log_lines)
+
+    ctx = ModerationContext(
+        disclosure=persona.disclosure,
+        app_policy=load_app_policy(cfg.app_policy),
+        instance_policies=instance_policies,
+    )
+    rows = []
+    for post in out.posts:
+        flags = moderate_post(_post_dict(post), ctx, llm_moderator)
+        result.errors += sum(f.severity == "error" for f in flags)
+        result.warns += sum(f.severity == "warn" for f in flags)
+        rows.append(row_from_draft(post, flags, identity=cfg.mastodon_id))
+
+    if dry_run:
+        result.log_lines.append("DRY-RUN store, persona/, and out/ untouched")
+        return result
+
+    for row in rows:
+        try:
+            store.add_pending(row)
+            result.inserted += 1
+        except sqlite3.IntegrityError:
+            result.duplicates += 1
+            result.log_lines.append(f"DUPLICATE {row.id} already queued; skipped")
+
+    apply_engine_state(cfg.persona_dir, date, engine.name, opinions, out)
+    store.log_event(
+        "-",
+        "fetcher",
+        "fetch",
+        f"{len(fetch_result.new_items)} new items, {result.inserted} drafts queued, "
+        f"{fetch_result.feeds_failed} feeds failed",
+    )
+
+    if cfg.write_artifacts and out.posts:
+        run_dir = cfg.out_dir / date
+        result.feed_toml = run_dir / "fetch-feed.toml"
+        write_feed(
+            result.feed_toml,
+            {
+                "date": date,
+                "engine": engine.name,
+                "persona_name": persona.name,
+                "persona_handle": persona.handle,
+                "persona_bio": persona.bio,
+                "items_ingested": len(fetch_result.new_items),
+                "items_relevant": out.relevant_count,
+                "posts": len(out.posts),
+                "posts_per_hour": per_hour,
+                "instances": sorted(instance_policies),
+                "diary": "\n".join(out.diary),
+            },
+            out.posts,
+        )
+        from . import render
+
+        result.feed_html = render.render_feed(result.feed_toml)
     return result

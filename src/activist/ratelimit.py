@@ -30,10 +30,15 @@ def parse_hourly_limit(policy_text: str) -> int | None:
     return int(token) if token.isdigit() else _WORD_NUMBERS[token]
 
 
-def effective_hourly_limit(app_limit: int, instance_policies: dict[str, str]) -> int:
+def effective_hourly_limit(
+    app_limit: int,
+    instance_policies: dict[str, str] | None = None,
+    instance_limits: dict[str, int] | None = None,
+) -> int:
     """The strictest applicable limit: the app's own cap and every target instance's."""
     limits = [app_limit]
-    for policy_text in instance_policies.values():
+    limits.extend((instance_limits or {}).values())
+    for policy_text in (instance_policies or {}).values():
         parsed = parse_hourly_limit(policy_text)
         if parsed is not None:
             limits.append(parsed)
@@ -43,9 +48,33 @@ def effective_hourly_limit(app_limit: int, instance_policies: dict[str, str]) ->
 def slot_time(date: str, index: int, per_hour: int) -> str:
     """Scheduled ISO timestamp for the index-th draft of a run."""
     interval_minutes = max(1, 60 // max(1, per_hour))
-    start = dt.datetime.fromisoformat(f"{date}T{START_HOUR:02d}:00:00")
+    start = dt.datetime.fromisoformat(f"{date}T{START_HOUR:02d}:00:00").replace(
+        tzinfo=dt.UTC
+    )
     return (start + dt.timedelta(minutes=index * interval_minutes)).isoformat()
 
 
 def assign_slots(count: int, date: str, per_hour: int) -> list[str]:
     return [slot_time(date, i, per_hour) for i in range(count)]
+
+
+def continued_slot(
+    index: int, per_hour: int, now: dt.datetime, last_scheduled: str | None
+) -> str:
+    """Slot for the index-th new draft, continuing after the queue's last slot.
+
+    Live fetching (fetcher F2) schedules from "now or after everything already
+    queued", not from a fixed run-date start hour — runs accumulate into one
+    queue, so spacing must hold across runs, not just within one.
+    """
+    interval = dt.timedelta(minutes=max(1, 60 // max(1, per_hour)))
+    base = aware_utc(now)
+    if last_scheduled:
+        base = max(base, aware_utc(dt.datetime.fromisoformat(last_scheduled)) + interval)
+    return (base + index * interval).isoformat(timespec="seconds")
+
+
+def aware_utc(value: dt.datetime) -> dt.datetime:
+    if value.tzinfo is None:
+        return value.replace(tzinfo=dt.UTC)
+    return value.astimezone(dt.UTC)

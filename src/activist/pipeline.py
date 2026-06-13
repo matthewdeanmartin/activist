@@ -33,6 +33,25 @@ class RunConfig:
 
 
 @dataclass
+class EngineOutput:
+    """Everything one engine pass produced, before any sink sees it.
+
+    Shared by the fixture path (run → feed.toml) and the live path
+    (fetch → store); the loop, pacing, and guardrails are identical.
+    """
+
+    posts: list[DraftPost] = field(default_factory=list)
+    changes: list[OpinionChange] = field(default_factory=list)
+    reinforcements: list[str] = field(default_factory=list)
+    pushbacks: list[dict[str, str]] = field(default_factory=list)
+    diary: list[str] = field(default_factory=list)
+    said_entries: list[SaidEntry] = field(default_factory=list)
+    seen_rows: list[dict] = field(default_factory=list)
+    relevant_count: int = 0
+    log_lines: list[str] = field(default_factory=list)
+
+
+@dataclass
 class RunResult:
     feed_toml: Path
     feed_html: Path
@@ -57,71 +76,25 @@ def run(cfg: RunConfig) -> RunResult:
     log.append(f"INGEST items={len(items)}")
     log.append(f"PACING {per_hour}/hour (app={persona.posts_per_hour}, instances={sorted(cfg.instance_policies)})")
 
-    posts: list[DraftPost] = []
-    changes: list[OpinionChange] = []
-    reinforcements: list[str] = []
-    pushbacks: list[dict[str, str]] = []
-    diary: list[str] = []
-    said_entries: list[SaidEntry] = []
-    seen_rows: list[dict] = []
-    posted_keys: set[str] = set()
-    relevant_count = 0
-
-    for item in items:
-        if item.id in seen_ids:
-            log.append(f"ITEM {item.id} '{item.title}' SKIP already-seen")
-            continue
-        matched = relevance.match_topics(item, persona.topics)
-        seen_rows.append(
-            {
-                "id": item.id,
-                "url": item.url,
-                "title": item.title,
-                "date_seen": cfg.date,
-                "topics": matched,
-                "relevant": bool(matched),
-            }
-        )
-        if not matched:
-            log.append(f"ITEM {item.id} '{item.title}' IRRELEVANT")
-            continue
-        relevant_count += 1
-
-        relevant_ops = _relevant_opinions(opinions, matched, item)
-        knowledge = state.knowledge_sections(knowledge_path, matched)
-        created = ratelimit.slot_time(cfg.date, len(posts), per_hour)
-        reaction = cfg.engine.react(item, persona, relevant_ops, knowledge, recent_said, created)
-        if reaction.diary_note:
-            diary.append(reaction.diary_note)
-
-        if reaction.post is None:
-            log.append(f"ITEM {item.id} '{item.title}' ABSTAIN")
-            changes.extend(reaction.opinion_changes)
-            continue
-
-        post = reaction.post
-        if len(posts) >= max_posts or any(k in posted_keys for k in post.opinion_keys):
-            diary.append(f"Paced out: had a post for '{item.title}' but held it (rate/key limit).")
-            log.append(f"ITEM {item.id} '{item.title}' PACED-OUT")
-            continue
-        if post.char_count > POST_CHAR_LIMIT:
-            LOGGER.warning("Post %s is %d chars (> %d)", post.id, post.char_count, POST_CHAR_LIMIT)
-            log.append(f"ITEM {item.id} '{item.title}' WARN over-{POST_CHAR_LIMIT}-chars")
-
-        posts.append(post)
-        posted_keys.update(post.opinion_keys)
-        changes.extend(reaction.opinion_changes)
-        reinforcements.extend(reaction.reinforcements)
-        pushbacks.extend(reaction.pushbacks)
-        said_entries.append(_said_entry(cfg.date, post, relevant_ops, reaction))
-        kind = "CHANGED-MIND" if post.opinion_change else "POST"
-        log.append(f"ITEM {item.id} '{item.title}' {kind} keys={post.opinion_keys}")
+    out = react_to_items(
+        items,
+        persona=persona,
+        opinions=opinions,
+        knowledge_path=knowledge_path,
+        seen_ids=seen_ids,
+        recent_said=recent_said,
+        date=cfg.date,
+        engine=cfg.engine,
+        max_posts=max_posts,
+        slot_for=lambda index: ratelimit.slot_time(cfg.date, index, per_hour),
+    )
+    posts = out.posts
+    diary = out.diary
+    relevant_count = out.relevant_count
+    log.extend(out.log_lines)
 
     if not cfg.dry_state:
-        _apply_state(cfg, opinions, changes, reinforcements, pushbacks)
-        state.append_seen(memory_dir, seen_rows)
-        state.append_said(memory_dir, said_entries)
-        state.append_diary(memory_dir, cfg.date, cfg.engine.name, diary)
+        apply_engine_state(cfg.persona_dir, cfg.date, cfg.engine.name, opinions, out)
     else:
         log.append("STATE dry-run: persona/ untouched")
 
@@ -157,6 +130,98 @@ def run(cfg: RunConfig) -> RunResult:
     )
 
 
+def react_to_items(
+    items: list[NewsItem],
+    *,
+    persona,
+    opinions: dict[str, Opinion],
+    knowledge_path: Path,
+    seen_ids: set[str],
+    recent_said: list[SaidEntry],
+    date: str,
+    engine: PersonaEngine,
+    max_posts: int,
+    slot_for,
+) -> EngineOutput:
+    """The engine loop: dedupe, relevance, react, pace. No I/O sinks here.
+
+    ``slot_for(index)`` supplies the scheduled timestamp for the index-th
+    draft — fixture runs space within the run date, live runs continue after
+    whatever the queue already holds.
+    """
+    out = EngineOutput()
+    posted_keys: set[str] = set()
+
+    for item in items:
+        if item.id in seen_ids:
+            out.log_lines.append(f"ITEM {item.id} '{item.title}' SKIP already-seen")
+            continue
+        matched = relevance.match_topics(item, persona.topics)
+        out.seen_rows.append(
+            {
+                "id": item.id,
+                "url": item.url,
+                "title": item.title,
+                "date_seen": date,
+                "topics": matched,
+                "relevant": bool(matched),
+            }
+        )
+        if not matched:
+            out.log_lines.append(f"ITEM {item.id} '{item.title}' IRRELEVANT")
+            continue
+        out.relevant_count += 1
+
+        relevant_ops = _relevant_opinions(opinions, matched, item)
+        knowledge = state.knowledge_sections(knowledge_path, matched)
+        created = slot_for(len(out.posts))
+        reaction = engine.react(item, persona, relevant_ops, knowledge, recent_said, created)
+        if reaction.diary_note:
+            out.diary.append(reaction.diary_note)
+
+        if reaction.post is None:
+            out.log_lines.append(f"ITEM {item.id} '{item.title}' ABSTAIN")
+            out.changes.extend(reaction.opinion_changes)
+            continue
+
+        post = reaction.post
+        if len(out.posts) >= max_posts or any(k in posted_keys for k in post.opinion_keys):
+            out.diary.append(
+                f"Paced out: had a post for '{item.title}' but held it (rate/key limit)."
+            )
+            out.log_lines.append(f"ITEM {item.id} '{item.title}' PACED-OUT")
+            continue
+        if post.char_count > POST_CHAR_LIMIT:
+            LOGGER.warning("Post %s is %d chars (> %d)", post.id, post.char_count, POST_CHAR_LIMIT)
+            out.log_lines.append(f"ITEM {item.id} '{item.title}' WARN over-{POST_CHAR_LIMIT}-chars")
+
+        out.posts.append(post)
+        posted_keys.update(post.opinion_keys)
+        out.changes.extend(reaction.opinion_changes)
+        out.reinforcements.extend(reaction.reinforcements)
+        out.pushbacks.extend(reaction.pushbacks)
+        out.said_entries.append(_said_entry(date, post, relevant_ops, reaction))
+        kind = "CHANGED-MIND" if post.opinion_change else "POST"
+        out.log_lines.append(f"ITEM {item.id} '{item.title}' {kind} keys={post.opinion_keys}")
+
+    return out
+
+
+def apply_engine_state(
+    persona_dir: Path,
+    date: str,
+    engine_name: str,
+    opinions: dict[str, Opinion],
+    out: EngineOutput,
+) -> None:
+    """Write everything an engine pass changed back into persona/."""
+    memory_dir = persona_dir / "memory"
+    _apply_state(persona_dir, date, opinions, out.changes, out.reinforcements, out.pushbacks)
+    state.append_seen(memory_dir, out.seen_rows)
+    state.append_said(memory_dir, out.said_entries)
+    state.append_diary(memory_dir, date, engine_name, out.diary)
+
+
 def _relevant_opinions(
     opinions: dict[str, Opinion], matched_topics: list[str], item: NewsItem
 ) -> dict[str, Opinion]:
@@ -185,7 +250,8 @@ def _said_entry(date: str, post: DraftPost, opinions: dict[str, Opinion], reacti
 
 
 def _apply_state(
-    cfg: RunConfig,
+    persona_dir: Path,
+    date: str,
     opinions: dict[str, Opinion],
     changes: list[OpinionChange],
     reinforcements: list[str],
@@ -197,9 +263,9 @@ def _apply_state(
             LOGGER.warning("Opinion change for unknown key %r dropped", change.key)
             continue
         op.stance = change.new_stance
-        op.since = cfg.date
+        op.since = date
         op.basis = change.reason
-        op.history.append({"date": cfg.date, "stance": change.new_stance, "trigger": change.reason})
+        op.history.append({"date": date, "stance": change.new_stance, "trigger": change.reason})
     for key in reinforcements:
         op = opinions.get(key)
         if op is not None:
@@ -208,6 +274,6 @@ def _apply_state(
         op = opinions.get(push["key"])
         if op is not None:
             op.history.append(
-                {"date": cfg.date, "stance": op.stance, "trigger": f"pushed back: {push['reason']}"}
+                {"date": date, "stance": op.stance, "trigger": f"pushed back: {push['reason']}"}
             )
-    state.save_opinions(cfg.persona_dir / "opinions.toml", opinions)
+    state.save_opinions(persona_dir / "opinions.toml", opinions)

@@ -9,6 +9,7 @@ instances = ["mastodon.social"]  # policy + pacing targets (policies/<domain>.tx
 interval_minutes = 60
 cache_dir = ".cache/feeds"       # ETag/Last-Modified conditional GET cache
 article_body = false             # true = fetch + extract full article text
+write_artifacts = true           # legacy out/<date>/fetch-feed.{toml,html} debug copies
 
 [[feed]]
 name = "CleanTechnica"
@@ -19,7 +20,7 @@ name = "Canary Media"
 url = "https://www.canarymedia.com/rss"
 
 [replies]
-enabled = false                  # flips on in fetcher Phase F3
+enabled = true                   # fetcher Phase F3: draft replies to live mentions (read-only)
 interval_minutes = 15
 
 [engine]
@@ -27,6 +28,12 @@ name = "mockbot"                 # "openrouter" for real runs; mockbot stays the
 
 [moderation]
 engine = "mockmod"               # "openrouter" layers LLM judgment on top
+
+[rate_limit]
+posts_per_hour = 4               # ordinary-code app pacing cap
+
+[rate_limit.instances]
+"mastodon.social" = 4            # explicit per-instance cap; initialized from policy prose if needed
 
 [ui]
 host = "127.0.0.1"

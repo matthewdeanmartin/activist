@@ -28,6 +28,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_fetch(args)
     if args.command == "ui":
         return _cmd_ui(args)
+    if args.command == "poster":
+        return _cmd_poster(args)
     if args.command == "replies":
         return _cmd_replies(args)
     if args.command == "moderate":
@@ -60,17 +62,57 @@ def _build_parser() -> argparse.ArgumentParser:
     _add_instance_args(p_run)
 
     p_fetch = sub.add_parser(
-        "fetch", help="fetch live RSS feeds from activist.toml, digest, and dedupe"
+        "fetch",
+        help="full live chain: fetch RSS → engine → moderate → review queue (never publishes)",
     )
     p_fetch.add_argument("--config", type=Path, default=Path("activist.toml"))
     p_fetch.add_argument(
         "--dry-run",
         action="store_true",
-        help="report what's new without touching the cache, seen.jsonl, or the store",
+        help="preview the chain without touching the cache, persona/, the store, or out/",
+    )
+    p_fetch.add_argument(
+        "--engine", choices=["mockbot", "openrouter"], default=None, help="override config engine"
+    )
+    p_fetch.add_argument("--model", default=None, help="model id for openrouter")
+    p_fetch.add_argument(
+        "--replies",
+        dest="replies",
+        action="store_true",
+        default=None,
+        help="also draft replies to live Mastodon mentions (read-only). "
+        "Defaults to [replies].enabled in the config.",
+    )
+    p_fetch.add_argument(
+        "--no-replies",
+        dest="replies",
+        action="store_false",
+        help="skip the replies pass even if [replies].enabled is set",
+    )
+    p_fetch.add_argument(
+        "--only-replies",
+        action="store_true",
+        help="run only the replies pass, skipping the news fetch",
     )
 
     p_ui = sub.add_parser("ui", help="run the local review dashboard (read-only in U1)")
     p_ui.add_argument("--config", type=Path, default=Path("activist.toml"))
+
+    p_poster = sub.add_parser(
+        "poster",
+        help="publish due approved drafts (dry-run transport only until Phase P2)",
+    )
+    p_poster.add_argument("--config", type=Path, default=Path("activist.toml"))
+    p_poster.add_argument(
+        "--loop",
+        action="store_true",
+        help="keep running, ticking every poster.check_interval_minutes (default: one tick)",
+    )
+    p_poster.add_argument(
+        "--skip-verify",
+        action="store_true",
+        help="skip the read-only Mastodon token check before ticking",
+    )
 
     p_rep = sub.add_parser(
         "replies", help="draft replies to inbound mentions (simulated; consent gates in code)"
@@ -96,7 +138,10 @@ def _build_parser() -> argparse.ArgumentParser:
     p_mod.add_argument("feed_toml", type=Path)
     p_mod.add_argument("--persona", type=Path, default=Path("persona"), help="for the disclosure footer")
     p_mod.add_argument(
-        "--app-policy", type=Path, default=Path("docs/draft_governing_policy.md")
+        "--app-policy",
+        type=Path,
+        default=None,
+        help="override the packaged governing policy used by the moderator",
     )
     p_mod.add_argument("--policies-dir", type=Path, default=Path("policies"))
     p_mod.add_argument(
@@ -182,7 +227,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
 
 def _cmd_fetch(args: argparse.Namespace) -> int:
     from .config import ConfigError, load_config
-    from .fetch import fetch_news
+    from .fetch import run_news_chain
     from .store import Store
 
     try:
@@ -190,28 +235,94 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
     except ConfigError as exc:
         print(str(exc), file=sys.stderr)
         return 1
-    if not cfg.feeds:
+    if not cfg.feeds and not args.only_replies:
         print("no [[feed]] entries in config; nothing to fetch", file=sys.stderr)
         return 1
-    result = fetch_news(cfg, dry_run=args.dry_run)
+    if not (cfg.persona_dir / "persona.toml").is_file():
+        print(f"persona.toml not found in: {cfg.persona_dir}", file=sys.stderr)
+        return 1
+    engine = get_engine(args.engine or cfg.engine, model=args.model or cfg.model)
+    llm_moderator = None
+    if cfg.moderation_engine == "openrouter":
+        from .moderation.openrouter_mod import OpenRouterModerator
+
+        llm_moderator = OpenRouterModerator(model=args.model)
+    store = Store(cfg.db_path)
+
+    do_replies = cfg.replies_enabled if args.replies is None else args.replies
+    do_news = not args.only_replies
+    if args.only_replies:
+        do_replies = True
+
+    news_failed = False
+    if do_news:
+        result = run_news_chain(
+            cfg, engine, store, dry_run=args.dry_run, llm_moderator=llm_moderator
+        )
+        fetched = result.fetch
+        print(
+            f"{len(cfg.feeds)} feeds: {fetched.feeds_ok} fetched, "
+            f"{fetched.feeds_unchanged} unchanged (304), {fetched.feeds_failed} failed."
+        )
+        for outcome in fetched.outcomes:
+            if outcome.status == "failed":
+                print(f"  FAILED {outcome.name}: {outcome.detail}")
+        print(
+            f"{len(fetched.new_items)} new items ({fetched.seen_skipped} already seen) -> "
+            f"{len(result.posts)} drafts ({result.errors} error flags, {result.warns} warns)."
+        )
+        for post in result.posts:
+            kind = "CHANGED-MIND" if post.opinion_change else "POST"
+            print(f"  {post.id} [{kind}] slot {post.created} keys={post.opinion_keys}")
+        if args.dry_run:
+            print("(dry-run: cache, persona/, store, and out/ untouched)")
+        else:
+            print(
+                f"queued: {result.inserted} pending review"
+                + (f" ({result.duplicates} duplicates skipped)" if result.duplicates else "")
+            )
+        news_failed = fetched.feeds_failed >= len(cfg.feeds)
+
+    replies_failed = False
+    if do_replies:
+        replies_failed = _run_replies_pass(cfg, engine, store, args, llm_moderator)
+
+    if not args.dry_run:
+        counts = store.counts()
+        print(f"queue now: {counts['pending_review']} pending, {counts['approved']} approved")
+        print("review with: activist ui")
+    return 1 if (news_failed or replies_failed) else 0
+
+
+def _run_replies_pass(cfg, engine, store, args, llm_moderator) -> bool:
+    """Run the live replies chain; returns True on a hard failure (bad creds)."""
+    from .reply_fetch import CredentialsError, build_reader, run_reply_chain
+
+    reader = None
+    try:
+        reader = build_reader(cfg)
+    except CredentialsError as exc:
+        print(f"replies skipped — credentials: {exc}", file=sys.stderr)
+        return True
+    try:
+        rresult = run_reply_chain(
+            cfg, engine, store, reader=reader, dry_run=args.dry_run, llm_moderator=llm_moderator
+        )
+    except Exception as exc:  # network/API failure shouldn't crash the whole run
+        print(f"replies pass failed: {exc}", file=sys.stderr)
+        return True
+    finally:
+        if reader is not None:
+            reader.close()
     print(
-        f"{len(cfg.feeds)} feeds: {result.feeds_ok} fetched, "
-        f"{result.feeds_unchanged} unchanged (304), {result.feeds_failed} failed."
+        f"replies: {rresult.mentions_total} mentions -> {rresult.eligible} eligible, "
+        f"{rresult.gated} gated, {rresult.declined} declined, "
+        f"{rresult.inserted} reply drafts queued "
+        f"({rresult.errors} error flags, {rresult.warns} warns)."
     )
-    for outcome in result.outcomes:
-        if outcome.status == "failed":
-            print(f"  FAILED {outcome.name}: {outcome.detail}")
-    print(f"{len(result.new_items)} new items ({result.seen_skipped} already seen):")
-    for item in result.new_items:
-        topics = result.relevant_topics.get(item.id, [])
-        tag = f" [{', '.join(topics)}]" if topics else " [off-beat]"
-        print(f"  {item.id} {item.title}{tag}")
     if args.dry_run:
-        print("(dry-run: cache, seen.jsonl, and store untouched)")
-    else:
-        summary = f"{len(result.new_items)} new, {result.seen_skipped} seen, {result.feeds_failed} failed"
-        Store(cfg.db_path).log_event("-", "fetcher", "fetch", summary)
-    return 0 if result.feeds_failed < len(cfg.feeds) else 1
+        print("(dry-run: store, checkpoint, and persona/ untouched)")
+    return False
 
 
 def _cmd_ui(args: argparse.Namespace) -> int:
@@ -227,6 +338,61 @@ def _cmd_ui(args: argparse.Namespace) -> int:
     print(f"review queue: http://{cfg.ui_host}:{cfg.ui_port}/")
     app.run(host=cfg.ui_host, port=cfg.ui_port)
     return 0
+
+
+def _cmd_poster(args: argparse.Namespace) -> int:
+    from .config import ConfigError, load_config
+    from .poster import PosterLock, poster_loop, poster_tick
+    from .store import Store
+    from .transport import DryRunTransport
+
+    try:
+        cfg = load_config(args.config)
+    except ConfigError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    if cfg.poster_live:
+        print(
+            "poster.live=true, but live publishing is Phase P2 and not implemented. "
+            "Set it back to false; the dry-run transport is the only one that exists.",
+            file=sys.stderr,
+        )
+        return 1
+    if not args.skip_verify:
+        import httpx
+
+        from .mastodon_client import CredentialsError, MastodonCredentials, MastodonReader
+
+        reader = None
+        try:
+            reader = MastodonReader(MastodonCredentials.from_env(cfg.mastodon_id))
+            account = reader.verify_credentials()
+            print(f"token ok: @{account.get('acct', '?')} on {reader.creds.base_url}")
+        except (CredentialsError, httpx.HTTPError) as exc:
+            print(f"credential check failed: {exc}", file=sys.stderr)
+            return 1
+        finally:
+            if reader is not None:
+                reader.close()
+    transport = DryRunTransport(cfg.dryrun_log)
+    store = Store(cfg.db_path)
+    try:
+        with PosterLock(cfg.poster_lock):
+            if args.loop:
+                poster_loop(cfg, store, transport)
+                return 0
+            tick = poster_tick(cfg, store, transport)
+    except RuntimeError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    print(
+        f"{tick.due} due: {len(tick.published)} published ({transport.name}), "
+        f"{len(tick.failed)} failed, {tick.deferred_pacing} deferred by pacing, "
+        f"{tick.skipped_race} lost claim races."
+    )
+    if tick.published:
+        print(f"dry-run log: {cfg.dryrun_log}")
+    return 0 if not tick.failed else 1
 
 
 def _cmd_replies(args: argparse.Namespace) -> int:

@@ -8,7 +8,7 @@ dry-run transport. Read-only API calls (verify_credentials) are allowed now.
 
 ---
 
-## Phase P1 — Scheduler + dry-run transport
+## Phase P1 — Scheduler + dry-run transport ✅ implemented 2026-06-12
 
 Everything about the poster except actually posting. After this phase the
 full loop works end to end: fetch → review → approve → "published" rows,

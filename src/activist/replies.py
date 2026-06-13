@@ -64,11 +64,25 @@ def load_mentions(path: Path) -> list[Mention]:
     return mentions
 
 
+def _summoned(mention: Mention, persona: Persona) -> bool:
+    """Did this mention explicitly @-summon the persona?
+
+    Mastodon renders a mention of a *local* account as just ``@lowwatt`` in the
+    status HTML, dropping the domain, while the persona handle is the full
+    ``@lowwatt@instance``. Accept either form so a real local mention isn't
+    silently gated as "not summoned".
+    """
+    if persona.handle in mention.text:
+        return True
+    local = persona.handle.split("@")[1] if persona.handle.count("@") >= 2 else ""
+    return bool(local) and f"@{local}" in mention.text
+
+
 def consent_skip_reason(mention: Mention, persona: Persona, handled_ids: set[str]) -> str | None:
     """The governing policy's consent gates. None means the engine may draft."""
     if mention.id in handled_ids:
         return "already handled"
-    if persona.handle not in mention.text:
+    if not _summoned(mention, persona):
         return "did not summon the bot (no explicit @mention)"
     if "#nobot" in mention.author_bio.lower():
         return "author opted out (#nobot in bio)"

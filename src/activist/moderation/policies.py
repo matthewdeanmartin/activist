@@ -7,12 +7,24 @@ rate limiting is enforced by the scheduler, not judged by the moderator.
 from __future__ import annotations
 
 import logging
+from importlib import resources
 from pathlib import Path
 
 LOGGER = logging.getLogger(__name__)
 
 
-def load_app_policy(path: Path) -> str:
+def load_app_policy(path: Path | None = None) -> str:
+    """Load the app-level governing policy for moderation.
+
+    With no path, read the packaged default policy. A path remains available
+    for local experiments or tests that intentionally override the policy.
+    """
+    if path is None:
+        return (
+            resources.files("activist")
+            .joinpath("governing_policy.md")
+            .read_text(encoding="utf-8")
+        )
     if not path.is_file():
         LOGGER.warning("App policy not found: %s", path)
         return ""

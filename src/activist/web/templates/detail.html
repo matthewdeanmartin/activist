@@ -5,7 +5,11 @@
   {% with %}{% include "_card_meta.html" %}{% endwith %}
   {% if row.reply_to_author %}
     <div class="reply-strip">↩ replying to <strong>{{ row.reply_to_author }}</strong>:
-      “{{ row.reply_to_text }}”</div>
+      “{{ row.reply_to_text }}”
+      {% if row.visibility and row.visibility != "public" %}
+        <span class="visibility-badge {{ row.visibility }}">{{ row.visibility }}</span>
+      {% endif %}
+    </div>
   {% endif %}
   <div class="text">{{ row.text | urlize }}</div>
   {% if row.opinion_change %}
@@ -30,9 +34,53 @@
     created {{ row.created }}
     {% if row.opinion_keys %} · opinions: {{ row.opinion_keys | join(', ') }}{% endif %}
     {% if row.published_at %} · published {{ row.published_at }}{% endif %}
+    {% if row.published_url %} · <a href="{{ row.published_url }}">receipt</a>{% endif %}
     {% if row.rejected_reason %} · rejected: {{ row.rejected_reason }}{% endif %}
   </div>
 </div>
+{% if row.status in ('pending_review', 'approved', 'failed') %}
+<div class="card">
+  <div class="actions">
+    {% if row.status == 'pending_review' %}
+      <form method="post" action="{{ url_for('queue.act', content_id=row.id, action='approve') }}">
+        <button class="btn ok">approve → publish queue</button>
+      </form>
+      <form method="post" action="{{ url_for('queue.act', content_id=row.id, action='reject') }}">
+        <input name="reason" placeholder="reason (optional)">
+        <button class="btn danger">reject</button>
+      </form>
+    {% elif row.status == 'approved' %}
+      <form method="post" action="{{ url_for('queue.act', content_id=row.id, action='unapprove') }}">
+        <button class="btn">un-approve (back to review)</button>
+      </form>
+    {% elif row.status == 'failed' %}
+      <form method="post" action="{{ url_for('queue.act', content_id=row.id, action='retry') }}">
+        <button class="btn ok">retry (re-approve)</button>
+      </form>
+    {% endif %}
+  </div>
+  {% if row.status in ('pending_review', 'approved') %}
+  <form method="post" action="{{ url_for('queue.edit', content_id=row.id) }}" class="edit-form">
+    <textarea name="text" id="edit-text" rows="6">{{ row.text }}</textarea>
+    <div class="actions">
+      <span class="counter"><span id="char-count">{{ row.char_count }}</span>/500</span>
+      <button class="btn">save edit (re-moderates)</button>
+    </div>
+  </form>
+  <form method="post" action="{{ url_for('queue.recheck_llm', content_id=row.id) }}" class="recheck-form">
+    <button class="btn warn">re-check with LLM</button>
+  </form>
+  <script>
+    const area = document.getElementById('edit-text');
+    const counter = document.getElementById('char-count');
+    area.addEventListener('input', () => {
+      counter.textContent = area.value.length;
+      counter.style.color = area.value.length > 500 ? '#ff7a85' : '';
+    });
+  </script>
+  {% endif %}
+</div>
+{% endif %}
 {% if row.original_text %}
 <div class="card">
   <div class="meta"><span>original text (before human edits)</span></div>

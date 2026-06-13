@@ -20,6 +20,8 @@ def test_repo_sample_config_loads(repo_root: Path):
     assert cfg.mastodon_id == "TECH"
     assert cfg.feeds and all(f.url.startswith("https://") for f in cfg.feeds)
     assert cfg.poster_live is False  # the hard gate ships closed
+    assert cfg.rate_limit_posts_per_hour == 4
+    assert cfg.instance_rate_limits["mastodon.social"] == 4
 
 
 def test_defaults_from_empty_file(tmp_path: Path):
@@ -65,3 +67,26 @@ def test_invalid_toml(tmp_path: Path):
 def test_mastodon_id_uppercased(tmp_path: Path):
     cfg = load_config(write(tmp_path, '[identity]\nmastodon_id = "dmv"\n'))
     assert cfg.mastodon_id == "DMV"
+
+
+def test_explicit_rate_limit_config(tmp_path: Path):
+    cfg = load_config(
+        write(
+            tmp_path,
+            '[rate_limit]\nposts_per_hour = 2\n[rate_limit.instances]\n"mas.to" = 1\n',
+        )
+    )
+    assert cfg.rate_limit_posts_per_hour == 2
+    assert cfg.instance_rate_limits == {"mas.to": 1}
+
+
+def test_bad_rate_limit_rejected(tmp_path: Path):
+    with pytest.raises(ConfigError, match="rate_limit.posts_per_hour"):
+        load_config(write(tmp_path, "[rate_limit]\nposts_per_hour = 0\n"))
+
+
+def test_missing_explicit_path_rejected(tmp_path: Path):
+    with pytest.raises(ConfigError, match="paths.persona"):
+        load_config(write(tmp_path, '[paths]\npersona = "does-not-exist"\n'))
+    with pytest.raises(ConfigError, match="paths.app_policy"):
+        load_config(write(tmp_path, '[paths]\napp_policy = "missing-policy.md"\n'))

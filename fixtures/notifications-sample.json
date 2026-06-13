@@ -1,0 +1,78 @@
+[
+  {
+    "id": "440000004",
+    "type": "mention",
+    "created_at": "2026-06-12T14:40:00.000Z",
+    "account": {
+      "id": "1010",
+      "acct": "newsbot@bot.example",
+      "display_name": "Headlines Bot",
+      "bot": true,
+      "note": "<p>Automated headline feed.</p>"
+    },
+    "status": {
+      "id": "550000004",
+      "created_at": "2026-06-12T14:40:00.000Z",
+      "visibility": "public",
+      "content": "<p><span class=\"h-card\"><a href=\"https://example.invalid/@lowwatt\" class=\"u-url mention\">@<span>lowwatt</span></a></span> what do you make of heat pumps?</p>",
+      "account": { "id": "1010", "acct": "newsbot@bot.example" }
+    }
+  },
+  {
+    "id": "440000003",
+    "type": "mention",
+    "created_at": "2026-06-12T14:30:00.000Z",
+    "account": {
+      "id": "1009",
+      "acct": "privacyfan@mastodon.social",
+      "display_name": "Quiet One",
+      "bot": false,
+      "note": "<p>Boundaries matter. <a href=\"#\">#NoBot</a> please.</p>"
+    },
+    "status": {
+      "id": "550000003",
+      "created_at": "2026-06-12T14:30:00.000Z",
+      "visibility": "unlisted",
+      "content": "<p><span class=\"h-card\"><a href=\"https://example.invalid/@lowwatt\" class=\"u-url mention\">@<span>lowwatt</span></a></span> which heat pump should I get?</p>",
+      "account": { "id": "1009", "acct": "privacyfan@mastodon.social" }
+    }
+  },
+  {
+    "id": "440000002",
+    "type": "mention",
+    "created_at": "2026-06-12T14:20:00.000Z",
+    "account": {
+      "id": "1008",
+      "acct": "bystander@sfba.social",
+      "display_name": "Just Passing",
+      "bot": false,
+      "note": "<p>Cyclist. Cat person.</p>"
+    },
+    "status": {
+      "id": "550000002",
+      "created_at": "2026-06-12T14:20:00.000Z",
+      "visibility": "public",
+      "content": "<p>someone should ask lowwatt about cold-climate heat pumps</p>",
+      "account": { "id": "1008", "acct": "bystander@sfba.social" }
+    }
+  },
+  {
+    "id": "440000001",
+    "type": "mention",
+    "created_at": "2026-06-12T14:10:00.000Z",
+    "account": {
+      "id": "1007",
+      "acct": "solarfan@mastodon.social",
+      "display_name": "Solar Fan",
+      "bot": false,
+      "note": "<p>Rooftop solar enthusiast. Asks too many questions.</p>"
+    },
+    "status": {
+      "id": "550000001",
+      "created_at": "2026-06-12T14:10:00.000Z",
+      "visibility": "private",
+      "content": "<p><span class=\"h-card\"><a href=\"https://example.invalid/@lowwatt\" class=\"u-url mention\">@<span>lowwatt</span></a></span> which heat pump should I get?</p>",
+      "account": { "id": "1007", "acct": "solarfan@mastodon.social" }
+    }
+  }
+]

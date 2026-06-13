@@ -447,7 +447,7 @@ Steps when you're ready:
   ```
 
   Two layers. `MockModerator` (always runs): the code-enforceable content
-  rules from `docs/draft_governing_policy.md` — char limit, disclosure footer
+  rules from `src/activist/governing_policy.md` — char limit, disclosure footer
   present, source link present, hashtag bans, cold @-mentions,
   human-experience-claim regexes, unverified links in replies.
   `OpenRouterModerator` (`--engine openrouter`, layered on top): reads the

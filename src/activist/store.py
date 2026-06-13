@@ -65,6 +65,10 @@ class StaleStatus(StoreError):
     """Legal transition, but another process changed the row first (lost CAS)."""
 
 
+class NotEditable(StoreError):
+    """Text edits are only allowed while a human still controls the row."""
+
+
 @dataclass
 class ContentRow:
     id: str
@@ -75,6 +79,7 @@ class ContentRow:
     identity: str
     original_text: str | None = None
     scheduled_for: str | None = None
+    not_before: str = ""
     source_url: str = ""
     source_title: str = ""
     opinion_keys: list[str] = field(default_factory=list)
@@ -84,7 +89,9 @@ class ContentRow:
     in_reply_to_status_id: str = ""
     reply_to_author: str = ""
     reply_to_text: str = ""
+    visibility: str = ""  # reply audience, carried from the mention (F3); "" = config default
     mastodon_status_id: str = ""
+    published_url: str = ""
     published_at: str = ""
     rejected_reason: str = ""
     updated_at: str = ""
@@ -118,6 +125,7 @@ CREATE TABLE IF NOT EXISTS content (
   original_text TEXT,
   created TEXT NOT NULL,
   scheduled_for TEXT,
+  not_before TEXT DEFAULT '',
   source_url TEXT DEFAULT '',
   source_title TEXT DEFAULT '',
   opinion_keys TEXT DEFAULT '[]',
@@ -128,12 +136,13 @@ CREATE TABLE IF NOT EXISTS content (
   in_reply_to_status_id TEXT DEFAULT '',
   reply_to_author TEXT DEFAULT '',
   reply_to_text TEXT DEFAULT '',
+  visibility TEXT DEFAULT '',
   mastodon_status_id TEXT DEFAULT '',
+  published_url TEXT DEFAULT '',
   published_at TEXT DEFAULT '',
   rejected_reason TEXT DEFAULT '',
   updated_at TEXT NOT NULL
 );
-CREATE INDEX IF NOT EXISTS idx_content_status ON content(status, scheduled_for);
 CREATE TABLE IF NOT EXISTS event_log (
   ts TEXT NOT NULL,
   content_id TEXT NOT NULL,
@@ -141,16 +150,27 @@ CREATE TABLE IF NOT EXISTS event_log (
   action TEXT NOT NULL,
   detail TEXT DEFAULT ''
 );
-CREATE INDEX IF NOT EXISTS idx_event_content ON event_log(content_id, ts);
 CREATE TABLE IF NOT EXISTS kv (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
 """
 
+# Indexes run AFTER _migrate so they can reference columns (e.g. not_before)
+# that an older on-disk table only gains via ALTER during migration. Creating
+# them inside _SCHEMA would fail on a pre-existing DB, since IF NOT EXISTS keeps
+# the old table but the index would reference a column it doesn't have yet.
+_INDEXES = """
+CREATE INDEX IF NOT EXISTS idx_content_status ON content(status, scheduled_for);
+CREATE INDEX IF NOT EXISTS idx_content_identity_status_schedule
+  ON content(identity, status, scheduled_for, not_before);
+CREATE INDEX IF NOT EXISTS idx_content_status_created ON content(status, created);
+CREATE INDEX IF NOT EXISTS idx_event_content ON event_log(content_id, ts);
+"""
+
 
 def _now() -> str:
-    return dt.datetime.now().isoformat(timespec="seconds")
+    return dt.datetime.now(dt.UTC).isoformat(timespec="seconds")
 
 
 class Store:
@@ -162,6 +182,8 @@ class Store:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self._conn() as conn:
             conn.executescript(_SCHEMA)
+            self._migrate(conn)
+            conn.executescript(_INDEXES)
 
     @contextmanager
     def _conn(self) -> Iterator[sqlite3.Connection]:
@@ -177,26 +199,38 @@ class Store:
 
     # --- writes --------------------------------------------------------------
 
+    @staticmethod
+    def _migrate(conn: sqlite3.Connection) -> None:
+        columns = {
+            row["name"] for row in conn.execute("PRAGMA table_info(content)").fetchall()
+        }
+        if "published_url" not in columns:
+            conn.execute("ALTER TABLE content ADD COLUMN published_url TEXT DEFAULT ''")
+        if "not_before" not in columns:
+            conn.execute("ALTER TABLE content ADD COLUMN not_before TEXT DEFAULT ''")
+        if "visibility" not in columns:
+            conn.execute("ALTER TABLE content ADD COLUMN visibility TEXT DEFAULT ''")
+
     def add_pending(self, row: ContentRow, actor: str = "fetcher") -> None:
         row.status = PENDING
         row.updated_at = _now()
         with self._conn() as conn:
             conn.execute(
                 """INSERT INTO content (id, kind, status, text, original_text, created,
-                     scheduled_for, source_url, source_title, opinion_keys, opinion_change,
+                     scheduled_for, not_before, source_url, source_title, opinion_keys, opinion_change,
                      flags, engine, identity, in_reply_to_status_id, reply_to_author,
-                     reply_to_text, mastodon_status_id, published_at, rejected_reason,
-                     updated_at)
-                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                     reply_to_text, visibility, mastodon_status_id, published_url, published_at,
+                     rejected_reason, updated_at)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     row.id, row.kind, row.status, row.text, row.original_text,
-                    row.created, row.scheduled_for, row.source_url, row.source_title,
+                    row.created, row.scheduled_for, row.not_before, row.source_url, row.source_title,
                     json.dumps(row.opinion_keys),
                     json.dumps(row.opinion_change) if row.opinion_change else None,
                     json.dumps(row.flags), row.engine, row.identity,
                     row.in_reply_to_status_id, row.reply_to_author, row.reply_to_text,
-                    row.mastodon_status_id, row.published_at, row.rejected_reason,
-                    row.updated_at,
+                    row.visibility, row.mastodon_status_id, row.published_url, row.published_at,
+                    row.rejected_reason, row.updated_at,
                 ),
             )
             self._log(conn, row.id, actor, "created", f"kind={row.kind}")
@@ -214,10 +248,17 @@ class Store:
         if action is None:
             raise IllegalTransition(f"{from_status} -> {to_status} is not a legal transition")
         with self._conn() as conn:
-            cur = conn.execute(
-                "UPDATE content SET status=?, updated_at=? WHERE id=? AND status=?",
-                (to_status, _now(), content_id, from_status),
-            )
+            if to_status == REJECTED and detail:
+                cur = conn.execute(
+                    "UPDATE content SET status=?, rejected_reason=?, updated_at=? "
+                    "WHERE id=? AND status=?",
+                    (to_status, detail, _now(), content_id, from_status),
+                )
+            else:
+                cur = conn.execute(
+                    "UPDATE content SET status=?, updated_at=? WHERE id=? AND status=?",
+                    (to_status, _now(), content_id, from_status),
+                )
             if cur.rowcount == 0:
                 row = conn.execute(
                     "SELECT status FROM content WHERE id=?", (content_id,)
@@ -228,6 +269,106 @@ class Store:
                     f"{content_id}: expected {from_status}, found {row['status']}"
                 )
             self._log(conn, content_id, actor, action, detail)
+
+    def update_text(
+        self, content_id: str, new_text: str, flags: list[dict], actor: str = "human"
+    ) -> None:
+        """Human edit: replace text and flags, preserving the first original.
+
+        Only pending_review and approved rows are editable — published and
+        rejected are records of what happened, and publishing belongs to the
+        poster. The status guard is in the UPDATE itself so an edit can't race
+        a poster claim.
+        """
+        with self._conn() as conn:
+            cur = conn.execute(
+                """UPDATE content
+                   SET text=?, original_text=COALESCE(original_text, text),
+                       flags=?, updated_at=?
+                   WHERE id=? AND status IN (?, ?)""",
+                (new_text, json.dumps(flags), _now(), content_id, PENDING, APPROVED),
+            )
+            if cur.rowcount == 0:
+                row = conn.execute(
+                    "SELECT status FROM content WHERE id=?", (content_id,)
+                ).fetchone()
+                if row is None:
+                    raise UnknownContent(content_id)
+                raise NotEditable(f"{content_id} is {row['status']}; edits not allowed")
+            self._log(conn, content_id, actor, "edit", f"{len(new_text)} chars, {len(flags)} flags")
+
+    def update_flags(self, content_id: str, flags: list[dict], actor: str = "human") -> None:
+        """Replace moderation flags without changing text or original_text."""
+        with self._conn() as conn:
+            cur = conn.execute(
+                """UPDATE content
+                   SET flags=?, updated_at=?
+                   WHERE id=? AND status IN (?, ?)""",
+                (json.dumps(flags), _now(), content_id, PENDING, APPROVED),
+            )
+            if cur.rowcount == 0:
+                row = conn.execute(
+                    "SELECT status FROM content WHERE id=?", (content_id,)
+                ).fetchone()
+                if row is None:
+                    raise UnknownContent(content_id)
+                raise NotEditable(f"{content_id} is {row['status']}; re-check not allowed")
+            self._log(conn, content_id, actor, "recheck", f"{len(flags)} flags")
+
+    def release_for_backoff(
+        self, content_id: str, retry_after: str, actor: str = "poster", detail: str = ""
+    ) -> None:
+        """P2 support: publishing -> approved, but not due again until retry_after."""
+        with self._conn() as conn:
+            cur = conn.execute(
+                "UPDATE content SET status=?, not_before=?, updated_at=? "
+                "WHERE id=? AND status=?",
+                (APPROVED, retry_after, _now(), content_id, PUBLISHING),
+            )
+            if cur.rowcount == 0:
+                row = conn.execute(
+                    "SELECT status FROM content WHERE id=?", (content_id,)
+                ).fetchone()
+                if row is None:
+                    raise UnknownContent(content_id)
+                raise StaleStatus(f"{content_id}: expected {PUBLISHING}, found {row['status']}")
+            suffix = f" until {retry_after}"
+            self._log(conn, content_id, actor, "release", (detail + suffix).strip())
+
+    def mark_published(
+        self,
+        content_id: str,
+        status_id: str,
+        published_at: str,
+        published_url: str = "",
+        actor: str = "poster",
+    ) -> None:
+        """publishing → published with the receipt, atomically (CAS like transition)."""
+        with self._conn() as conn:
+            cur = conn.execute(
+                "UPDATE content SET status=?, mastodon_status_id=?, published_at=?, published_url=?, "
+                "updated_at=? WHERE id=? AND status=?",
+                (
+                    PUBLISHED,
+                    status_id,
+                    published_at,
+                    published_url,
+                    _now(),
+                    content_id,
+                    PUBLISHING,
+                ),
+            )
+            if cur.rowcount == 0:
+                row = conn.execute(
+                    "SELECT status FROM content WHERE id=?", (content_id,)
+                ).fetchone()
+                if row is None:
+                    raise UnknownContent(content_id)
+                raise StaleStatus(f"{content_id}: expected {PUBLISHING}, found {row['status']}")
+            detail = f"status_id={status_id}"
+            if published_url:
+                detail += f" url={published_url}"
+            self._log(conn, content_id, actor, "publish", detail)
 
     def set_kv(self, key: str, value: str) -> None:
         with self._conn() as conn:
@@ -292,6 +433,39 @@ class Store:
             return None
         return Event(row["ts"], row["content_id"], row["actor"], row["action"], row["detail"])
 
+    def due_approved(self, identity: str, now: str) -> list[ContentRow]:
+        """Approved rows whose slot has arrived, oldest slot first."""
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT * FROM content WHERE identity=? AND status=? AND scheduled_for<=? "
+                "AND (not_before='' OR not_before<=?) "
+                "ORDER BY scheduled_for, created",
+                (identity, APPROVED, now, now),
+            ).fetchall()
+        return [_row_to_content(r) for r in rows]
+
+    def last_published_at(self, identity: str) -> str | None:
+        """When this identity last actually published (the pacing backstop's clock)."""
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT MAX(published_at) m FROM content WHERE identity=? AND status=?",
+                (identity, PUBLISHED),
+            ).fetchone()
+        return row["m"] or None
+
+    def last_scheduled_for(self, identity: str) -> str | None:
+        """Latest occupied slot for an identity; new drafts continue after it.
+
+        Rejected and failed rows don't hold their slots.
+        """
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT MAX(scheduled_for) m FROM content "
+                "WHERE identity=? AND status IN (?, ?, ?, ?)",
+                (identity, PENDING, APPROVED, PUBLISHING, PUBLISHED),
+            ).fetchone()
+        return row["m"]
+
     def get_kv(self, key: str, default: str = "") -> str:
         with self._conn() as conn:
             row = conn.execute("SELECT value FROM kv WHERE key=?", (key,)).fetchone()
@@ -307,6 +481,7 @@ def _row_to_content(row: sqlite3.Row) -> ContentRow:
         original_text=row["original_text"],
         created=row["created"],
         scheduled_for=row["scheduled_for"],
+        not_before=row["not_before"],
         source_url=row["source_url"],
         source_title=row["source_title"],
         opinion_keys=json.loads(row["opinion_keys"] or "[]"),
@@ -317,7 +492,9 @@ def _row_to_content(row: sqlite3.Row) -> ContentRow:
         in_reply_to_status_id=row["in_reply_to_status_id"],
         reply_to_author=row["reply_to_author"],
         reply_to_text=row["reply_to_text"],
+        visibility=row["visibility"],
         mastodon_status_id=row["mastodon_status_id"],
+        published_url=row["published_url"],
         published_at=row["published_at"],
         rejected_reason=row["rejected_reason"],
         updated_at=row["updated_at"],
@@ -342,7 +519,10 @@ def row_from_draft(post: DraftPost, flags: list[Flag], identity: str) -> Content
         opinion_change=asdict(post.opinion_change) if post.opinion_change else None,
         flags=[asdict(f) for f in flags],
         engine=post.engine,
-        in_reply_to_status_id=post.reply_to_id,
+        # Thread on the real status id from the live API; fixtures (no status
+        # id) fall back to the mention id so the simulated path still threads.
+        in_reply_to_status_id=post.reply_to_status_id or post.reply_to_id,
         reply_to_author=post.reply_to_author,
         reply_to_text=post.reply_to_text,
+        visibility=post.visibility,
     )

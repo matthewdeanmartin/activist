@@ -153,8 +153,8 @@ def test_full_reply_run(workspace):
 
     # replies are paced like posts: 4/hour -> 15-minute slots
     assert [p["created"] for p in data["post"]] == [
-        "2026-06-11T09:00:00",
-        "2026-06-11T09:15:00",
+        "2026-06-11T09:00:00+00:00",
+        "2026-06-11T09:15:00+00:00",
     ]
 
     # memory: every non-skipped mention is recorded; gated+declined+replied
@@ -183,8 +183,8 @@ def test_instance_policy_tightens_reply_pacing(workspace):
     data = read_feed(result.replies_toml)
     assert data["run"]["posts_per_hour"] == 1
     assert [p["created"] for p in data["post"]] == [
-        "2026-06-11T09:00:00",
-        "2026-06-11T10:00:00",
+        "2026-06-11T09:00:00+00:00",
+        "2026-06-11T10:00:00+00:00",
     ]
 
 

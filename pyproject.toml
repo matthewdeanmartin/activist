@@ -113,6 +113,7 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.sdist]
 include = [
     "src/activist/**/*.py",
+    "src/activist/*.md",
     "src/activist/templates/*.tmpl",
     "src/activist/web/templates/*.html",
     "src/activist/web/static/*.css",
@@ -129,6 +130,7 @@ exclude = [
 packages = ["src/activist"]
 include = [
     "src/activist/**/*.py",
+    "src/activist/*.md",
     "src/activist/templates/*.tmpl",
     "src/activist/web/templates/*.html",
     "src/activist/web/static/*.css",
@@ -143,4 +145,3 @@ plugins = "pydantic.mypy"
 [tool.troml-dev-status]
 mode = "application"  # or "library"
 use_ai = true
-

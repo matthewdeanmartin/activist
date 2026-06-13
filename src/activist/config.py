@@ -31,6 +31,7 @@ class AppConfig:
     fetch_interval_minutes: int = 60
     cache_dir: Path = Path(".cache/feeds")
     fetch_article_body: bool = False
+    write_artifacts: bool = True  # legacy out/<date>/ debug artifacts per fetch
     # [[feed]]
     feeds: list[FeedConfig] = field(default_factory=list)
     # [replies]
@@ -41,6 +42,9 @@ class AppConfig:
     model: str | None = None
     # [moderation]
     moderation_engine: str = "mockmod"
+    # [rate_limit]
+    rate_limit_posts_per_hour: int | None = None
+    instance_rate_limits: dict[str, int] = field(default_factory=dict)
     # [ui]
     ui_host: str = "127.0.0.1"
     ui_port: int = 8765
@@ -52,6 +56,9 @@ class AppConfig:
     persona_dir: Path = Path("persona")
     out_dir: Path = Path("out")
     policies_dir: Path = Path("policies")
+    app_policy: Path | None = None
+    dryrun_log: Path = Path("data/published_dryrun.jsonl")
+    poster_lock: Path = Path("data/poster.lock")
 
 
 def load_config(path: Path) -> AppConfig:
@@ -74,6 +81,7 @@ def load_config(path: Path) -> AppConfig:
     )
     cfg.cache_dir = Path(fetch.get("cache_dir", cfg.cache_dir))
     cfg.fetch_article_body = bool(fetch.get("article_body", cfg.fetch_article_body))
+    cfg.write_artifacts = bool(fetch.get("write_artifacts", cfg.write_artifacts))
 
     for i, raw in enumerate(data.get("feed", [])):
         if "url" not in raw:
@@ -105,6 +113,19 @@ def load_config(path: Path) -> AppConfig:
             f"moderation.engine must be 'mockmod' or 'openrouter', got {cfg.moderation_engine!r}"
         )
 
+    rate_limit = data.get("rate_limit", {})
+    if "posts_per_hour" in rate_limit:
+        cfg.rate_limit_posts_per_hour = _positive_int(
+            rate_limit["posts_per_hour"], "rate_limit.posts_per_hour"
+        )
+    instance_limits = rate_limit.get("instances", {})
+    if not isinstance(instance_limits, dict):
+        raise ConfigError("rate_limit.instances must be a table of domain = posts_per_hour")
+    cfg.instance_rate_limits = {
+        str(domain): _positive_int(limit, f"rate_limit.instances.{domain}")
+        for domain, limit in instance_limits.items()
+    }
+
     ui = data.get("ui", {})
     cfg.ui_host = ui.get("host", cfg.ui_host)
     cfg.ui_port = _positive_int(ui.get("port", cfg.ui_port), "ui.port")
@@ -121,7 +142,21 @@ def load_config(path: Path) -> AppConfig:
     cfg.persona_dir = Path(paths.get("persona", cfg.persona_dir))
     cfg.out_dir = Path(paths.get("out", cfg.out_dir))
     cfg.policies_dir = Path(paths.get("policies", cfg.policies_dir))
+    if "app_policy" in paths:
+        cfg.app_policy = Path(paths["app_policy"])
+    cfg.dryrun_log = Path(paths.get("dryrun_log", cfg.dryrun_log))
+    cfg.poster_lock = Path(paths.get("poster_lock", cfg.poster_lock))
+    _validate_paths(cfg)
     return cfg
+
+
+def _validate_paths(cfg: AppConfig) -> None:
+    if not cfg.persona_dir.is_dir():
+        raise ConfigError(f"paths.persona must be an existing directory: {cfg.persona_dir}")
+    if not cfg.policies_dir.is_dir():
+        raise ConfigError(f"paths.policies must be an existing directory: {cfg.policies_dir}")
+    if cfg.app_policy is not None and not cfg.app_policy.is_file():
+        raise ConfigError(f"paths.app_policy must be an existing file: {cfg.app_policy}")
 
 
 def _positive_int(value: object, name: str) -> int:

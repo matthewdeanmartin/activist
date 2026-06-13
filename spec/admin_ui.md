@@ -63,7 +63,7 @@ and opinion changes appear, HTML-escaping of post text and source titles
 
 ---
 
-## Phase U2 — Actions: approve, reject, edit
+## Phase U2 — Actions: approve, reject, edit ✅ implemented 2026-06-12
 
 The actual human-in-the-loop. Plain HTML forms + POST/redirect — no JS
 framework; a sprinkle of vanilla JS at most (char counter).

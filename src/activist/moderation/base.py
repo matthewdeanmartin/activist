@@ -16,7 +16,7 @@ from ..models import Flag
 @dataclass
 class ModerationContext:
     disclosure: str  # the required footer, from persona.toml
-    app_policy: str  # text of docs/draft_governing_policy.md
+    app_policy: str  # text of packaged governing_policy.md, or an override
     instance_policies: dict[str, str] = field(default_factory=dict)  # domain -> policy text
 
 

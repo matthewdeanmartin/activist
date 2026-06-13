@@ -61,7 +61,7 @@ parallel-writer smoke test (two connections, WAL).
 
 ---
 
-## Phase F2 — News through the bot into the queue
+## Phase F2 — News through the bot into the queue ✅ implemented 2026-06-12
 
 ### Deliverables
 
@@ -96,7 +96,19 @@ two fetch runs.
 
 ---
 
-## Phase F3 — Replies fetcher
+## Phase F3 — Replies fetcher ✅ implemented 2026-06-12
+
+Live, read-only. `mastodon_client.MastodonReader` gained `notifications`,
+`get_account`, and `X-RateLimit-*` backoff; `notification_to_mention` maps API
+JSON to the `Mention` dataclass (HTML-stripped, `@ handle` artifact healed),
+carrying the real status id and visibility through `DraftPost` →
+`ContentRow.in_reply_to_status_id`/`visibility`. `reply_fetch.run_reply_chain`
+runs the same consent gates and `engine.reply` as the fixture path, checkpoints
+`since_id` in the store `kv` table (`mastodon:<ID>:notifications:since_id`),
+belt-and-suspenders dedups via `memory/mentions.jsonl`, and queues survivors as
+`pending_review` / `kind='reply'`. CLI: `activist fetch --replies` /
+`--only-replies` (defaults to `[replies].enabled`). The fixture path
+(`activist replies`) stays for offline tests.
 
 ### Deliverables
 

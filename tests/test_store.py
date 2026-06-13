@@ -62,8 +62,16 @@ def test_full_legal_lifecycle(store: Store):
     store.add_pending(make_row())
     store.transition("a3f9c1d20e77", PENDING, APPROVED, "human")
     store.transition("a3f9c1d20e77", APPROVED, PUBLISHING, "poster")
-    store.transition("a3f9c1d20e77", PUBLISHING, PUBLISHED, "poster")
-    assert store.get("a3f9c1d20e77").status == PUBLISHED
+    store.mark_published(
+        "a3f9c1d20e77",
+        "status-123",
+        "2026-06-11T10:00:00",
+        "https://mastodon.example/@bot/123",
+    )
+    row = store.get("a3f9c1d20e77")
+    assert row.status == PUBLISHED
+    assert row.mastodon_status_id == "status-123"
+    assert row.published_url == "https://mastodon.example/@bot/123"
     actions = [e.action for e in store.events("a3f9c1d20e77")]
     assert actions == ["created", "approve", "claim", "publish"]
 
@@ -105,6 +113,24 @@ def test_failed_retry_path(store: Store):
     assert store.get("a3f9c1d20e77").status == APPROVED
 
 
+def test_release_for_backoff_hides_until_not_before(store: Store):
+    store.add_pending(make_row(scheduled_for="2026-06-11T09:00:00+00:00"))
+    store.transition("a3f9c1d20e77", PENDING, APPROVED, "human")
+    store.transition("a3f9c1d20e77", APPROVED, PUBLISHING, "poster")
+    store.release_for_backoff(
+        "a3f9c1d20e77",
+        "2026-06-11T10:00:00+00:00",
+        detail="HTTP 429",
+    )
+    row = store.get("a3f9c1d20e77")
+    assert row.status == APPROVED
+    assert row.not_before == "2026-06-11T10:00:00+00:00"
+    assert store.due_approved("TECH", "2026-06-11T09:30:00+00:00") == []
+    assert [r.id for r in store.due_approved("TECH", "2026-06-11T10:00:00+00:00")] == [
+        "a3f9c1d20e77"
+    ]
+
+
 def test_counts_and_listing(store: Store):
     store.add_pending(make_row(id="one"))
     store.add_pending(make_row(id="two"))
@@ -136,6 +162,16 @@ def test_kv_roundtrip(store: Store):
     store.set_kv("since_id", "123")
     store.set_kv("since_id", "456")
     assert store.get_kv("since_id") == "456"
+
+
+def test_update_flags_does_not_preserve_original(store: Store):
+    store.add_pending(make_row(flags=[]))
+    flags = [{"severity": "warn", "policy": "app", "rule": "llm", "detail": "check"}]
+    store.update_flags("a3f9c1d20e77", flags)
+    row = store.get("a3f9c1d20e77")
+    assert row.flags == flags
+    assert row.original_text is None
+    assert any(e.action == "recheck" for e in store.events("a3f9c1d20e77"))
 
 
 def test_row_from_draft_maps_reply_fields():

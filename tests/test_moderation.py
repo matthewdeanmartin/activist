@@ -124,7 +124,7 @@ def test_missing_instance_policy_raises():
 
 
 def test_app_policy_loads():
-    assert "Human Oversight" in load_app_policy(REPO_ROOT / "docs" / "draft_governing_policy.md")
+    assert "Human Oversight" in load_app_policy()
 
 
 # --- feed round-trip ----------------------------------------------------------

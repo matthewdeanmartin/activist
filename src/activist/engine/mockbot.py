@@ -111,6 +111,8 @@ class MockBot:
             reply_to_id=mention.id,
             reply_to_author=mention.author,
             reply_to_text=mention.text,
+            reply_to_status_id=mention.status_id,
+            visibility=mention.visibility,
         )
         return Reaction(
             post=post,

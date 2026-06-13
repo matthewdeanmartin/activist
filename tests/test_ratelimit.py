@@ -38,6 +38,7 @@ def test_real_instance_policies_parse():
 def test_effective_limit_is_strictest():
     assert effective_hourly_limit(4, {}) == 4
     assert effective_hourly_limit(4, {"strict.example": "one post per hour"}) == 1
+    assert effective_hourly_limit(4, {}, {"strict.example": 2}) == 2
     assert effective_hourly_limit(2, {"loose.example": "6 posts per hour"}) == 2
     assert effective_hourly_limit(4, {"silent.example": "no rate language"}) == 4
     # never below 1, even with nonsense input
@@ -47,22 +48,22 @@ def test_effective_limit_is_strictest():
 def test_slot_times_at_app_pacing():
     # 4/hour -> 15-minute spacing from 09:00
     assert assign_slots(5, "2026-06-11", 4) == [
-        "2026-06-11T09:00:00",
-        "2026-06-11T09:15:00",
-        "2026-06-11T09:30:00",
-        "2026-06-11T09:45:00",
-        "2026-06-11T10:00:00",
+        "2026-06-11T09:00:00+00:00",
+        "2026-06-11T09:15:00+00:00",
+        "2026-06-11T09:30:00+00:00",
+        "2026-06-11T09:45:00+00:00",
+        "2026-06-11T10:00:00+00:00",
     ]
 
 
 def test_slot_times_at_strict_instance_pacing():
     # 1/hour -> hourly spacing
     assert assign_slots(3, "2026-06-11", 1) == [
-        "2026-06-11T09:00:00",
-        "2026-06-11T10:00:00",
-        "2026-06-11T11:00:00",
+        "2026-06-11T09:00:00+00:00",
+        "2026-06-11T10:00:00+00:00",
+        "2026-06-11T11:00:00+00:00",
     ]
 
 
 def test_slot_time_floors_interval_at_one_minute():
-    assert slot_time("2026-06-11", 1, 120) == "2026-06-11T09:01:00"
+    assert slot_time("2026-06-11", 1, 120) == "2026-06-11T09:01:00+00:00"
