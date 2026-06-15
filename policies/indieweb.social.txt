@@ -1,0 +1,21 @@
+=== POLICY REPORT:  Indieweb.Social  (indieweb.social) ===
+
+## SERVER RULES
+- Be Respectful
+- No Inauthentic Behaviour
+- No Hate Speech
+- No Abuse, Harassment or Violence
+- No Adult Content
+- No Illegal Content
+- No Misinformation/Fake News
+- No Trolling or Bullying
+
+## ABOUT / DESCRIPTION
+INDIEWEB.SOCIAL is an instance focused on the evolution of #Openweb, #Indieweb, #Fediverse, #Humanetech and #Calm technologies.
+Active since February, 2019.
+We are committed to the
+Mastodon Server Covenant.
+Please consider
+supporting our Patreon here.
+
+## CONTACT: indiewebsocial@gmail.com

@@ -1,0 +1,29 @@
+=== POLICY REPORT: Noc.Social (noc.social) ===
+
+## ABOUT / DESCRIPTION
+Welcome to noc.social.
+An open source, social network (Mastodon). Focused on technology, networking, linux, system administration, software development, privacy and security / infosec - but open to everyone. Our goal is to have a civil discourse, being polite to each other and respectful. Managed by the noc.org / trunc.org team.
+Good hangout place for sysadmins, engineers, or tech people in general.
+You can search for accounts to follow here:
+https://search.noc.social/
+What is Mastodon / fediverse?
+A safe, reliable and distributed open source social network. It uses Mastodon and you can chat with thousands of people that also part of other Mastodon networks (think of email).
+If you are getting started, you can search for accounts to follow and engage here:
+https://search.noc.social/
+Code of Conduct
+We are a nice community of techies, sharing and helping each other. You are welcome to join! Basic rules:
+Be Polite
+Be Respectful - even if you disagree.
+And everything will be fine.
+Content not allowed
+Any illegal content (doxing, leaking private information, under age content, etc)
+Adult (pornography) content
+Spam
+Racism or any other form of hate speech
+Threats of Physical violence against any person, animal or institution.
+Accounts breaking those rules will be banned without a warning.
+About the Operators
+Daniel (@dcid) and Tony (@tony) have been working in tech since 2000. Daniel is a prolific builder, the Founder of OSSEC, Sucuri, CleanBrowsing, Trunc and NOC. Tony has been his partner for the past 12 years, and is the Founder of CubicTwo, Sucuri, CleanBrowsing, Trunc and NOC.
+Together we have been building large networks to support millions of applications and users around the world for a long time. We stood up the noc.social instance because we hate how closed the web is becoming and love this idea of a decentralized ecosystem.
+
+## CONTACT: dcid@noc.org

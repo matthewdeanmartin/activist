@@ -1,0 +1,86 @@
+=== POLICY REPORT: The Blower (theblower.au) ===
+
+## SERVER RULES
+- Bot accounts must comply with the eligibility rules
+- Brands are not allowed
+- All users must comply with the Code of Conduct
+- No harassment or bullying allowed
+- No adult 18+ images allowed
+- No sexualised or suggestive images of children allowed
+
+## ABOUT / DESCRIPTION
+Follow
+@geton@theblower.au
+for server news, status updates, planned downtimes, etc. DM is currently the preferred method of communication with the staff.
+Please read our
+privacy policy
+.
+If you're able and willing to support us financially, all the ways you can do so are here:
+chinwag.au/theblower
+Eligibility
+You must be aged 13 years or older to register for an account. We do not require you to use any particular language whilst using the service.
+Brands
+The Blower is a community, not a billboard or a bullhorn. As such, we do not allow brands to register accounts. Brands are invited to join another instance or create their own – try
+brands.town
+. Use these guidelines for what we consider a Brand:
+If you are a for-profit business, you are a brand
+If you are a political party, you are a brand
+If you are unsure whether you are a brand, please email
+admin@theblower.au
+to sort it out before registering.
+Bot accounts
+Bot accounts (i.e., those with automated posting) are permitted on The Blower under these additional conditions:
+Post privacy must be set to "unlisted", "followers only" , or "direct"
+The “This is a bot account” checkbox must be set in the profile.
+The account must identify the bot owner in the bio.
+Bots must not interact with (mention) other accounts unless those accounts have interacted with the bot first.
+We reserve the right to refuse or revoke any user's access permissions, at any time, for any reason, except as limited by law.
+User Code of Conduct (Rules)
+The following types of content will be removed, and will result in account suspension and revocation of access to the service:
+Registering accounts with inherently malicious intent.
+Unauthorised distribution of any personal information or data (DOXing).
+Impersonation: You may not impersonate individuals, groups, or organisations in a manner that is intended to or does mislead, confuse, or deceive others. While you may maintain parody, fan, commentary accounts, you may not do so if the intent of the account is to engage in spamming or abusive behaviour. (Parody accounts must be labelled as such in the bio).
+Nude or pornographic images, or other content that would be considered "18+" or "adult" by a reasonable person under Australian law
+Any conduct intended to incite other users to perform any of the aforementioned actions, is also disallowed.
+Racism or advocacy of racism.
+Queerphobia, or advocacy of queerphobia (comparisons to paedophilia, animals, dehumanising language)
+Sexism or advocacy of sexism.
+Anti-sex worker perspectives or advocation against sex workers.
+Discrimination or advocation against genders and sexual minorities.
+Homophobia, Biphobia & Transphobia (Trans Rights are Human Rights).
+Ableism, fatphobia or discrimination against disabled people.
+Xenophobia and/or violent nationalism.
+Gore and extremely graphic violence, including artistic depictions.
+Promotion or encouragement of suicide or self-harm.
+Stalking; including advocating any physical, sexual, or emotional harm against individuals or groups.
+Harassment of any kind, including consistent baiting, bad faith gaslighting, unwanted sexual advances, etc. especially towards marginalised groups.
+Promotion of scams, including web3/crypto and other ponzi schemes.
+The following types of content are explicitly disallowed and will result in revocation of access to the service:
+Conduct promoting the ideology of National Socialism (Seriously. Absolutely no Nazis!).
+Holocaust denial or Nazi symbolism, or similar content illegal in the state of Victoria, Germany, Switzerland and/or France.
+Violence: You may not make specific threats of violence or wish for the serious physical harm, death, or disease of an individual or group of people. This includes, but is not limited to, threatening or promoting terrorism. You also may not affiliate with organisations that — whether by their own statements or activity both on and off the platform — use or promote violence against civilians to further their causes.
+Child exploitation: You may not post (or promote) suggestive depictions of children in any way (regardless of context). Example: No bath photos
+Content Warning (CW) Guidelines
+We encourage the use of Content Warnings (aka Content Wrappers, aka Summaries, aka Topics, aka Subject lines, hereafter CWs) on your posts. CWs are a courtesy to your readers and other members of The Blower community. CWs are not self-censorship: they do not suppress the indexing of posts, only their initial visibility.
+The Blower believes that CWs are an important tool to support people's self-autonomy, but they can also be used for expression and creativity.
+CWs are not expected on posts made by marginalised people about their own marginalisation, though authors may choose to do so.
+Safety and Moderation
+We strive to be a welcoming, and safe instance. Mastodon has safety features such as word/hashtag filtering to limit visibility to unwanted content, and we encourage the use of  block/muting other accounts rather than engaging in vitriolic arguments. Please make use of the ability to report accounts that break the rules.
+Please report users who break following the code of conduct, but please do not message people on behalf of the moderation team. Instead, you can scroll on, block, mute, or report to let moderators deal with it.
+We will
+not act
+on complaints regarding:
+Criticising racist, sexist, or otherwise oppressive behaviour or assumptions.
+Good faith and non-malicious conduct whose object is to ameliorate (improve) the conditions of disadvantaged individuals or groups.
+Reasonable communication of boundaries, such as “leave me alone,” “go away,” or “I’m not discussing this with you”.
+Swearing or profanity.
+The Blower is one of many Fediverse communities, each with their own rules, moderation, and ethos. You are able to move servers in the future without losing your followers if this instance turns out to not be the best place for you.
+Image Credits
+Red Telephone by
+Julieta Lach Julie
+from Pixabay
+Vintage Phone by
+Alexa
+from Pixabay
+
+## CONTACT: support@theblower.au

@@ -1,0 +1,40 @@
+=== POLICY REPORT: IOC.exchange (ioc.exchange) ===
+
+## SERVER RULES
+- Be Nice!
+- Mark sensitive content with a content warning.
+- No Spam and No Advertisement. (Promoting your own work is fine.)
+- No Hate Speech!
+
+## ABOUT / DESCRIPTION
+Welcome to INDICATORS OF COMPROMISE (IOC)!
+We are a community of InfoSec professionals, hackers and tinkerers. Feel free to join and hang out!
+If you find any vulnerabilities, please report them to the admin (
+@jerry@infosec.exchange
+).
+For moderation requests please contact our moderator
+@tellyworth@ioc.exchange
+.
+Hosting
+Instance is hosted in Germany - Local Laws apply!
+Servers are hosted at Hetzner and hosting costs are around $300/month.
+Media files are hosted in Backblaze and the costs are around $50/month. So in total our running costs are about $350/month. Please consider contributing through our
+crowdfunding page
+.
+Warrant Canary sunset
+IOC[.]exchange has never turned over our encryption or authentication keys or our customers' encryption or authentication keys to anyone.
+IOC[.]exchange has never installed any law enforcement software on our systems.
+IOC[.]exchange has never provided any law enforcement organization a feed of our customers' content.
+IOC[.]exchange has never provided logs to any law enforcement organization.
+IOC[.]exchange has never modified customer content at the request of law enforcement or another third party.
+IOC[.]exchange has never weakened, compromised, or subverted any of its encryption at the request of law enforcement or another third party.
+This warrant canary will be removed since it’s not been actively updated. No, there has not been any change and it’s incredibly unlikely that will ever change.
+Privacy
+No matter what nationality you are, we happily remove your personal data from this instance - Just ask the admin!
+Please also refer to our
+Privacy Policy
+.
+Site usage by Children
+Our site, products and services are all directed to people who are at least 16 years old. If you are under the age of 16, per the requirements of COPPA (Children's Online Privacy Protection Act) do not use this site.
+
+## CONTACT: jerry@infosec.exchange

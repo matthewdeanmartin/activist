@@ -26,6 +26,16 @@ async def main():
 
     parser.add_argument("--version", action="store_true", help="Show version info")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable DEBUG logging")
+    parser.add_argument(
+        "--no-offsite",
+        action="store_true",
+        help="Disable fetching off-site Terms/Privacy/Rules pages for thin reports",
+    )
+    parser.add_argument(
+        "--no-llm",
+        action="store_true",
+        help="Disable the 'llm' CLI fallback for disambiguating off-site policy links",
+    )
 
     args = parser.parse_args()
 
@@ -38,6 +48,8 @@ async def main():
 
     # Default storage directory
     policy_dir = Path("policies")
+    offsite = not args.no_offsite
+    llm_enabled = not args.no_llm
 
     try:
         if args.cached:
@@ -50,7 +62,9 @@ async def main():
                 sys.exit(1)
 
         elif args.fetch:
-            content = await fetcher.fetch_policy(args.fetch, policy_dir)
+            content = await fetcher.fetch_policy(
+                args.fetch, policy_dir, offsite=offsite, llm=llm_enabled
+            )
             print(f"--- Policy for {args.fetch} ---")
             print(content[:200] + "...")
             logger.info("Fetch complete.")
@@ -64,7 +78,7 @@ async def main():
             raw_content = args.server_list.read_text(encoding="utf-8")
             domains = [line.strip() for line in raw_content.splitlines() if line.strip()]
 
-            await fetcher.fetch_many(domains, policy_dir)
+            await fetcher.fetch_many(domains, policy_dir, offsite=offsite, llm=llm_enabled)
             logger.info("Batch processing complete.")
 
         else:

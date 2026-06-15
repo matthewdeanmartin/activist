@@ -1,0 +1,28 @@
+=== POLICY REPORT: Mastodon @ SDF (mastodon.sdf.org) ===
+
+## SERVER RULES
+- This server abides by the Mastodon Covenant 
+- Organizations are welcome to engage with the community in a non-commercial, non-advertising manner.
+- Artists, musicians, writers and artisans are welcome to engage with the community regarding their craft.
+- Do not engage in harassment, hateful content or posts of a derogatory nature.
+- Do not make advertising posts for the sake of purely promoting a commercial product or service.
+- Content originating from this site may not be used for machine training or other data mining activities without the individual author's consent.
+
+## ABOUT / DESCRIPTION
+https://mastodon.sdf.org
+is a an open and federated instance.
+It began life as a StatusNet instance in 2010 and was converted to Mastodon in May 2017.
+Daily maintenance window is from 0500 - 0700 UTC.  During this time the instance
+may be
+unavailable.  In the event that there is extended maintenance, please see
+https://mastodon.sdf.org/status.html
+for details as well as history.
+We host a daily VoIP chat/improv on (929)299-1269 0200 UTC
+A few of our members are artists/DJs and have shows on
+https://aNONradio.net
+OpenMIC is open to all daily between 0300-0600 UTC
+We host a weekly Amateur Radio NET Mondays at 0000 UTC echolink TECHLINK node 9229
+Are you fun and creative? Join us!
+Use of the word "Mastodon" has been explicitly granted to SDF by Mastodon gGmbH
+
+## CONTACT: mastodon@mastodon.sdf.org

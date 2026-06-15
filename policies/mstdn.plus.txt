@@ -1,0 +1,58 @@
+=== POLICY REPORT: MSTDN+ (mstdn.plus) ===
+
+## SERVER RULES
+- Usage prohibited in regions requiring age verification
+- Nudity and sexually explicit content is prohibited for accounts registered on this instance
+- Violent media must be marked as sensitive when posting
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism
+- No incitement of violence or promotion of violent ideologies
+- No harassment, dogpiling or doxxing of other users
+- No content illegal in the United States, Germany, or Finland
+- Do not share intentionally false or misleading information
+- Bots must be marked as bots in their profile preferences, and automated posts should be unlisted.
+- You must select the appropriate language for each post.
+- Do not spam or abuse network features.
+- Please read https://mpp.bus-hit.me for moderation information and best practices.
+
+## ABOUT / DESCRIPTION
+MSTDN+
+is a general-purpose instance open to everyone!
+We're well-federated and aim to be a good neighbour on the fediverse.
+IMPORTANT:
+NSFW content is
+not
+permitted for accounts on this instance. Please register on
+mstdn.party
+instead.
+New to Mastodon?
+We have a guide
+here
+to get you started!
+New accounts are actively monitored by staff. We ask you not to register accounts across multiple instances in quick succession; if you want to learn more about this instance, feel free to ask us.
+Moderation.
+We abide by the standard set of rules (
+here
+in detail) and apply common federation blocks.
+Status updates
+are available at
+status.fediverse.us
+.
+Donations
+This instance is generously supported by
+our contributors
+, if you use this instance to interact with the Mastodon network please
+make a monthly contribution on Open Collective
+, all support is immensely helpful!
+Legal
+MSTDN+
+is operated by
+Fediverse Communications LLC
+, a Minnesota (USA) company. All content on this server is expected to be legal in Minnesota and the United States of America. If you have any copyright, trademark, legal concerns, please email us directly.
+DMCA Complaints
+: dmca@fediverse.us
+Trademark Complaints
+: trademark@fediverse.us
+Abuse Complaints
+: abuse@fediverse.us
+
+## CONTACT: jonah@fediverse.us

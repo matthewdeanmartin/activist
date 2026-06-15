@@ -1,0 +1,20 @@
+=== POLICY REPORT: Cyberplace (cyberplace.social) ===
+
+## SERVER RULES
+- No discrimination -- including racism, sexism, homophobia or transphobia.
+- No incitement of violence or promotion of violent ideologies.
+- No impersonation of a person or brand.  Even parodies.
+- Spam. Don't join if you just want to spam links to things you represent.
+- No attacking or pentesting of this instance, or any other instance.
+- Each username on here should be a person, not a brand or corporation - and that person must be you, no impersonation.
+- Do not join to primarily publicise or promote 'red team' tools.
+- No porn or nudity.
+- No posting identifiable personal information from data breaches.
+- You cannot join if you are under 18 years old. 
+
+## ABOUT / DESCRIPTION
+Life from the trenches.  Cybersecurity, fandom, video games, technology, dog photos and most importantly, you.
+Federated with other Fediverse servers, this server is monitored 24/7 and backed up daily.  We fully subscribe to and comply with the Mastodon Server Covenant.
+The intention is to have light touch moderation and empower you to bring yourself to the table and interact.
+
+## CONTACT: cyber@cyberplace.social

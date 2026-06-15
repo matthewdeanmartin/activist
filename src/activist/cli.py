@@ -113,6 +113,12 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="skip the read-only Mastodon token check before ticking",
     )
+    p_poster.add_argument(
+        "--live",
+        action="store_true",
+        help="publish for real (third part of the gate; also needs [poster].live=true "
+        "and ACTIVIST_LIVE=1). Without all three, the dry-run transport is used.",
+    )
 
     p_rep = sub.add_parser(
         "replies", help="draft replies to inbound mentions (simulated; consent gates in code)"
@@ -341,23 +347,30 @@ def _cmd_ui(args: argparse.Namespace) -> int:
 
 
 def _cmd_poster(args: argparse.Namespace) -> int:
+    import os
+
     from .config import ConfigError, load_config
     from .poster import PosterLock, poster_loop, poster_tick
     from .store import Store
-    from .transport import DryRunTransport
+    from .transport import DryRunTransport, MastodonTransport, PublishGateError
 
     try:
         cfg = load_config(args.config)
     except ConfigError as exc:
         print(str(exc), file=sys.stderr)
         return 1
-    if cfg.poster_live:
+
+    # The triple gate (spec/poster_service.md P2): config flag + env var + CLI
+    # flag. All three required, or we fall back to dry-run with a loud reason.
+    env_live = os.environ.get("ACTIVIST_LIVE") == "1"
+    want_live = bool(cfg.poster_live and env_live and args.live)
+    if (cfg.poster_live or args.live) and not want_live:
         print(
-            "poster.live=true, but live publishing is Phase P2 and not implemented. "
-            "Set it back to false; the dry-run transport is the only one that exists.",
+            "live publishing requested but the gate is not fully open: "
+            f"[poster].live={cfg.poster_live}, ACTIVIST_LIVE={'1' if env_live else 'unset'}, "
+            f"--live={args.live}. Falling back to dry-run.",
             file=sys.stderr,
         )
-        return 1
     if not args.skip_verify:
         import httpx
 
@@ -374,7 +387,23 @@ def _cmd_poster(args: argparse.Namespace) -> int:
         finally:
             if reader is not None:
                 reader.close()
-    transport = DryRunTransport(cfg.dryrun_log)
+    transport: object
+    if want_live:
+        from .mastodon_client import CredentialsError, MastodonCredentials
+
+        try:
+            transport = MastodonTransport(
+                MastodonCredentials.from_env(cfg.mastodon_id),
+                default_visibility=cfg.default_visibility,
+                live_flag=args.live,
+                config_live=cfg.poster_live,
+            )
+        except (CredentialsError, PublishGateError) as exc:
+            print(f"cannot start live transport: {exc}", file=sys.stderr)
+            return 1
+        print("LIVE transport: publishing to the real instance.")
+    else:
+        transport = DryRunTransport(cfg.dryrun_log)
     store = Store(cfg.db_path)
     try:
         with PosterLock(cfg.poster_lock):

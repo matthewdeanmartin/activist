@@ -42,3 +42,6 @@ port = 8765
 [poster]
 live = false                     # HARD GATE — see spec/poster_service.md Phase P2
 check_interval_minutes = 5
+default_visibility = "unlisted"  # audience for top-level posts (replies carry the
+                                 # mention's visibility). "unlisted" is the safe
+                                 # soft-launch default many instances require for bots.

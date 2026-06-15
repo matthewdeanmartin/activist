@@ -1,0 +1,58 @@
+=== POLICY REPORT: Mastodon.green (mastodon.green) ===
+
+## SERVER RULES
+- Try 30-days for free, only 1,50 € (+VAT) per month after. No algorithms or ads to waste your time. We use 20 % of membership fees to plant trees. Change your plan or cancel at any time
+- Please abide by the community standards
+- You can use any official EU language, Icelandic and Norwegian on this server
+- No sexually explicit images or video
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism
+- No incitement of violence or promotion of violent ideologies
+- No harassment, dogpiling or doxxing of other users
+- No false or misleading information
+
+## ABOUT / DESCRIPTION
+Mastodon.green
+Plant trees while you use Mastodon
+Mastodon.green is a worldwide general-purpose server
+It's hosted in the EU and running on renewable energy
+If you want to stay longer than a month you need to get a
+membership
+Trees
+20 % of the membership fees goes towards planting trees. You can see how many we've planted in the
+tree counter
+. More details can be found in our
+tree reports
+.
+GreenFedi
+Mastodon.green is part of the GreenFedi community. You can find our blog, FAQ and help pages on the
+community website
+.
+Community guidelines
+You can post almost anything you want, but not everything. We expect you to abide by the
+community guidelines
+.
+Good to know
+We don’t allow nudity
+We have a language policy
+Our guidelines apply to all content, including content arriving from remote servers.
+The following languages are allowed
+Bulgarian, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, German, Greek, Hungarian, Icelandic, Irish, Italian, Latvian, Lithuanian, Maltese, Norwegian, Polish, Portuguese, Romanian, Slovak, Slovene, Spanish and Swedish.
+Getting started
+Here's a
+a guide to mastodon
+, it's written by
+@feditips@mstdn.social
+.
+Operated by Albin Social
+The server is operated by Johan Empa's company named Albin Social.
+Impressum
+Johan Sundström
+c/o Postﬂex #442
+Emsdettener Straße 10
+48268 Greven
+Keine Pakete oder Päckchen – Annahme wird verweigert
+Johan ‘Empa’ Sundström – Albin Social
+E-Mail-Adresse: hello@albinsocial.com
+Mastodon username: @JohanEmpa@mastodon.green
+
+## CONTACT: hello@albinsocial.com

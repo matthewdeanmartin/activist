@@ -1,0 +1,52 @@
+=== POLICY REPORT: Glasgow.social (glasgow.social) ===
+
+## SERVER RULES
+- No discrimination, including (but not limited to) racism, sexism, homophobia or transphobia.
+- No explicit (NSFW) content without content warnings and/or sensitive media markers. Explicit content must not be used in user avatars or header images.
+- No harassment of other users on this or other servers.
+- No content illegal in the following countries: United Kingdom, Germany
+- No incitement of violence or promotion of violent ideologies.
+- No disinformation regarding public health issues or political/military campaigns.
+- No spam. This includes commercial advertising, promotional campaigns, and SEO.
+- English language only.  We cannot moderate all languages.  At this time we are able to moderate English only.  Unsupported language accounts will be suspended.  See https://joinmastodon.org/servers to find a server in your country or language.
+
+## ABOUT / DESCRIPTION
+Glasgow.social
+About this server
+Glasgow.social is a decentralised,
+free
+and open alternative to Twitter based on
+Mastodon
+.  Part of the
+Fediverse
+.
+Donations
+You can donate to help us with server costs via liberapay at
+https://liberapay.com/glasgow.social/donate
+or visit our
+funding
+page to learn a bit more about how we operate.
+Code of Conduct
+The following guidelines are not a legal document, and final interpretation is up to the administration of mastodon.social; they are here to provide you with an insight into our content moderation policies:
+The following types of content will be removed from the public timeline:
+Excessive advertising
+Uncurated news bots posting from third-party news sources
+Untagged nudity, pornography and sexually explicit content, including artistic depictions
+Untagged gore and extremely graphic violence, including artistic depictions
+The following types of content will be removed from the public timeline, and may result in account suspension and revocation of access to the service:
+Racism or advocation of racism
+Sexism or advocation of sexism
+Discrimination against gender and sexual minorities, or advocation thereof
+Xenophobic and/or violent nationalism
+The following types of content are explicitly disallowed and will result in revocation of access to the service:
+Sexual depictions of children
+Content illegal in Germany and/or France, such as holocaust denial or Nazi symbolism
+Conduct promoting the ideology of National Socialism
+Any conduct intended to stalk or harass other users, or to impede other users from utilizing the service, or to degrade the performance of the service, or to harass other users, or to incite other users to perform any of the aforementioned actions, is also disallowed, and subject to punishment up to and including revocation of access to the service. This includes, but is not limited to, the following behaviors:
+Continuing to engage in conversation with a user that has specifically has requested for said engagement with that user to cease and desist may be considered harassment, regardless of platform-specific privacy tools employed.
+Aggregating, posting, and/or disseminating a person's demographic, personal, or private data without express permission (informally called doxing or dropping dox) may be considered harassment.
+Inciting users to engage another user in continued interaction or discussion after a user has requested for said engagement with that user to cease and desist (informally called brigading or dogpiling) may be considered harassment.
+Bot policy.  Bots are welcome, but please include an owner/contact link and a description of what the bot does.
+These provisions notwithstanding, the administration of the service reserves the right to revoke any user's access permissions, at any time, for any reason, except as limited by law.
+
+## CONTACT: neil@glasgow.social

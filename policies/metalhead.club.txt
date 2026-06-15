@@ -1,0 +1,74 @@
+=== POLICY REPORT: Metalhead.club (metalhead.club) ===
+
+## SERVER RULES
+- No hate speech
+- No racism
+- No extremist political content
+- Humans only
+- No upload of AI generated art
+- No pornography
+- Obey the copyright
+- No ads
+- Misusing unrelated hashtags on posts is prohibited 
+
+## ABOUT / DESCRIPTION
+What is metalhead.club?
+Metalhead.club is a microblogging platform - A place where you can exchange short posts with like-minded people about metal and rock or other topics that attract your interest.
+metalhead.club is unlike any other social media platform. We're especially proud of the following features:
+We do not serve ads
+from ad networks
+We do not collect or sell your data
+(tracking information)
+Our servers and infrastructure is
+100 % powered by green energy
+!
+We're funded by voluntary donations of our members
+There are many features for ignoring content that you don't like
+metalhead.club is connected to the decentralized "Fediverse" platform
+We have a chronological timeline. There are no fancy algorithms which manipulate you to spend more time on the site than you intend to.
+On metalhead.club we are mainly connected by our taste in music - but of course you can also discuss other topics ;-)
+Curious? Just try it out and
+register an account for free
+!
+By the way: If you consider yourself more a Punk than Metalhead, try
+the "Punkstodon.de" Mastodon instance
+!
+Funding / Donations
+This instance is run by Leister IT and 100 % funded by its users. It could not exist without financial contributions by the members. If you like this place, consider participating in the funding of this server. More information about donations:
+https://donate.650thz.de
+More useful resources
+You might also like the following resources:
+Watch metalhead.club federate with other Fediverse instances:
+watch.metalhead.club
+nowplaying.metalhead.club
+by @aymm@metalhead.club
+650thz.de Blog
+for updates on metalhead.club service and merch
+650thz.de fediverse profile
+Find Bands and artists
+on metalhead.club
+and
+on the Fediverse
+Merch and side projects
+metalhead.club offers / has offered these side projects and products:
+metalhead.club Anthem (Song made by members)
+metalhead.club T-Shirts
+metalhead.club Patches
+metalhead.club Beer
+metalhead.club Flyers
+metalhead.club Posters
+metalhead.club Advertisement in Wacken
+Imprint
+Responsible for this instance:
+Thomas Leister\
+An der Hofmark 35\
+85570 Ottenhofen, Germany\
+E-Mail: mastoadmin@metalhead.club\
+Phone: +49 157 73804402 -
+NO SUPPORT! Only for judicial purpose!
+metalhead.club logo designed by
+@calyxWorks
+Our "backup admin" is
+milan@social.tchncs.de
+
+## CONTACT: mastoadmin@metalhead.club

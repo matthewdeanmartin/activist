@@ -1,0 +1,46 @@
+=== POLICY REPORT: Mastodon Hostux (hostux.social) ===
+
+## ABOUT / DESCRIPTION
+This service is offered by alarig and valere
+If you have trouble with the instance (as a user or as a fellow admin), please toot the admin
+@alarig@hostux.social
+or send an email.
+📜 Rules:
+• Use English or French to request an account
+• Use English or French to report an account or a toot
+• Only fill a report if one goes against the rules, it’s not really my problem if someone doesn’t agree with you
+• Add comments in your reports otherwise they’ll be ignored
+• If you want to report an account exterior to hostux, only do so for illegal content in France or Norway. If you don’t want to read them, mute them.
+• Respect each other 🤝
+• If you follow the Humans Rights (
+EN
+/
+FR
+), nothing bad should happen 😉
+• Don't spam ✋
+• No racism, xenophobia, sexism, discrimination… ☮️
+• Please don't post illegal content (or links to) in France ⛔
+• For NSFW content, use the content warning or the NSFW filter, otherwise please post your toot as unlisted 🔞
+• Use content warning for spoilers ❗
+• Bots and commercial accounts are allowed only I they don't spam/flood and post as unlisted 🤖
+• A local account may be muted or banned if they don't follow the rules. 🔐
+• We only block/silence foreign accounts and instances for legal reasons.
+• Have fun 🎉
+If you're not sure about the rules whether it's because you want to sign up or post something, please contact the admin.
+When you'll sign up, you'll be following a few accounts by default. The admin chose them to make your timeline more lively, but you are free to follow and unfollow anyone!
+💻 What's behind?
+This instance is hosted on virtuals machines on Gandi infrastructure at Bissen.
+The servers have the following specifications:
+8 + 4 + 2 + 8 cores
+12 + 6 + 2 + 16 GB of RAM
+200 + 500 Go of storage
+Hosted at Gandi, in Bissen, Luxembourg.
+Linux based
+Good security practices
+Good uptime
+IPv6 compatible, always running the latest stable of
+Mastodon
+Weekly backups of the database and files, on another server hosted at Ikoula, in Reims, France.
+I also backup the backups once in a while to a server in my home.
+
+## CONTACT: contact@hostux.social

@@ -1,0 +1,95 @@
+=== POLICY REPORT: Mathstodon (mathstodon.xyz) ===
+
+## SERVER RULES
+- Don’t do anything that’s illegal in the UK or EU.
+- Aggression and elitism are unwelcome here - it’s not a competition. Don’t assume you know better than the person you’re talking to.
+- We want to be inclusive; do not engage in exclusionary behaviour or language against anyone based on their race, caste, gender (binary, assigned or otherwise), disability, mental health, sexual orientation, level of education or age.
+- Don’t make exclusionary jokes. Don’t even make them “ironically”.
+- Don’t harass people. Unconsented contact or sexual attention can constitute harassment, even if it wasn’t intended to cause upset. Dressing or acting in a certain way is not consent.
+- All services on this site are intended for people who are at least 18 years old. If you are under the age of 18, do not use this site.
+- No spam. While difficult to define precisely, a broad guideline is 'the advertising of goods or services we find inappropriate, irrelevant, or too frequent'. If in doubt, ask us and we will be happy to engage and advise.
+
+## ABOUT / DESCRIPTION
+About mathstodon.xyz
+Mathstodon.xyz is a Mastodon instance for people who love maths.
+This instance is for people who love maths and we hope there’ll be
+lots of maths chat, but any topic of conversation following the code of
+conduct and the principle of getting along together is OK.
+How to use LaTeX
+You can use LaTeX in toots here! Use
+\(
+and
+\)
+for inline, and
+\[
+and
+\]
+for
+display mode.
+LaTeX is only rendered in the web interface, and not on all Mastodon
+instances. If the layout of your LaTeX code isn't too complicated, you
+can replace it with unicode characters by clicking the preview rendering
+below the post entry area before writing the closing delimiter.
+Who's in charge
+Operated voluntarily by
+@christianp
+and
+@ColinTheMathmo
+.
+Contacting us
+You can email
+admin@email.mathstodon.xyz
+.
+Supporting this instance
+If you'd like to contribute towards the running costs of
+mathstodon.xyz, you can
+send us
+some money through Ko-Fi
+, either as a one-off or recurring
+payment.
+If you'd like to
+show
+your support for mathstodon.xyz in
+real life, you can
+buy a
+t-shirt featuring our lovable mascot
+.
+If
+you want to run your own instance with LaTeX rendering
+The forked version of Mastodon that this instance runs is available
+at
+github.com/christianp/mastodon
+.
+Code of conduct
+We’re keen to make sure that Mathstodon is great for everyone.
+Users violating the server's rules may have their accounts suspended
+and will not be welcome to take part any more.
+If you are subject to or observe any harassment, or have any other
+concerns, please report the toot concerned or message a moderator.
+Reports will be dealt with discreetly and in confidence.
+Please be aware of your surroundings and the effect your words and
+actions have on the people around you. We want everyone to have a great
+time, and treat each other with respect.
+See
+our
+full code of conduct
+.
+Wiki and status page
+There's a wiki at
+wiki.mathstodon.xyz
+. When the
+service is unavailable, check
+the status
+page
+.
+Financial information
+We keep
+a page
+summarising mathstodon's financial situation
+on the wiki.
+UK Online Safety Act
+Following the Online Safety Act, we have prepared an
+illegal harms risk assessment
+.
+
+## CONTACT: admin@email.mathstodon.xyz

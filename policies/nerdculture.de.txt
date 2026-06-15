@@ -1,0 +1,73 @@
+=== POLICY REPORT: NerdCulture (nerdculture.de) ===
+
+## SERVER RULES
+- Be friendly and polite to each other
+- No hate speech, no discrimination of others, regardless of their age, gender, nationality or whatever
+- No spamming of any kind.
+- Don't annoy others and don't get easily annoyed by others.
+- No advertisements of commercial products.
+- No distribution of copyrighted material.
+- Do not upload material for which you don't have the rights
+- No automated posts by bots, except when you have permission to do so by the server admins. No AI (LLM) Agents (no exceptions). We want to keep the platform human, not robot. 
+- Don't abuse this service or server.
+- Treat other how you want to be treated by them - with respect!
+- This is a service running on a private server and as a friendly user you are welcome to use this service, but in the end the server admin can cancel user accounts and will do when the user misbehaves. The admin will decide in the end. 
+- Valid mail address required! You'll receive reminder mail after 6 months of inactivity to log in again. If you don't react to those mails, your account will be deleted after 7 months of inactivity. 
+- Allowed languages are German and English as main languages while as the following languages are tolerated: Dutch, French, Spanish, Italian.
+- This service is free of cost for you.
+However offering this service does have cost implications. If you can afford some cents per week it would be great when you could contribute in sharing the server costs. Of course this voluntarily for you. 
+- No free-speech extremists, no far-right extremists, no nationalists. This includes people that elect or support such political parties like AfD in Germany, Fratelli d'Italia in Italy or Rassemblement National in France, etc.. If you support these parties, this instance is not for you. 
+- Alt Texts for Pictures encouraged. Please conduct descriptive texts for pictures you upload (Alt Texts). This helps visually impaired users and others enormously in their online life. 
+- To prevent spam, we use an automated analysis system for new registrations.  Domains on a Allow List are approved immediately; other requests are pre-screened by a local AI assistant before a human makes a decision.
+
+## ABOUT / DESCRIPTION
+Deutsch
+Be excellent to each other. Wenn Du erwartest, von anderen freundlich behandelt zu werden, behandle auch die Anderen freundlich.  
+Hier ist kein Platz für Hassreden oder für Nazis. Keine Bots im Allgemeinen! (nur nach vorheriger Genehmigung).
+Du brauchst eine
+dauerhaft gültige
+E-Mail-Adresse zur Registrierung. Wenn Du 6 Monate inaktiv bist, wirst Du automatisch 4-mal (jede Woche einmal) per E-Mail daran erinnert, dich erneut über das Webinterface einzuloggen. Nach 7 Monaten Inaktivität wird dein Account unwiderbringlich gelöscht.
+Wir setzen auf moderne Technik: Dein Onboarding wird durch einen lokalen Workflow unterstützt, der uns hilft, Spam effizient zu filtern und dir sofort die besten Start-Ressourcen aus unserem Wiki bereitzustellen.
+Folge @order@nerdculture.de für Informationen über Server Updates oder Probleme. Dieser Account wird nur genutzt, um Informationen über den Server selber zu verbreiten.
+Primäre Sprache hier ist Deutsch. Englisch ist auch erlaubt. Andere Sprachen bitte nicht, da wir sie im Zweifel nicht moderieren können.
+Wenn etwas mal
+technische
+Probleme mit dem Server https://nerdculture.de/ gibt, erstelle bitte ein Ticket:
+System Status
+Helpdesk System
+Wissensdatenbank
+Anleitung Helpdesk
+Support Live Chat
+(nur, wenn ein Support-Agent eingeloggt ist)
+Bei anderen Problemen mit Mastodon oder Apps, bitte bei den entsprechenden Entwicklern ein Ticket aufmachen.
+Wenn Du den Betrieb des Servers unterstützen möchtest, kannst Du dies über folgende Wege machen:
+LiberaPay
+Patreon:
+patreon.com/Windfluechter
+Banküberweisung/SEPA: auf Anfrage
+English
+Be excellent to each other. When you expect to be treated nicely by others, be nice & polite to others yourself. 
+There is no place for hate speech or for Nazis on this site. No bots in general! (only with prior permission).
+You'll need a
+permanently valid
+mail address for registration. If you are inactive for 6 months, you'll get a weekly reminder by mail for 4 weeks to login again. If you don't do so, your account will automatically be deleted after 7 months of inactivity.
+We rely on modern technology: Your onboarding is supported by a local workflow that helps us efficiently filter out spam and immediately provide you with the best starter resources from our wiki.
+Follow @order@nerdculture.de for information about server updates/issues. That account is only used for to spread information regarding the server itself.
+Primary language on this server is German, English is allowed as well. Other languages have the problem that we cannot moderate it.
+If you want to support this service you can help to share the costs you can use these ways:
+LiberaPay
+Patreon:
+patreon.com/Windfluechter
+Regular bank transfer via personal request available
+If there are
+technical
+issues with the server on https://nerdculture.de/, please open a support ticket:
+System Status
+Helpdesk System
+Knowledge Base
+Manual Helpdesk
+Support Live Chat
+(only available when support agent is logged in)
+If you have problems with Mastodon itself or with some apps, please open a ticket directly with the corresponding developers.
+
+## CONTACT: support@nerdculture.de

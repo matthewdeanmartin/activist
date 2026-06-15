@@ -18,6 +18,13 @@ test: uv.lock
 	$(VENV) py.test tests -vv --cov=activist --cov-report=html --cov-fail-under 80
 	$(VENV) bash basic_help.sh
 
+# The write/publish path proven against the local mastodon_mock server (no live
+# Mastodon, no API keys). Self-skips on Python <3.13 or if mastodon_mock isn't
+# installed. See tests/integration/README.md.
+test-integration: uv.lock
+	@echo "Running mastodon_mock-backed integration tests"
+	$(VENV) py.test tests/integration -vv
+
 
 isort:  
 	@echo "Formatting imports"

@@ -51,6 +51,10 @@ class AppConfig:
     # [poster]
     poster_live: bool = False  # hard gate; see spec/poster_service.md
     poster_check_interval_minutes: int = 5
+    # Audience for top-level posts; replies carry their mention's visibility.
+    # "unlisted" is the recommended soft-launch default (keeps bot posts out of
+    # public/federated timelines while you confirm behaviour).
+    default_visibility: str = "unlisted"
     # [paths]
     db_path: Path = Path("data/activist.db")
     persona_dir: Path = Path("persona")
@@ -136,6 +140,13 @@ def load_config(path: Path) -> AppConfig:
         poster.get("check_interval_minutes", cfg.poster_check_interval_minutes),
         "poster.check_interval_minutes",
     )
+    visibility = str(poster.get("default_visibility", cfg.default_visibility))
+    if visibility not in ("public", "unlisted", "private", "direct"):
+        raise ConfigError(
+            "poster.default_visibility must be one of public/unlisted/private/direct, "
+            f"got {visibility!r}"
+        )
+    cfg.default_visibility = visibility
 
     paths = data.get("paths", {})
     cfg.db_path = Path(paths.get("db", cfg.db_path))

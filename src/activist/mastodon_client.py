@@ -167,6 +167,120 @@ class MastodonReader:
         time.sleep(delay)
 
 
+@dataclass
+class PostResult:
+    """The outcome of a single POST /api/v1/statuses, normalized for the poster."""
+
+    status_id: str
+    url: str
+    created_at: str
+
+
+class MastodonRateLimited(Exception):
+    """429 from the instance. ``retry_after`` is seconds to wait (best effort)."""
+
+    def __init__(self, retry_after: float, message: str = "rate limited"):
+        super().__init__(message)
+        self.retry_after = retry_after
+
+
+class MastodonWriter:
+    """Write access — POST and DELETE statuses (poster Phase P2).
+
+    Kept a *separate class* from MastodonReader so that "can post" remains an
+    explicit capability a caller has to reach for, never something a read-only
+    code path acquires by accident. The transport gate (config + env + flag) in
+    ``transport.MastodonTransport`` decides whether this ever gets constructed
+    against a live instance; pointed at the mock server it is exercised freely.
+    """
+
+    def __init__(self, creds: MastodonCredentials, client: httpx.Client | None = None):
+        self.creds = creds
+        self._client = client or httpx.Client(
+            base_url=creds.base_url,
+            headers={
+                "User-Agent": USER_AGENT,
+                "Authorization": f"Bearer {creds.access_token}",
+            },
+            timeout=TIMEOUT,
+        )
+
+    def close(self) -> None:
+        self._client.close()
+
+    def post_status(
+        self,
+        text: str,
+        *,
+        idempotency_key: str,
+        in_reply_to_id: str = "",
+        visibility: str = "",
+    ) -> PostResult:
+        """POST /api/v1/statuses — publish one toot.
+
+        ``idempotency_key`` is the content id, sent as the ``Idempotency-Key``
+        header. Mastodon natively dedupes on it (~1h window), so a crash between
+        the POST and the local DB write cannot double-post on retry — this is the
+        single most important guarantee in the poster (spec/poster_service.md P2).
+
+        ``in_reply_to_id`` threads a reply; ``visibility`` (carried from the
+        mention for replies, config default for top-level posts) sets the
+        audience. Empty strings are omitted so the server applies its defaults.
+
+        Raises ``MastodonRateLimited`` on 429 (caller re-queues), or
+        ``httpx.HTTPStatusError`` on any other 4xx/5xx for the caller's error
+        taxonomy to classify.
+        """
+        data: dict[str, str] = {"status": text}
+        if in_reply_to_id:
+            data["in_reply_to_id"] = in_reply_to_id
+        if visibility:
+            data["visibility"] = visibility
+
+        response = self._client.post(
+            "/api/v1/statuses",
+            data=data,
+            headers={"Idempotency-Key": idempotency_key},
+        )
+        if response.status_code == 429:
+            raise MastodonRateLimited(_retry_after_seconds(response))
+        response.raise_for_status()
+        body = response.json()
+        return PostResult(
+            status_id=str(body.get("id", "")),
+            url=str(body.get("url") or body.get("uri") or ""),
+            created_at=str(body.get("created_at", "")),
+        )
+
+    def delete_status(self, status_id: str) -> dict:
+        """DELETE /api/v1/statuses/:id — the manual "oh no" tool, and how a
+
+        published post gets retracted. Returns the (now-deleted) status doc.
+        """
+        response = self._client.delete(f"/api/v1/statuses/{status_id}")
+        response.raise_for_status()
+        return response.json()
+
+
+def _retry_after_seconds(response: httpx.Response) -> float:
+    """Best-effort seconds-to-wait from a 429, preferring Retry-After.
+
+    Honors a plain-seconds ``Retry-After`` header first, then falls back to the
+    ISO ``X-RateLimit-Reset`` timestamp. Clamped so a hostile/bogus value can't
+    wedge the poster for hours.
+    """
+    retry_after = response.headers.get("Retry-After")
+    if retry_after:
+        try:
+            return max(0.0, min(float(retry_after), 900.0))
+        except ValueError:
+            pass
+    reset = response.headers.get("X-RateLimit-Reset")
+    if reset:
+        return _seconds_until(reset)
+    return 1.0
+
+
 def _seconds_until(reset: str) -> float:
     """Seconds from now until an ISO-8601 X-RateLimit-Reset timestamp (clamped)."""
     import datetime as dt

@@ -1,0 +1,86 @@
+ifeq ($(origin VIRTUAL_ENV),undefined)
+    VENV := uv run
+else
+    VENV :=
+endif
+
+CONFIG ?= activist.toml
+ACTIVIST := $(VENV) activist
+
+.PHONY: help preflight fetch fetch-dry fetch-replies fetch-only-replies fetch-no-replies ui poster poster-loop poster-skip-verify reset-memory moderate render fixture-run fixture-replies
+
+help:
+	@echo "Activist operator targets"
+	@echo "  make -f MakefileOps preflight          # check common local files and config"
+	@echo "  make -f MakefileOps fetch              # fetch live feeds into the review queue"
+	@echo "  make -f MakefileOps fetch-dry          # preview fetch without changing local state"
+	@echo "  make -f MakefileOps fetch-replies      # fetch feeds and live replies"
+	@echo "  make -f MakefileOps fetch-only-replies # fetch only live replies"
+	@echo "  make -f MakefileOps fetch-no-replies   # fetch feeds and skip replies"
+	@echo "  make -f MakefileOps ui                 # start the local review dashboard"
+	@echo "  make -f MakefileOps poster             # publish one dry-run poster tick"
+	@echo "  make -f MakefileOps poster-loop        # keep the dry-run poster running"
+	@echo "  make -f MakefileOps poster-skip-verify # poster tick without Mastodon credential check"
+	@echo "  make -f MakefileOps reset-memory       # clear persona/memory files"
+	@echo "  make -f MakefileOps fixture-run        # offline fixture-based post generation"
+	@echo "  make -f MakefileOps fixture-replies    # offline fixture-based reply generation"
+	@echo "  make -f MakefileOps moderate FEED=...  # moderate an existing feed.toml"
+	@echo "  make -f MakefileOps render FEED=...    # render an existing feed.toml to HTML"
+	@echo ""
+	@echo "Variables"
+	@echo "  CONFIG=$(CONFIG)"
+	@echo "  FEED=out/YYYY-MM-DD/feed.toml"
+
+preflight:
+	@echo "Checking operator prerequisites"
+	@test -f "$(CONFIG)" || (echo "Missing config: $(CONFIG)" && exit 1)
+	@test -f ".env" || (echo "Missing .env" && exit 1)
+	@test -f "persona/persona.toml" || (echo "Missing persona/persona.toml" && exit 1)
+	@test -f "persona/opinions.toml" || (echo "Missing persona/opinions.toml" && exit 1)
+	@test -f "persona/knowledge.md" || (echo "Missing persona/knowledge.md" && exit 1)
+	@test -d "policies" || (echo "Missing policies/" && exit 1)
+	@echo "Preflight OK"
+
+fetch:
+	$(ACTIVIST) fetch --config "$(CONFIG)"
+
+fetch-dry:
+	$(ACTIVIST) fetch --config "$(CONFIG)" --dry-run
+
+fetch-replies:
+	$(ACTIVIST) fetch --config "$(CONFIG)" --replies
+
+fetch-only-replies:
+	$(ACTIVIST) fetch --config "$(CONFIG)" --only-replies
+
+fetch-no-replies:
+	$(ACTIVIST) fetch --config "$(CONFIG)" --no-replies
+
+ui:
+	$(ACTIVIST) ui --config "$(CONFIG)"
+
+poster:
+	$(ACTIVIST) poster --config "$(CONFIG)"
+
+poster-loop:
+	$(ACTIVIST) poster --config "$(CONFIG)" --loop
+
+poster-skip-verify:
+	$(ACTIVIST) poster --config "$(CONFIG)" --skip-verify
+
+reset-memory:
+	$(ACTIVIST) reset-memory
+
+fixture-run:
+	$(ACTIVIST) run --engine mockbot
+
+fixture-replies:
+	$(ACTIVIST) replies --engine mockbot
+
+moderate:
+	@test -n "$(FEED)" || (echo "Set FEED=path/to/feed.toml" && exit 1)
+	$(ACTIVIST) moderate "$(FEED)"
+
+render:
+	@test -n "$(FEED)" || (echo "Set FEED=path/to/feed.toml" && exit 1)
+	$(ACTIVIST) render "$(FEED)"

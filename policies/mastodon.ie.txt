@@ -1,0 +1,25 @@
+=== POLICY REPORT: mastodon.ie (mastodon.ie) ===
+
+## SERVER RULES
+- Don't Be A Ballox
+- No bigotry, racism, xenophobia, sexism, homophobia, transphobia, anti-Traveller speech or any hate speech.
+-  No unsolicited DMs 
+- Posts with sexual imagery depicting real people must be owned by the same people or have clear consent to be used in this manner.
+- We operate on a "3 strikes and you're out" basis.
+
+## ABOUT / DESCRIPTION
+A server started by people connected to Ireland, but open to all who respect the server rules.
+Freastalaí atá dírithe ar dhaoine a bhfuil baint acu le hÉirinn, ach atá oscailte do gach duine a urramaíonn ár rialacha.
+Donations
+If possible, you can contribute to the running costs of the instance at
+https://opencollective.com/mastodonie
+Ownership
+Mastodon is controlled by
+Mastodaoine CLG
+, a non-profit.
+Directors: Bernard McKeever and David Faherty
+Status Page
+Server Status
+Thank you <3
+
+## CONTACT: info@mastodon.ie

@@ -1,0 +1,61 @@
+=== POLICY REPORT: masto.nu (masto.nu) ===
+
+## SERVER RULES
+- No harassment, dogpiling or doxxing of other users.
+- No impersonation of other people, companies, organizations, brands, etc.
+- No racism, sexism, homophobia, transphobia, xenophobia, or casteism.
+- No incitement of violence or advocacy of violent acts/ideologies.
+- No advertising, spam or excessive promotion.
+- No sexually explicit or graphically violent media.
+- No intentionally false or misleading information.
+- No illegal or unlawful content
+- Content created by others must be attributed, and the use of AI must be disclosed. Profiles that only post AI-generated content will not be tolerated.
+
+## ABOUT / DESCRIPTION
+Expectations
+Rule Violations
+If you find content that is in violation of the Server Rules, please report the account. You may also take action from your own account by muting or blocking the account, or the entire domain/instance.
+We actively "defederate" masto.nu from other instances that are incompatible with our fundamental rules, in an effort to protect our users. This comes from reports of users but also community discussion around such bad actors. If you find another instance that you think needs to be restricted from interacting with ours,
+or
+if you feel that another instance may have been blocked by our staff in error, please reach out to our staff directly via DM.
+Instance Staff
+@mkevenaar@masto.nu
+(admin)
+@Ludoviko@masto.nu
+(admin)
+@geoffburke@masto.nu
+(moderator)
+Server Covenant
+masto.nu is working on getting listed on
+joinmastodon.org
+and we are working to implement all
+Mastodon Server Covenant
+fundamental expectations for instance administration. This includes things like active moderation, daily backups, multiple staff members, and a commitment to provide notice to changes in the status of this instance.
+Following Norms
+There are certain "norms" of Mastodon, and the wider "Fediverse" that you'll be expected to follow while a member of this instance. This includes the use of content warnings when necessary, and the regular use of descriptive text for image uploads. Some of these norms may be different than what you're used to on other platforms. While failure to use these these are not strictly moderation worth events, we do ask that you respect and try and conform to these norms as you explore and grow on the platform.
+Our Discretion
+We want to foster an open discussion where
+everyone
+feels welcome. The rules are meant to be clear and direct, but the staff of this instance has ultimate discretion on how they are enforced. We may alter to these rules as needed, but will make an effort to notify you of any major change.
+If you are found to be in violation, the staff may take any action they deem appropriate, such as a warning or an expulsion from the server.
+Your Account
+You may your close account or move it to another instance at any time. You are in control of your identity and your social graph on Mastodon (and other federated instances) but the administrators here control your ability to use this instance and ultimately to interact with its users.
+In addition to regular backups we make of our infrastructure, you can backup your data and export it at any time. You can also delete your account and your data at anytime. You can even schedule regular deletions of previous posts, if that's your thing.
+Data Security
+Unless it's required of us to investigate a reported instance of abuse of our policies, under standard operation we have no ability to regularly access your direct messages with other members of our platform. While this data is accessible with a request to our hosting providers database systems, we expect that to not be necessary except under extreme circumstances. Where possible we will notify you if such processes are taken for data associated by your account.
+However, due in part to the open and federated nature of Mastodon instances, the Mastodon administrators of other instances you interact with may have access to your data.
+While the connection to this site is encrypted, this is only the data in transit to you and to other servers in the federated network.
+The messages and data stored in the instance is not encrypted.
+This includes direct messages sent to other users of masto.nu! This is not a choice of the administrator, but a limitation of the Mastodon platform. Additionally, our hosting provider may have access to your data as part of the general administration of the server infrastructure.
+You should use Signal, Matrix, or another E2E messaging app for the things you really want to be private.
+Please review our full
+Privacy Policy
+for more information.
+Trending Features
+One of the key features of Mastodon is there's no sophisticated algorithm to drive more traffic to the site, or influence your thinking. Mastodon does offer hashtag, post, and link trending features that are based solely on observed activity within masto.nu and other federated instances.
+Hashtags largely trend on their own without moderator intervention, but can be removed if they are abusive or disruptive. Some links will trend automatically if they're from mainstream or other sources known to be reputable. Some posts will trend automatically if they're from known figures with a history of appropriate content. Other trends are manually approved by our staff, and only removed if they are deemed inappropriate.
+Funding
+It is not required to pay for continued access to your account, but if you feel obliged to help cover the cost of running masto.nu, please visit one of our sponsor pages to help keep us going.
+If we exceed the minimum goal then additional funding will be used to increase capacity, or to make periodic donations to Mastodon gGmbH and other groups supporting development of the platform.
+
+## CONTACT: support@masto.nu

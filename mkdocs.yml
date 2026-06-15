@@ -1,0 +1,40 @@
+site_name: Activist
+site_description: Human-in-the-loop Mastodon bot with a local review queue
+site_url: https://activist.readthedocs.io/en/latest/
+repo_url: https://github.com/matthewdeanmartin/activist
+repo_name: matthewdeanmartin/activist
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - content.footnote.tooltips
+
+markdown_extensions:
+  - footnotes
+  - attr_list
+  - def_list
+  - tables
+
+nav:
+  - Home: index.md
+  - Design:
+      - Overview: design/index.md
+      - Design Goals: design/goals.md
+      - Implemented Architecture: design/architecture.md
+  - Operators:
+      - Overview: operator/index.md
+      - Install and Configure: operator/install-and-configure.md
+      - Run the System: operator/fetch-review-publish.md
+      - Troubleshooting: operator/troubleshooting.md
+  - Developers:
+      - Overview: developer/index.md
+      - Architecture: developer/architecture.md
+      - Getting Started: developer/getting-started.md
+      - Codebase Structure: developer/codebase.md
+      - Core Concepts: developer/core-concepts.md
+      - Pipeline Execution Model: developer/execution-model.md
+      - Configuration System: developer/configuration.md
+      - Execution Engine: developer/execution-engine.md
+      - State, Errors, Observability, Testing: developer/operations.md
+      - CLI Internals and Contributing: developer/cli-and-contributing.md

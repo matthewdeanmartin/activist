@@ -1,0 +1,146 @@
+=== POLICY REPORT: Mastodon Canada (mstdn.ca) ===
+
+## SERVER RULES
+- No toxic and hateful speech.
+- No incitement of violence and no promotion of misleading or violent ideologies.
+- No harassment, dogpiling, or unwanted advances.
+- No doxxing of other users.
+- No content illegal in Canada or copyrighted content that you don't own rights to.
+- Sexually explicit or violent media must be marked appropriately.
+- No spamming.
+Excessive posting, boosting, advertising or mass-marketing posts will be actioned accordingly and based on intent.
+- Be yourself.
+Accounts intended to impersonate or parody are not permitted, and those found to be directly misrepresenting themselves as another person or entity will be actioned accordingly.
+- Agree to the Terms of Service and Code of Conduct.
+
+## ABOUT / DESCRIPTION
+Welcome
+mstdn.ca
+is a Mastodon instance for Canadians and is administered and hosted in Canada.
+Funding
+A reminder that you can support the ongoing maintenance of mstdn.ca. This instance is run by volunteers and it needs your help to continue. All proceeds go directly to server costs. You’ll find the most updated breakdown of costs here.
+We also accept Interac e-Transfers to
+hello@mstdn.ca
+.
+Auto-deposit is enabled, so a security question is not required, but adding a note with your community handle is appreciated because we like to send a note of our appreciation to you.
+News
+Check out the latest mstdn.ca news on our
+blog
+!
+Having issues with mstdn.ca? Check our
+status page
+.
+Registration eligibility
+We accept registrations from any person aged 18+. Our user base is primarily based in Canada, and our moderation team members are fluent in either English, French, or both. While we do not require the use of any particular language, moderators may use automated translation services to spot-check posts and ensure adherence to our Code of Conduct.
+Mastodon Server Covenant Commitment
+We're committed to the Mastodon server covenant which includes the following:
+Active moderation against racism, sexism, homophobia and transphobia including targeted misgendering, deadnaming, or promotion of so-called "conversion therapy".
+Daily backups of user data.
+At least one other person with emergency access to the server infrastructure.
+Commitment to give users at least 3 months of advance warning in case of shutting down.
+You can read more information
+here
+.
+Our mission
+We have a mission to make
+mstdn.ca
+a safe and welcoming environment for everyone regardless of their gender identity or expression, sexual orientation, race, ethnicity, nationality, religion, age, mental or physical disability, political views, and personal appearance.
+We are resolute in protecting the
+mstdn.ca
+community from harassment and malicious content from individual members whose goals are to disrupt our community and promote their own self-interest at the expense of the community.
+The principles that guide us
+Our Code of Conduct is our north star. It lays out our expected standards of conduct and behaviours that all
+mstdn.ca
+users must follow while using this platform.
+We believe that freedom of expression is not freedom of reach.
+You may say whatever you want, but we reserve the right to keep you from using our platform to say it. Bullies, trolls and disruptors are not welcome in
+mstdn.ca
+and neither are users that engage in name-calling, ad-hominem attacks, or other uncivil behaviour. These activities will be actioned accordingly based on our Code of Conduct.
+This is a voluntary community and you choose to be here.
+By joining and using this service, you give your tacit agreement to our Code of Conduct and agree to follow it, or risk losing your privilege to access this platform.
+Code of Conduct | Our server rules
+No toxic and hateful speech.
+We have a zero-tolerance policy on toxic and hateful speech. This includes attacks against anyone’s gender identity or expression, sexual orientation, race, ethnicity, nationality, religion, age, disability, personal appearance, or socio-economic status. Discussions related to these topics can be difficult because we don't have similar lived experiences. If you choose to discuss these topics, empathy and kindness are a must, and if you’re not able to do so, just mute and move on.
+No incitement of violence and no promotion of misleading or violent ideologies.
+You may not make specific threats of violence or physical harm, death, or disease to an individual or group of people. This includes, but is not limited to, threatening or promoting misleading information that may lead to physical harm. You also may not affiliate with organisations that — whether by their own statements or activity both on and off the platform — use or promote violence against civilians to further their causes.
+No harassment, dogpiling, or unwanted advances.
+You may not continue to engage with a user who has explicitly requested that you stop. This includes consistent baiting, bad-faith gaslighting, unwanted sexual advances, etc.
+No doxxing of other users.
+Unauthorised requests for or distribution of any personal information or data is not allowed. Please treat personally identifying information with respect and privacy.
+No content illegal in Canada or copyrighted content that you don't own rights to.
+Illegal or copyrighted content is not allowed to be stored, posted, or discussed on mstdn.ca
+Sexually explicit or violent media must be marked appropriately.
+Posts and images with sexually explicit or violence must be flagged as sensitive and contain a content warning noting either ‘NSFW’ or ‘Violence’ when posting. Users may not have sexually explicit or violent media as a profile photo or header image. There are also types of sensitive media content that we don’t allow at all, including violent sexual conduct, gratuitous gore, and hateful imagery. We prohibit violent sexual conduct to prevent the normalization of sexual assault and non-consensual violence associated with sexual acts. We prohibit gratuitous gore content because research has shown that repeated exposure to violent content online may negatively impact an individual’s well-being.
+No spamming.
+Excessive posting, boosting, advertising or mass-marketing posts will be actioned accordingly and based on intent.
+Be yourself.
+Accounts intended to impersonate or parody are not permitted, and those found to be directly misrepresenting themselves as another person or entity will be actioned accordingly. General parody accounts like Beaverton or CBC Pitchbot are allowed as they are not impersonating a person or entity.
+Community guidelines | Our norms
+The list below is a collection of norms and behaviours that will help us build a community that we all want to participate in. While these best practices are designed to be guidelines for a good communal instance, repeated malicious unwillingness to follow the best practices will be considered just like breaking a rule (it’s all about intent).
+We are not an advertising platform.
+If you are here only to sell your products or services, you will be removed. Occasional posts of commercial links are acceptable, but if the vast majority of a user's posts are commercial in nature, we will regard the account as a spam account. Moderators will evaluate reports of spam on a case-by-case basis.
+Do not report every post that upsets you.
+Please report posts that violate our Code of Conduct. For other posts that you find distasteful or don’t like but don’t violate the rules, use the mute, filter, or block functionality. Let the moderation team focus on the real problematic posts.
+Be considerate.
+In general, use the tools provided to foster a considerate and accessible atmosphere. This includes the liberal use of:
+Content warnings (CWs) are a kind way to let people choose to opt-out of potentially disturbing or controversial topics like spoilers or triggering/traumatic posts. CWs are also mandatory on posts containing gore, violence, or NSFW. If in doubt, err on the side of caution.
+Alt-text captioning of media files can help our vision-impaired community members join in on the discussion. Alt-text is needed for those who rely upon screen readers to read what's on their screen. Without this, screen readers can't describe images to those who can't see them.
+#CamelCase use of hashtags can help screen readers read the hashtags properly.
+Give credit where it’s due.
+When possible, provide credit for creative works in your posts that are not your own.
+Don’t be a creep.
+Uninvited comments about another user's personal choices, lifestyle or family are strongly discouraged and may be considered harassment.
+Be respectful.
+In discussions, please remain civil, and do not insult the person you're talking to. Note that irony, sarcasm, or similar modes of language don't translate well to written language and tend to escalate discussions or misunderstandings. Criticize ideas, not people.
+Boosts are endorsements.
+You are responsible for what you boost. If you boost content that doesn't comply with our rules, moderators may take action.
+Moderation Principles and Commitment
+Coming soon!
+Appeals process
+Upon receipt of an appeal request, the instance operator, along with 2 moderators will review the appeal and make the final decision to uphold or overturn based on a vote.
+Intent to make a fair and transparent appeals process
+The team
+@chad
+- Instance Administrator | Edmonton, AB | he/him | EN, some FR
+@codebam
+- System Administrator | Pickering, ON | they/them | EN
+@RichardNairn
+- System Administrator | Calgary, AB | he/him | EN
+@rcjcarr
+- Moderator | Ottawa, ON | he/him | EN | FR
+@adam
+- Moderator | Vancouver, BC | he/him | EN
+@c_9
+- Moderator/Documentation/Graphic Design | Toronto, ON | he/him | EN
+@samloonie
+- Moderator | Ottawa, ON | EN
+Bot account policy
+The account must have checked the profile option "This is a bot account".
+Posts from the bot account must be "unlisted".
+Must enable "Automated post deletion" with a maximum age threshold of one month, with the exception of pinned posts and direct messages. Exceptions based on interactions are not eligible.
+Bots that do not follow the above policy will be suspended.
+Truth and reconciliation
+The mstdn.ca team acknowledges that the areas where we work, live, and play, span across many Territories and Treaty areas and we are exceedingly grateful for the traditional Knowledge Keepers and Elders who are with us today, those who have gone before us, and the youth that inspire us.
+We recognize the land and the benefits it provides all of us, as an act of Reconciliation, and as recommended by the Truth and Reconciliation Commission’s (TRC) 94 Calls to Action, and give gratitude to those whose territory we reside on, work on or are visiting.
+We are committed to continuing to learn, evolve and grow to ensure we are aligned with Indigenous-led Reconciliation frameworks.
+What is Mastodon?
+Open-source social networking
+Follow friends and discover new ones among more than 4.5M people. Publish anything you want: links, pictures, text, and video. All on a platform that is community-owned and ad-free.
+Mastodon isn’t just a website, it is a federation—think Star Trek. Thousands of independent communities running Mastodon form a coherent network, where while every planet is different, being part of one is being part of the whole.
+Mastodon comes with effective anti-abuse tools to help protect yourself. Thanks to the network's spread out and independent nature there are more moderators who you can approach for personal help and servers with strict codes of conduct.
+Convenient sharing
+You have 500 characters. You can adjust the thumbnails of your pictures with focal points. You can use custom emojis, hide things behind spoiler warnings and choose who sees a given post. Messed it up? You can edit the post or even delete & redraft it for quick corrections.
+Mastodon for all
+Without an incentive to sell you things, Mastodon allows you to consume the content you enjoy uninterrupted. Your feed is chronological, ad-free and non-algorithmic — you decide who you want to see!
+Questions? Comments?
+Email
+hello@mstdn.ca
+, call
++1 (780) 800-7298
+, or fax
++1 (587) 316-7298
+. Email is preferred.
+Credits
+Hosted in Edmonton, Alberta on dedicated server hardware funded by community members on Treaty 6 land. Media is replicated to caching endpoints around the world.
+
+## CONTACT: hello@mstdn.ca

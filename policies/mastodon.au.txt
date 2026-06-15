@@ -1,0 +1,22 @@
+=== POLICY REPORT: Mastodon Australia (mastodon.au) ===
+
+## SERVER RULES
+- No AI Accounts, or AI generated content, without express prior approval
+- No incitement of violence or promotion of violent ideologies .
+- Threatening, abusive, intolerant or illegal behaviour will lead to moderation and/or account deletion.
+- Do not post anything that is illegal in Queensland, Australia - this service and all data stored on it is 100% stored and operated in QLD.
+- The Content Warning flag must be used for NSFW content, and NSFW media should be marked as sensitive.
+- Registrations are monitored and accounts considered spam, impersonating legal entities or persons, or any other kind of fraud will be deleted.
+- Always be kind to each other. Don't say anything you wouldn't face to face.
+- Do not knowingly share false or misleading information.
+- No Propaganda Accounts
+- No Spam/SEO/Gambling
+
+## ABOUT / DESCRIPTION
+No description because we couldn't make up our minds and went fishing instead 🎣 (*or pat the cat or doggo 🐱🐶)
+This instance is hosted and run in Queensland, Australia.
+Gambling sites, and non-Australian businesses will be automatically deleted. Don't bother.
+If you're trying to use us for SEO, all links are set to nofollow. Creating a spam account here actually DETRACTS from your search engine visibility. Again, don't bother.
+Otherwise, we'd love to have you here!
+
+## CONTACT: xrobau@gmail.com

@@ -141,9 +141,23 @@ def test_identity_isolation(tmp_path):
     assert store.get("other").status == APPROVED
 
 
-def test_mastodon_transport_refuses_to_exist():
-    with pytest.raises(NotImplementedError, match="Phase P2|gated"):
+def test_mastodon_transport_refuses_to_exist_without_the_gate():
+    # The live transport now exists (Phase P2), but the triple gate
+    # (config + env + flag) must be fully open before it will construct against
+    # a real instance. With nothing set, it refuses — the default-safe behaviour.
+    from activist.transport import PublishGateError
+
+    with pytest.raises(PublishGateError, match="gated"):
         MastodonTransport()
+
+
+def test_mastodon_transport_refuses_when_gate_only_partly_open(monkeypatch):
+    # Two of three is still refused: forgetting any single part keeps us dry-run.
+    monkeypatch.setenv("ACTIVIST_LIVE", "1")
+    from activist.transport import PublishGateError
+
+    with pytest.raises(PublishGateError):
+        MastodonTransport(config_live=True, live_flag=False)  # missing --live
 
 
 def test_poster_lock_mutual_exclusion(tmp_path):

@@ -1,0 +1,67 @@
+=== POLICY REPORT: mastodon.scot (mastodon.scot) ===
+
+## SERVER RULES
+- No discrimination, including (but not limited to) racism, sexism, homophobia or transphobia (including targeted misgendering, deadnaming, or promotion of so-called 'conversion therapy').
+- No explicit (NSFW) content without content warnings and/or sensitive media markers. Explicit content must not be used in user avatars or header images.
+- No harassment of other users on this or other servers.
+- No content illegal in the following countries: United Kingdom, Germany
+- No incitement of violence or promotion of violent ideologies.
+- No disinformation regarding public health issues or political/military campaigns.
+- No spam. This includes commercial advertising, promotion of services, and SEO.
+- No impersonation of other individuals, public figures or organisations, unless clearly marked as a parody.
+- All automated (bot) accounts must enable the bot flag in their account preferences, respect #nobot markers, and post as unlisted unless making less than one post per hour.
+
+## ABOUT / DESCRIPTION
+Help!
+For information about Mastodon and how to use it, the
+documentation section of joinmastodon.org
+is a great place to start.
+To report bugs or issues with the Mastodon software, or to suggest features/improvements, go to the
+Mastodon projects page on GitHub
+.
+For any questions about the mastodon.scot server send an email to
+trumpet@mastodon.scot
+or visit
+our helpdesk
+(free registration required).
+We have a page showing uptime and server status at
+status.mastodon.scot
+About mastodon.scot
+mastodon.scot is administered by volunteers based in Scotland. Our primary servers are located in Germany, with backup infrastructure in Scotland. These are shared resources that also power mas.to.
+We currently have 140 processor threads, 550GB memory and 46TB of primary storage available.
+Donations
+We run mastodon.scot as a free service because we love Mastodon, but it costs us
+lots
+of money! If you'd like to donate towards our running costs you can contribute by
+buying Trumpet a donut
+. Or lots of donuts! Trumpet
+loves
+donuts.
+The current recurring monthly costs for our shared infrastructure total £992.46, including:
+Server hosting - £638.17
+CDN/object storage - £217.89
+Mail delivery - £26.40
+Translation - £60
+Backup infrastructure - £50
+Our current monthly donation income (before processing fees and charges) is £1,102.93.
+Moderation
+Moderation of this server is carried out by our volunteer moderators on a best-efforts basis, based on interpretation of content posted to the server against our published rules.
+We subscribe to the IFTAS
+pledge
+against targeted misgendering and deadnaming in the Fediverse.
+We’re working with
+Gaza Verified
+to welcome and provide a safe space for Palestinians.
+Do luchd na Gàidhlig
+Cuiridh sinn fàilte chridheil air a' Ghàidhlig aig mastodon.scot ach nam b' fheàrr leat frithealaiche le barrachd Gàidhlig ann, mholamaid
+ailbhean.co-shaoghal.net
+.
+Supporters
+We are very grateful to
+dotScot Registry
+who have kindly provided our mastodon.scot domain name.
+Follow them on mastodon.scot at
+@dotscotregistry
+!
+
+## CONTACT: trumpet@mastodon.scot

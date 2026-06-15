@@ -1,0 +1,98 @@
+=== POLICY REPORT: ieji.de (ieji.de) ===
+
+## SERVER RULES
+- No explicit content allowed
+- Erotic content must have content warning
+- No harassment allowed
+- No backlink accounts allowed
+- Unlawful content is forbidden
+
+## ABOUT / DESCRIPTION
+Rules of ieji.de
+Targeted misgendering, deadnaming, or promotion of so-called "conversion therapy" is prohibited.
+Harassing people in any way, racism, sexism or transphobia is strictly forbidden.
+Harassment includes targeted campaigns against specific people.
+We do not offer our service to "minor attracted persons" and pedophiles spreading pictures of minors will have their account ceased and reported to authorities.
+Accounts mainly used for spam, porn, advertisements or backlinking are immediatly deleted.
+Do not break german or swiss law (no nazis or extremists allowed).
+Do not post erotic content without content warning.
+Short description(TL;DR of the core values)
+This instance is strongly focused on user privacy, we save no IP(changing your IP with a random IPv6 before it gets sent to Mastodon), are accessible via tor and yggdrasil and use no cloudflare.
+We use an hilarious amount of serverpower to provide the best possible experience, please let us know of any speed shortcomings.
+Free speech is a precious good, but it has its limits.
+We ban bigots, racists, terfs and users that break german or international laws, objections are denied in these cases.
+As of recently, we support a 5000 character limit on toots.
+Core values of ieji.de
+Safety
+Our strongest core value is to be a safe place for everyone, if we notice any kind of harassment coming from or going towards our instances,
+the offending accounts are suspended without parole.
+Privacy
+Our server resides near Zurich, Switzerland, known to be a privacy fortress, additionally cooperating with a provider that is also heavily focused on privacy.
+Security
+We use the latest security technology to prevent sensitive data from being accessed from the outside with systems like CrowdSec and implementing the latest TLS standards.
+This includes not using Cloudflare at all as this would jeopardize your privacy as a huge MITM attack vector.
+A sophisticated anti-ddos filter nullifies most attacks.
+Daily full backups of the database and a daily incremental backup of media files are being made towards a different datacenter.
+Performance
+Another main goal is showcasing how fast mastodon can be by deploying it on one of the best machines money can buy in a one of a kind european datacenter.
+Anonymity
+The nginx webserver does not create any logs, Mastodon is being given a randomized false IPv6 each time you interact with it(we have written our own scrambling proxy for this) and we have a
+tor hidden service address
+. Also accessible via
+Yggdrasil Network
+(somehow redirects to https so it requires acceptance of our cert). Also an early supporter of WirSpeichernNicht (german for WeDontStore), a movement against the data retention law that was planned earlier in Germany, pledging not to make logs, we are also very happy that the VÜPF in Switzerland didn't happen.
+Features
+Whatever comes up as features at Mastodon, we implement it, we want you to have the best Mastodon experience there is, this includes:
+Full Text Search via ElasticSearch, Translation Service via LibreTranslate and a relay service via AodeRelay.
+Longevity
+The service is online since may 8th, 2017 and is here to stay, also thanks to the continuous support from our community.
+Automatic Spam/Backlink Detection
+Most of our moderation effort comes from spam or backlink seo accounts, we've written a tool that based on heuristics and spam patterns either notifies the moderation team (if not 95% certain) or suspends the account, sending the reasoning with the suspension and posting it on
+@bacon
+. While it might be an attack surface to show the reasoning, we believe in transparency. New accounts get scanned and rescanned once for changes, and the first couple of messages get scanned for a pattern. It is all done on the same server, nohing to worry about in terms of privacy, it plain checks for patterns and common spam behaviour.
+Threads.net is blocked via domain block and iptables drop as the company has a horrendous past and does not at all align with our idea of privacy and safety.
+Bridgy is blocked, as we do not want to rely on such services and rather promote using compatible standards.
+Bots are fine as long as they are useful
+Team
+Admin
+SolSoCoG
+KSM
+Mods
+Dan Am
+sexybiggetje
+Clara
+Adrian Morales
+Impressum/Imprint and Datenschutz/Data Security information in german
+The server acts according to the
+Mastodon Server Covenant
+Unfortunately ieji.de has issues on delivery towards these instances because we were suspended:
+mastodon.art
+solarpunk.moe
+pettingzoo.co
+Monthly costs
+Hardware
+Main server
+AMD EPYC Milan 7443P, 128GB DDR4 3600 MT/s, 2TB NVMe M2, Zurich, Switzerland
+for running ieji.de, rel.re and other services
+costs: 319€/m
+Scaleway Object Storage in Paris: 53€/m
+Bunny.net DNS (for prot.li only): 1/m
+Now that you know the price for stellar performance,
+feel free to
+support ieji.de
+if you enjoy the service
+Via Monero:
+83TLM4cmHfcF1YqAc8LXfpZYtSwNeRHnpFxDAGBb1
+JEAEo6tUfoWDzw4dWUSWXh9S2fPkbCdTinmEhruWJ4GFVSRBr6zGnB
+(split up, please put the lines together)
+Via Ko-fi
+Via Liberapay
+Via Patreon
+Via bank transfer (PM me for data
+Via Cash sent to the address shown
+here
+Donations which exceed the monthly service costs are paid towards digitalcourage e.V. and netzpolitik.org e.V. equally.
+hosted by
+/dev/null/v
+
+## CONTACT: tor@ieji.de

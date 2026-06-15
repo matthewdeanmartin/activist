@@ -1,0 +1,189 @@
+=== POLICY REPORT: The Union Place (union.place) ===
+
+## SERVER RULES
+- No hate.
+- Don't be a dick.
+- No harassment.
+- No violence.
+- No fascism.
+- No colonialism.
+- No white supremacy.
+- No religious extremism.
+- No nationalism.
+- No racism.
+- No homophobia.
+- No transphobia.
+- No conspiracy theories.
+- No police unions.
+- Safe Space: LGTBQIA+
+- Safe Space: neurodivergent (ADHD, Aspie, Autism, etc)
+- No hacking.
+- No pornography.
+- No impersonation accounts.
+- No sexism.
+- To join, users should share a reason they want to be a member of a union-oriented space intended for union members, organizations, friends, and allies. If you only say "leaving Twitter" we will NOT approve your account.
+
+## ABOUT / DESCRIPTION
+The Union Place is union-oriented and intended for union members, organizations, friends, and allies. That doesn't mean all of your content has to be about unions, of course. Just follow the rules and code of conduct and you'll be in good shape!
+Sign-ups are moderated ("waitlist") but we try to review and approve them quickly (see "Service Level Objectives" below).
+You can help us out by providing a good reason you're interested in The Union Place
+. If you have a connection to the labor / union movements it'll tell a much better story than "Twitter is exploding". English is preferred for sign-up reasons.
+We have committed to the
+Mastodon Server Covenant
+and will provide at least 3 months' notice before ceasing operations.
+Server thumbnail and mascot by
+@McCarrick@toot.community
+.
+Hosting & Operations
+The Union Place is owned and operated by Labor Union Networking, Inc., a Delaware corporation formed with US federal non-profit status (501(c)3). Tim Wilde, a proud
+AWU-CWA
+member, is currently the sole director of Labor Union Networking, Inc.
+The Union Place is hosted on Google Cloud infrastructure. It is a personal project and is not sponsored, approved, or affiliated with Google in any way.
+Donations
+Labor Union Networking, Inc. is a US 501(c)3 non-profit, and Union Place is its only current project. We are thrilled to receive your (tax-deductible in the US) donations! You can find all of our donation options at https://www.laborunionnetworking.org/donate
+Please reach out to @tim@union.place if you have any problems or questions.
+Administration
+Our administrators are:
+@tim@union.place
+@josh@union.place
+@crs@union.place
+Our moderators are:
+@doug@union.place
+You may reach out to any of our admins or moderators, use the "Report" button within the Mastodon interface, or contact the e-mail address listed under "contact" above (not repeated just to reduce spambot collection, sorry) with any administrative or moderation issues.
+Service Level Objective (SLO)
+We aim to review new account requests every 2-4 hours throughout the day, but are likely to do less review during the United States overnight.
+We aim to review all content reports ASAP, but ask that you give us at least 12 hours to respond, particularly overnight.
+Terms of Service & Privacy Policy
+Use of this instance is subject to the
+Terms of Service
+and
+Privacy Policy
+.
+Code of Conduct
+Version: 1.3.2
+Last updated: 4 November 2023
+TL;DR:
+The Union Place has a
+zero-tolerance
+policy for racism, antisemitism, Islamophobia, xenophobia, sexism, homophobia, transphobia, ableism, and other forms of discriminatory and bigoted conduct.
+Sexually graphic and violent imagery is not permitted on The Union Place.
+Harassment of other Fediverse users is not permitted on The Union Place.
+Harmful content that is provably false (for example, “5G causes coronavirus” or “vaccines cause autism”) is not allowed, will be removed, and may result in an account suspension.
+Sexual harassment is an instant ban.
+Transphobic content is an instant ban.
+Far-right content and expression of far-right ideologies, and/or content which advocates/encourages/incites far-right extremism are an instant ban.
+We reserve the right to suspend your account at any time.
+Updates to this Document
+We may update this document from time to time for reasons including:
+clarifying terms,
+addressing new forms of harassment, or
+addressing harmful community behaviors.
+In the event of any changes to this policy, we will notify you via an announcement posted via the Mastodon administration system.
+Any changes to the Code of Conduct come into effect immediately.
+The Long Version
+Final interpretation of the following guidelines is up to the administration of The Union Place and is at our sole discretion. They are posted here to provide you with an insight into our content moderation policies and procedures.
+I. User Accounts
+The Union Place is open to all union members, organizations, friends, and allies. Content posted on The Union Place need not be entirely, or even majority, union or labor-movement related.
+Given the broad consensus among many marginalized and progressive communities that
+police unions are not a true part of the labor movement
+, police unions are not welcome on The Union Place. We will not specifically screen to prevent members of police unions from joining, but content pushing a pro-police and pro-police union agenda will be considered unacceptable. Police union locals and other directly-related advocacy groups are not eligible to maintain an account on The Union Place.
+II. Unacceptable Content
+The following types of content will be removed from the public timeline:
+Nudity that has not been:
+Appropriately tagged, and
+Masked behind a Content Warning.
+The following types of content will be removed from the public timeline, and may be removed entirely:
+Excessive advertising, and
+Uncurated news bots posting from third-party news sources.
+The following types of content will be removed, and may result in account suspension and revocation of access to the service:
+Pro-police and pro-police union content,
+Pornography and sexually explicit or graphic content, including artistic depictions,
+We welcome labor organizing among sex workers,
+Any gore and/or extremely graphic violence, including artistic depictions,
+We welcome documentation of current events, such as clashes that break out at protests, but require use of content warnings on both content and images,
+Racism or advocation of racism,
+Sexism or advocation of sexism,
+Content harmful to the public good, examples including:
+“5G causes coronavirus”
+“Vaccines cause autism” (or, for clarity, any other anti-science and anti-vaccine content)
+Xenophobic and/or violent nationalism.
+Content that is illegal in the United States and the Commonwealth of Virginia, or material encouraging, instructing, or soliciting others to break the law.
+This point shall not be applied with regards to matters regarding civil rights movements, civil disobedience and labor actions, access to reproductive rights and education, LGBTQIA+ rights and education, regardless of contested status under the law.
+We welcome discussions which remain academic, regarding past lived personal experience, or theoretical in nature, but require use of content warnings.
+We acknowledge that there are several murky legal grey areas, and would like to remind users that Content posted on the Internet, and by extension the Instance, is never truly private.
+The following types of content are explicitly disallowed, and will result in permanent revocation of access to the service:
+Sexual harassment,
+Content discriminating against gender and sexual minorities, or advocation thereof, including transphobic content,
+* Ableism and discrimination against disabled individuals or people with disabilities,
+Inappropriate content (advocating, encouraging, or inciting pedophilia, zoophilia, or other related illegal paraphilias, any material relating therein),
+Antisemitism, Islamophobia, and xenophobia, and/or content which advocates/encourages/incites such,
+Far-right content and expression of far-right ideologies, and/or content which advocates/encourages/incites far-right extremism,
+Content illegal in Germany and/or France, such as Holocaust denial or Nazi symbolism,
+Academic discussion criticising viewpoints such as Holocaust denialism may be had, but require use of content warnings,
+Photographs from events and news coverage which include imagery which would be illegal in Germany and/or France may be posted marked sensitive and require use of content warnings,
+Our servers are hosted in the United States; other content under that law will be addressed on a case-by-case basis at the discretion of the administration team with consideration for any municipalities that are directly involved, as well as whether it complies with the rest of the Code of Conduct and Terms of Service,
+Genocide denialism, as well as material which promotes, advocates for, or encourages genocides whether past or present, and
+Conduct promoting, advocating for, or encouraging any far-right ideology.
+III. Harassment
+Any conduct intended to stalk or harass other users, or to impede other users from utilizing the service, or to degrade the performance of the service, or to harass other users, or to incite other users to perform any of the aforementioned actions, is also disallowed, and subject to punishment up to and including revocation of access to the service and/or referral to the appropriate law enforcement agency, at our discretion.
+Harassment includes the following behaviors:
+Offensive comments related to gender, gender identity and expression, sexual orientation, disability, mental illness, neuro(a)typicality, physical appearance, body size, race, or religion,
+Unwelcome comments regarding a person’s lifestyle choices and practices, including those related to food, health, parenting, drugs, and employment,
+Deliberate misgendering or use of ‘dead’ or rejected names,
+Simulated physical contact (eg, textual descriptions like “hug” or “backrub”) without consent or after a request to stop,
+Threats of violence,
+Incitement of violence towards any individual, including encouraging a person to engage in self-harm or to commit suicide,
+Deliberate intimidation,
+Stalking or following,
+Harassing photography or recording, including logging online activity for harassment purposes,
+Sustained disruption of discussion,
+Unwelcome sexual attention,
+Pattern of inappropriate social contact, such as requesting/assuming inappropriate levels of intimacy with others,
+Continued one-on-one communication after requests to cease,
+Deliberate “outing” of any aspect of a person’s identity without their consent,
+Publication of non-harassing private communication,
+Continuing to engage in conversation with a user that has specifically has requested for said engagement with that user to cease and desist may be considered harassment, regardless of platform-specific privacy tools employed,
+Aggregating, posting, and/or disseminating a person's demographic, personal, or private data without express permission (doxing or dropping dox),
+Inciting users to engage another user in continued interaction or discussion after a user has requested for said engagement with that user to cease and desist (brigading or dogpiling).
+The Union Place prioritizes the safety of marginalized people over the comfort of privileged people. As a result, we will not act on complaints regarding, but not limited to:
+‘Reverse’ -isms, including ‘reverse racism,’ ‘reverse sexism,’ and ‘cisphobia’,
+Reasonable communication of boundaries, such as ‘leave me alone’, ‘go away’, or ‘I’m not discussing this with you’,
+Communicating in a ‘tone’ you don’t find congenial, and
+Criticizing racist, sexist, cis-sexist, or otherwise oppressive behavior or assumptions.
+Participants asked to stop any harassing behavior are expected to comply immediately.
+Reporting
+If you are being harassed by a user of The Union Place, notice that someone else is being harassed, please report using the ‘Report’ feature in the application.
+This Code of Conduct applies to The Union Place, but if you are being harassed by a user of The Union Place outside of the Service, we still want to know about it.
+We will take all good-faith reports of harassment by The Union Place members seriously. This includes harassment outside our spaces and harassment that took place at any point in time. The administration team of The Union Place reserve the right to exclude people from The Union Place based on their past behavior, including behavior outside The Union Place spaces and behavior towards people who are not users of The Union Place.
+Reports intended to silence legitimate criticism may be deleted without response.
+For reporting regarding copyright and DMCA violation, please see
+our DMCA Policy
+.
+These provisions notwithstanding, the administration of the service reserves the right to revoke any user's access permissions, at any time, for any reason, except as limited by law.
+Meta & Credits
+Our Code of Conduct is based off of the Code of Conduct from
+https://cloudisland.nz
+with credit to
+Geek Feminism
+and licensed under a
+Creative Commons Attribution-ShareAlike 4.0 International License
+.
+Rules based on those of
+https://hachyderm.io/
+.
+This instance uses
+Mutant Standard emoji
+, which are licensed under a
+Creative Commons Attribution-Noncommercial-ShareAlike 4.0 International License
+.
+This instance also uses Treehouse Pride Flag emoji from
+https://gitea.treehouse.systems/treehouse/emoji
+.
+:ironfront: emoji from
+​German Wikipedia user Fusslkopp
+licensed under the
+Creative Commons
+Attribution-Share Alike 3.0 Unported
+license.
+
+## CONTACT: admin@union.place

@@ -23,7 +23,7 @@ from pathlib import Path
 from . import ratelimit, state
 from .config import AppConfig
 from .store import APPROVED, FAILED, PUBLISHING, StaleStatus, Store
-from .transport import Transport
+from .transport import RetryablePublishError, Transport
 
 LOGGER = logging.getLogger(__name__)
 
@@ -35,6 +35,7 @@ class TickResult:
     failed: list[str] = field(default_factory=list)
     skipped_race: int = 0
     deferred_pacing: int = 0
+    requeued: list[str] = field(default_factory=list)
 
 
 def effective_per_hour(cfg: AppConfig) -> int:
@@ -92,6 +93,20 @@ def poster_tick(
             continue
         try:
             receipt = transport.publish(row)
+        except RetryablePublishError as exc:
+            # Transient (e.g. 429): release the claim back to approved and let a
+            # later tick try again — don't burn the row to failed. The
+            # idempotency key means a retry can't double-post even if this one
+            # actually landed server-side.
+            store.transition(
+                row.id, PUBLISHING, APPROVED, actor="poster",
+                detail=f"requeue after {exc.retry_after:.0f}s: {exc}",
+            )
+            result.requeued.append(row.id)
+            LOGGER.info("publish re-queued for %s (retry_after=%.0fs): %s", row.id, exc.retry_after, exc)
+            # Stop the tick: if we're being rate-limited, the rest of the backlog
+            # would only pile up more 429s.
+            break
         except Exception as exc:  # any transport failure → failed, human retries via UI
             store.transition(row.id, PUBLISHING, FAILED, actor="poster", detail=str(exc))
             result.failed.append(row.id)
@@ -102,13 +117,13 @@ def poster_tick(
         last_pub = receipt.published_at
         LOGGER.info("published %s as %s", row.id, receipt.status_id)
 
-    if result.published or result.failed:
+    if result.published or result.failed or result.requeued:
         store.log_event(
             "-",
             "poster",
             "poster-tick",
             f"{len(result.published)} published, {len(result.failed)} failed, "
-            f"{result.deferred_pacing} deferred ({transport.name})",
+            f"{len(result.requeued)} requeued, {result.deferred_pacing} deferred ({transport.name})",
         )
     return result
 

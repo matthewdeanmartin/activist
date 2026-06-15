@@ -1,0 +1,104 @@
+=== POLICY REPORT: Mindly.Social (mindly.social) ===
+
+## SERVER RULES
+- Be nice to everybody always. No hate speech, slurs, or directing negativity towards others (including targeted deadnaming and misgendering).
+- Stay tasteful and legal.
+- Use content warnings when appropriate for NFSW or sensitive topics/media.
+- No companies/brands/corporations. (Individual self-promotion is allowed.)
+- English only. Due to the issues with moderating other languages, please stick to English posts/media on this server.
+- No users under 13 years of age.
+
+## ABOUT / DESCRIPTION
+Be Mindly, stay mindful.
+About Mindly.Social
+Mindly.Social aims to be a friendly, non-topic specific community focused on spreading positivity, expanding your knowledge and experiences, and just being plain old happy on social media for once.
+Click this link for more in-depth Mindly.Social info
+(At this time we are an English only server due to various reasons including the inability to moderate posts in languages we do not speak, being unable to fairly moderate and handle reports is unfair to other servers and our users.)
+The Mindly.Social Philosophy
+Mindly.Social is designed to be a positive, inspirational, and educational community with a focus on bettering each other and yourself. This might seem like a pipe dream on the internet but maybe it will work out, who knows right?
+Disallowed Content
+Hate, Bigotry, or Discrimination
+Targeted deadnaming and misgendering
+Doxxing
+Promoting Conspiracy Theories
+Illegal/Obscene/Harmful Content
+Trolling
+Harassment
+Spamming
+Spam
+Unsolicited spam is not allowed. This includes creating an account for the sole purpose of posting company/brand advertisements, affiliate/referral links, donation/fundraising links, or any other method of requestion money from others.
+Corporate/brand accounts are not allowed.
+Timeline Flooding
+Continuous posting of content or reposting of external content within a short time without intent of engaging in a conversation is not allowed.
+Content Warnings
+We require all users to properly use Content Warnings (CW) when posting about sensitive, divisive, inflammatory, or upsetting topics and content. These topics include, but are not limited to:
+Politics
+Mature/Sexual/Explicit Content
+War/Violence
+Disturbing/Hateful Content
+Excessive Vulgar/Obscene Language
+Child Abuse/Exploitation/Endangerment
+Drugs/Gambling/Addictions
+Controversial Public Figures
+Bots/Automated Content
+All bot accounts must have the "This is a bot account" box in the profile settings. Any accounts displaying signs of being a bot or strictly posting automated content will be limited or suspended.
+News/Journalism
+While we do allow the discussion of current events and news, accounts found to only be posting links to external news sources without providing any commentary or attempting to start a discussion will be limited or suspended.
+Posting external news links to articles directly related to you (i.e. you are the subject, author, or have some involvement in the article) is allowed.
+First and foremost, this community is designed to be a place for discussion so solely reposting news links is not allowed and may also violate our Bots/Automated Content policy above.
+The Negativity Clause
+We all have rough days/weeks/months/years, it's okay to rant and vent about life here. It's not always going to be unicorns and rainbows and we understand that. When we say
+positivity
+we mean towards each other. As long as you're not complaining about or attacking an individual or group, you're probably fine. 😉
+Like everywhere else in the world there's going to be arguments and disagreements, heck there will even be people who just can't get along and that's fine. You're not required to agree with or like everybody you meet. We encourage debates and discussions about
+topics
+, not individuals or persons. So, if you do want to argue or disagree, keep the personal attacks out of it. Thank you.
+Alternative Text
+Please consider adding alternative text (alt text) to any images you post to allow better access to your discussions for all users. For an excellent overview of alt text please check out
+this thread by JesseF8693
+, one of our extremely helpful and informative users.
+Additional alt text resources:
+https://www.w3.org/WAI/tutorials/images/
+https://supercooldesign.co.uk/blog/how-to-write-good-alt-text
+https://accessibility.huit.harvard.edu/describe-content-images
+Mastodon Server Covenant
+We abide by the
+Mastodon Server Covenant
+Blocked Instances
+With this being the internet there's bound to be a few bad apples in every bunch, Mastodon is no different. Due to this unfortunate truth, we may find the need to block problematic instances.
+Credits
+Mindly.Social uses the following assets:
++ KuJoe Bots emoji by
+LogicCore
++
+Dzuk's free emoji
+, which are licensed under a
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+.
+Sew icons created by Freepik - Flaticon
+Chocolate-milk icons created by 2D3ds - Flaticon
+Greyhound icons created by Freepik - Flaticon
+Additional emotes from coop.lol
+Additional emotes from tech.lgbt
+Hosting by
+Hetzner [US:East]
+(Affiliate Link)
+CDN by
+CloudFlare
++
+Backblaze
+Donations/Financials
+To help cover the costs of the servers we have setup the following methods to allow the community to contribute to help keeping things running smoothly as we continue to grow.
+Ko-Fi ☕
+PayPal 🌐
+Liberapay 🤝
+Stripe 💳
+Current expenses (05/2025):
+Domain (Namecheap): $44.98/year
+Servers + Monitoring + Backups (Self Hosted + Hetzner): ~$8.50/month
+Media Storage (Backblaze): ~$16.00/month
+Mailserver (MXRoute): $25.00/year
+Business/LLC Fees: $352.88/year
+These rules below are pretty simple and straight forward. I don't want to make them complex or detailed so please use common sense and be a good person (online and IRL).
+
+## CONTACT: contact@mindly.social

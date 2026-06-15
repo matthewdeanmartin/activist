@@ -1,0 +1,48 @@
+=== POLICY REPORT: Tŵt Cymru | Toot Wales (toot.wales) ===
+
+## SERVER RULES
+- Use of the toot.wales service is subject to our policies: https://croeso.toot.wales/en/policies/
+
+## ABOUT / DESCRIPTION
+Croeso! Tŵt is the independent, non-profit, bilingual community for Wales and the Welsh, at home and abroad. Tŵt is a part of the Social Web: an open network of independently-run social platforms. We are moderated locally, with a focus on community wellbeing, cultural preservation, and civil dialogue.
+Contact Us
+Technical Support (on network):
+@teamtoot
+Technical Support (email):
+help@toot.wales
+Press/Media Enquiries:
+media@toot.wales
+Legal:
+legal@toot.wales
+Covenant
+Our promise to you - Tŵt will always:
+Be available in Cymraeg and English
+Be safe and inclusive
+Be free of charge
+Our Core Values
+Language Equality. Our app is 100% available in Cymraeg and English. If your computer or mobile device is set to Cymraeg, your Tŵt experience will be in Cymraeg.
+Community Safety. Tŵt comes with effective anti-abuse tools to help you protect yourself online. Community moderators provide personal help, and we offer a clear code of conduct.
+Privacy. Tŵt ensures you can follow and be followed by the people you choose. Your messages can be seen by everyone or only the people you choose. Full account deletion is always available, and you can download everything you’ve ever shared.
+No data mining, no advertising. Tŵt believes the fundamental rights to expression and association are best served in a non-profit medium.
+Learn more at our blog:
+croeso.toot.wales
+Tŵt is proudly powered by Mastodon - open source social software. Join Tŵt and connect to 50 million people on Fediverse, Bluesky, WordPress, Ghost and more worldwide!
+Tŵt Community Guidelines
+Our service is governed by our policies. Please see:
+Community Guidelines
+Content Guidance
+We use
+CARIAD
+by
+IFTAS
+to ensure safe Fediverse connections.
+Governance
+Tŵt Cymru is an open collective with The Social Change Nest as our nonprofit fiscal host. All servers and data are located in the United Kingdom.
+Please follow @teamtoot for system notices.
+Donations
+We are 100% community-funded. Donations are made directly to Tŵt Cymru Open Collective, fiscally hosted by The Social Change Nest.
+Open Collective
+Endaoment
+(cryptocurrency donations)
+
+## CONTACT: help@toot.wales

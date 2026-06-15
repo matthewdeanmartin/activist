@@ -1,0 +1,163 @@
+=== POLICY REPORT: kolektiva.social (kolektiva.social) ===
+
+## SERVER RULES
+- No racism, misogyny, homo/transphobia, ableism or other oppressive behaviour. 
+- No right wing bullshit and no authoritarian left wing apologetics. 
+- No harassment.
+- No electoral propaganda/campaigning.
+- No misinformation or conspiracy theories.
+- No promotion of capitalism, meritocracy or a commercial enterprise.
+- No spam.
+- No sexualized images without consent.
+- No glorification of nation states or militarism.
+- Propaganda from the USSR, CCP, or DPRK is not allowed.
+
+## ABOUT / DESCRIPTION
+CONTACT US
+Feel free to message or tag any of the following members of our mod team or the general account
+@moderation
+. You can also tag posts with the hashtag #KolektivaMod.
+Abricotine
+@abricotine
+|
+English
+Axolotl | he/him
+@axolotl
+|
+English/Spanish
+Crash  |  they/them  |
+@crash_thepose
+|
+English
+Djab Maroon  |  he/him  |
+@djabmaroon
+|
+French/Haitian Creole/English
+Eme  |  they/them  |
+@m
+|
+Portuguese/English/Spanish
+Mud | he/him |
+@Mud
+|
+German/Spanish/Catalan/English
+Sanana | she/her
+@sanana
+|
+Turkish/English
+subMedia
+@subMedia
+|
+English
+Additionally, please note that
+@admin
+is not a part of the mod team.
+KOLEKTIVA.SOCIAL CODE OF CONDUCT
+Coming up with this policy has been a bit of a balancing act. On the one hand, we do not want to make too many hard-and-fast rules. We are anarchists, and therefore, we do not care to think too long about how to govern every aspect of how other people should behave. On the other hand, don't want our collective resources to be used to spread ideas that go against our values. To this end, we have come up with the following guidelines. We plan on adapting and changing these guidelines over time, and are open to feedback, critique, and suggestions from other Mastodon users, moderators and administrators.
+As a user of this platform, please be mindful that your username ends with @kolektiva.social and your actions, in part, represent the instance. Your engagement builds an expression, and the values you share reverberate from within and outside this digital neighbourhood.
+WHAT YOU SHOULDN'T POST AT ALL:
+Posts containing the following content will be removed, and users will have their accounts immediately suspended and/or deleted.
+Racist, misogynistic, transphobic, homophobic, ableist slurs, or other derogatory pejoratives for oppressed identity groups (unless you belong to that group and are reclaiming the term)
+Blatantly racist, casteist, ableist, sexist, transphobic, or otherwise chauvinistic and bigoted discourse
+Symbols and slogans associated with fascist regimes and/or fascist, third-positionist, western chauvinist or white nationalist movements
+Arguments that seek to deny or cast doubt on historic or ongoing acts of genocide
+Pornographic and/or sexualized images depicting people who did not consent to their image being shared
+Pedophilia/MAP content, in all its manifestations
+Purposeful misinformation
+Spam
+WHAT YOU SHOULDN'T
+REALLY
+POST:
+Kolektiva.social is an anarchist/anti-colonial instance. Posts containing the following content may be reported and/or removed, and the user may be issued a warning. Repeated warnings may lead to accounts being suspended, and/or their users being encouraged to migrate their account to another instance.
+Propaganda from politicians or political parties that seek to win elections
+Propaganda from the USSR, CCP, or DPRK
+Glorification of nation states and/or militarism
+Messages promoting capitalism or meritocracy
+Messages promoting or encouraging pseudoscience, conspiracism, or breaks with reality
+Targeted harassment (i.e. evading blocks, repeated hostile replies, or posts intended to instigate brigading/dogpiling against a user or another instance), even for righteous reasons
+Posts that could bring avoidable legal repression down upon Kolektiva's admins and/or server infrastructure (i.e. doxxing individuals paired with explicit calls for violence or threats against them)
+Religious proselytizing/recruitment
+POSTS THAT SHOULD BE ACCOMPANIED WITH A CONTENT WARNING:
+We have neither the capacity nor the slightest interest in monitoring all content posted on Kolektiva.social, nor do we enjoy making judgments about what is, or is not, acceptable speech. For this reason, we encourage people to use Mastodon's built-in Content Warning (CW) tool to label posts that other users may find upsetting. Unlabeled posts that are reported to us as containing the following content will have a Content Warning added to them, and the user will be notified.
+Accounts that regularly post the following types of posts without Content Warnings may have their accounts silenced, or suspended, based on the severity of the behavior, and may be asked by the moderators to migrate to another instance.
+Any visual depiction of nudity
+Any visual depiction of blood, severe injuries, torture, murder, or medical procedures
+Any unambiguous visual depictions of drug use or drug paraphernalia
+Any message detailing sexual acts
+Any message mentioning suicide, self-harm, abuse, rape, or sexual assault that does not relate to a current issue
+Spoilers (within reason)
+Apart from what is itemized above, we do not have specific guidelines for Content Warnings. All users are encouraged to be considerate of others’ needs and preferences, particularly with respect to things that are widely considered repulsive or distressing (for example, the worst events in human history and the worst things that people can do to each other).
+We explicitly do not, and never will, require users to tag political content and news-related posts.
+Special Cases Worth Extra Explanation:
+Nudity, sex, drugs, and drug paraphernalia.
+We want Kolektiva.social to be as accessible as possible to minors, incarcerated people, and others whose internet access is monitored. These subjects, when visible on the public timeline, may lead to authorities speedily and irreversibly blacklisting our website in a way that political content may not. For this reason, and some others, we ask that all images depicting these subjects be accompanied with a Content Warning.
+The COVID-19 pandemic.
+COVID-19 is a real disease, and vaccines and masks are useful measures for impeding its spread. We will treat messages to the contrary as either "Purposeful misinformation" or "Messages promoting or encouraging pseudoscience, conspiracism, or breaks with reality" as itemized earlier. It's not that we think various  "experts", on health subjects or others, are entirely beyond questioning. It's simply that we also disdain our platform being used to spread health myths that are, by and large, generated and boosted in the same parts of the internet as far right conspiracy theories about the present order.
+The Russo-Ukrainian War.
+We do not want our instance flooded with pro-war propaganda. We will not censor discussion of the Ukrainian far right or other problems in Ukrainian society, but we may consider gross exaggerations of these problems as propaganda aimed at providing rhetorical cover for the Russian state's imperialist aggression. We may view links to Russian state-affiliated media as "purposeful misinformation" or "messages promoting or encouraging pseudoscience, conspiracism, or breaks with reality" as itemized earlier. We may also view posts supporting NATO and/or Ukrainian nationalism as "messages glorifying the nation state and/or militarism".
+Astrology.
+We don’t believe in it but it’s fine.
+USING KOLEKTIVA.SOCIAL
+BLOCKING AND MUTING
+We encourage users to make use of the block and mute options to help control what content appears on their timelines. While moderators will do our best to block bad offenders and defederate from toxic instances, we recognize that people have different limits and expectations of the fediverse, and these options allow for a more personalized experience. Evading blocks and mutes is not part of respectful engagement, and may lead to suspension and deleting of accounts, and a permanent ban from Kolektiva.social.
+Instructions on how to use personalized Block and Mute controls can be found
+here
+.
+REPORTING
+Unlike centralized and corporate social media platforms, the process of moderation on Kolektiva.social is intended to be accountable. The users who make up the moderation team are listed publicly for this reason. We want to receive reports regarding all forms of unacceptable behavior (that we can reasonably respond to), and we will do our best to follow up within a reasonable time frame.
+Instructions on how to report a post can be found
+here
+.
+NOTES ON REPORTING
+Reports made by users on other fediverse instances about Kolektiva.social users are anonymous. For example, if @example@mastodon.online reports a Kolektiva.social user, we will see that a user from
+Mastodon.online
+has sent a report, but not their username. We cannot respond to users about their reports if we do not know who they are. We always know which Kolektiva.social users have issued which reports, however.
+Reports without explanations are significantly harder to follow up on. Links, explanations, and other information are encouraged and appreciated. Furthermore, we cannot reasonably take actions against users when there is no proof of bad behavior or ill intent. Please include examples and/or reasons in your reports.
+A report does not guarantee the moderation response that you've requested. If reporting users are not satisfied with our decisions, we suggest using the Mute or Block functions.
+ACCESSIBILITY
+We encourage the usage of captions and descriptive text when posting images, in order to make your posts more accessible to users who use screen readers. For the same reason, we also discourage the usage of excessive emojis or unicode text symbols in posts or usernames.
+Our instance is open to users of any language. The most commonly spoken language among Kolektiva.social mods and admins is English, but we can also communicate in French, Haitian Creole, Portuguese and Spanish. Unfortunately, members of our moderation team won’t be able to effectively communicate in other languages apart from those listed above.
+If contacted by users speaking other languages, we may seek out help from other Kolektiva.social users or the admins and mods of other instances. Barring that, we may make use of online translation software.
+SAFETY AND DANGER ON THE FEDIVERSE
+The Kolektiva.social moderation team is made up of relative newcomers to the fediverse, but we understand that all of the problems associated with other online spaces are also present here. Some of these problems relate to surveillance by institutions that aim for social control, and some relate to the forms of oppressive and anti-social behavior that permeate broader society. Most of the members of our collective are anarchists who have been involved in social movements for years. That is to say, we understand a few things about how repression works. We also know how and why anarchists get into fights with one another, because we have been in a few fights ourselves. At the same time, there’s lots that we don’t know.
+As a group, we can draw on a pretty wide array of experiences, but some problems around technical security are simply very complicated, and the same is true of some of the controversies that unfold in local scenes, or over the Internet in general. We will do our best to address issues as they come up. But because we are real people who live in this constantly changing world, we are likely to make mistakes. We also simply won't be able to satisfy all the (sometimes competing) requests and reports that we receive from users.
+We believe that it is imperative that anarchists and social movements abandon surveillance capitalist platforms. In fact, we think everyone on Earth should abandon these services. Platforms like Facebook, YouTube, Instagram, and Twitter spy on us, hand our personal data over to hostile forces, and help to poison political discourse through monetized algorithms and the spread of reactionary ideologies. We want Kolektiva.social to be able to serve as a landing pad for people who are new to Mastodon, the fediverse, etc. For this reason, we are intentionally set up as a large, welcoming instance with open registrations. We have no interest in hosting fascists or other annoying and miserable people (and will ban them once we have a good reason to do so), but obviously some of the people on this platform may be ruder, rougher, and less sensitive than those found on smaller, more community-focused Mastodon/Hometown instances. When we talk about a mass exodus from corporate social media, we recognize that this will involve all sorts of people, and not just those who we already agree with. To paraphrase Maurice Moe Mitchell: we have a low bar to entry and a high standard for conduct.
+We want to allow people to learn how they want to conduct themselves before removing them. That said, even though we intend to be open and welcoming, we will not allow arguments around "free speech" to serve as cover for harmful, entitled, and/or obnoxious behavior. We are aware of the broad conversations taking place around anti-Blackness and other forms of racism on the fediverse, and we take this seriously.
+While we see it as important to provide a space where users can be themselves and reach out to others as they wish, repeatedly posting unsolicited opinions on other people's posts, playing “devil's advocate” with strangers, and other similar forms of obnoxious behavior have their limit, before they become a pattern. If you are having problems with a specific user, please feel free to reach out to one of our moderators for help with explaining microaggressions and subtly oppressive behaviors.
+DEFEDERATING FROM OTHER INSTANCES
+We will do our best to remain defederated from the most toxic parts of the fediverse, and will attempt to keep up-to-date on collective initiatives such as
+#fediblock
+. But to maintain Kolektiva.social's usefulness as a communications tool and social media platform, we don’t intend to defederate from large instances based on the actions of a small minority of their membership. We also don’t want to turn defederation into our activism.
+Given Kolektiva.social’s relatively large size on the fediverse (and especially in the “anarchist neighborhood”), we recognize that any decisions that we take to defederate from a given instance can severely limit that instance’s users’ ability to learn about, and engage with, various worthwhile sorts of information that Kolektiva.social users are putting onto the fediverse. Because of this, we will rely more heavily on suspending and silencing individual accounts, unless the instance itself is irredeemable. We will do our best to maintain open lines of communications with other admins, and to pass on reports about their users where we deem it necessary/appropriate.
+A NOTE ON DECENTRALIZATION
+We are aware of the criticism of large centralized Mastodon instances, and the arguments for a more decentralized network of smaller Mastodon servers. We are sympathetic to these criticisms for a number of reasons, not least of which being that they often come from our fellow anarchists. We encourage our users to find another instance that they find fits their expectations and views, or barring that, to create their own.
+That said, we also see a need for large instances with open registration that can serve as landing pads for those escaping from corporate social media platforms. This is a role that we see Kolektiva.social filling as we move forward with our short-term goals. We will continue to assess our role in the fediverse moving forward, and are open to dialogue with other groups about what this can and should look like. As noted earlier, we plan on producing a series of resources aimed at helping people set up and manage their own Mastodon instances.
+A BRIEF HISTORY OF KOLEKTIVA
+Kolektiva was launched in June of 2020 by anarchist media collectives Antimídia and subMedia with the aim of developing autonomous, digital communication infrastructure for the movements we support and participate in. It soon expanded into an informal organization with members based in a handful of places all around the world. Kolektiva's first project was a PeerTube instance,
+Kolektiva.media
+.
+Its purpose was to offer a free, non-corporate platform for anarchists and anti-colonial content producers looking to bypass Google, Facebook, and other surveillance capitalist firms, as well as censorship mandated and enforced by governments. When Facebook began purging a number of pages associated with anarchist and antifascist projects in July 2020, Kolektiva set up a Mastodon instance,
+Kolektiva.social
+. It has grown rapidly since then, thanks in large part to its open registrations and the increasingly widespread and apparent need for alternatives to the dominant social media platforms. It is important to note that Kolektiva.social started as an ad hoc response to a specific problem, mainly related to the ability of social movements to broadcast information publicly, in the context of the summer's rebellion, and that none of the Kolektiva team were, at that time, especially familiar with the fediverse, from a social point of view, when we started this instance.
+There were controversies, arguments, and accusations. So, as we entered 2021, Kolektiva.social began an (ongoing) effort to expand our number of moderators and to clarify our expectations of users, and users’ expectations of us. Kolektiva.social is just one component of a larger project that is aimed at getting as many people off of corporate social media as possible, and especially people who are involved in anti-colonial, anti-capitalist, and anti-fascist movements. It is also a volunteer project, and time is limited. As a result, we expect it to take us a while to really get a handle of what we're trying to accomplish here, how we should try to accomplish it, and what exactly is within our capacities. Nevertheless, we don't intend to go anywhere, and we are committed to learning from our mistakes and always improving on past failures.
+THE GOALS OF KOLEKTIVA
+Kolektiva exists to provide digital infrastructure for anarchist and anti-colonial movements. We seek to enable as many people as possible to share news and information without relying on centralized and intensively surveilled platforms. We are motivated in this work by the principle of internationalism, and a desire to increase communication and collaboration across state-imposed borders and linguistic divides.
+In the coming years, we hope to scale up the project in a number of ways by doing all of the following:
+encouraging the exodus of anarchists and other anti-capitalists/anti-colonialists from corporate platforms towards independent, open-source alternatives such as those offered by Kolektiva
+producing instructional videos for new users, and resources for those seeking to set up their own fediverse sites/instances
+building up our physical server infrastructure and technical capacity
+expanding and diversifying our moderation team
+experimenting with other
+ActivityPub
+platforms, such as
+Mobilizon
+and
+Pixelfed
+introducing a new framework to better organize content and facilitate translation
+TOR Onion Address
+This server is available over
+Tor
+at:
+http://klktvbm66ijfy5j7oflsidtcf3gbhrmbaaqfufxggflfb57rv5yakxqd.onion
+
+## CONTACT: kolektiva@riseup.net
