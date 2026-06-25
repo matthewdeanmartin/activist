@@ -262,6 +262,7 @@ def run_news_chain(
         engine=engine,
         max_posts=persona.max_posts_per_run,
         slot_for=lambda index: ratelimit.continued_slot(index, per_hour, now, last_slot),
+        engine_call_budget=cfg.engine_call_budget,
     )
     result.posts = out.posts
     result.log_lines.extend(out.log_lines)

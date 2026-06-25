@@ -42,6 +42,6 @@ The project is not designed for:
 - synthetic content disconnected from sources
 - automatic engagement with anyone mentioning a keyword
 
-## Not implemented
+## Live publishing is gated, not absent
 
-The design anticipates live Mastodon publishing and unattended scheduling, but the current implementation still stops short of live posting. The operator can review and simulate publication, but the final network write path is intentionally absent.
+A real Mastodon-posting transport (`MastodonTransport`) exists and performs the actual write. It is deliberately hard to trigger by accident: it requires `[poster].live = true` in committed config, `ACTIVIST_LIVE=1` in the environment, and `--live` on the command line, all at once. Unattended scheduling beyond `poster --loop` is not implemented.

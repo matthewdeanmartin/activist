@@ -126,6 +126,58 @@ def test_chain_dry_run_touches_nothing(workspace, repo_root):
     assert not cfg.out_dir.exists()
 
 
+class CountingBot:
+    """Wraps MockBot to count engine.react() calls without changing its logic."""
+
+    name = "mockbot"
+
+    def __init__(self):
+        self._inner = MockBot()
+        self.calls = 0
+
+    def react(self, *args, **kwargs):
+        self.calls += 1
+        return self._inner.react(*args, **kwargs)
+
+    def reply(self, *args, **kwargs):
+        return self._inner.reply(*args, **kwargs)
+
+
+def test_chain_engine_call_budget_caps_calls_and_defers_rest(workspace, repo_root):
+    """A low call_budget stops paying for engine.react() once spent, and the
+    items it never got to are left off seen.jsonl (deferred, not dropped) so
+    a later run with budget can still pick them up."""
+    cfg = make_cfg(workspace, repo_root)
+    cfg.engine_call_budget = 3
+    store = Store(cfg.db_path)
+    bot = CountingBot()
+    with fixture_client(repo_root) as client:
+        result = run_news_chain(cfg, bot, store, client=client, now=NOW)
+
+    assert bot.calls == 3
+    assert len(result.posts) <= 3
+    # Full fixture run (no budget) sees and marks all 8 items; the budgeted
+    # run must mark fewer, since some were deferred rather than evaluated.
+    assert len(state.load_seen_ids(cfg.persona_dir / "memory")) < 8
+
+
+def test_chain_engine_call_budget_then_unbudgeted_run_picks_up_rest(workspace, repo_root):
+    """Items deferred by the budget aren't lost -- a follow-up run without a
+    (or with a higher) budget reconsiders them, since they were never marked
+    seen."""
+    cfg = make_cfg(workspace, repo_root)
+    cfg.engine_call_budget = 3
+    store = Store(cfg.db_path)
+    with fixture_client(repo_root) as client:
+        run_news_chain(cfg, MockBot(), store, client=client, now=NOW)
+        cfg.engine_call_budget = None
+        second = run_news_chain(cfg, MockBot(), store, client=client, now=NOW + dt.timedelta(hours=1))
+
+    # Together the two runs see everything the unbudgeted single run would.
+    assert len(state.load_seen_ids(cfg.persona_dir / "memory")) == 8
+    assert len(second.posts) > 0  # the deferred items got their engine.react() this time
+
+
 def test_continued_slot_from_empty_queue():
     assert continued_slot(0, 4, NOW, None) == "2026-06-12T09:00:00+00:00"
     assert continued_slot(2, 4, NOW, None) == "2026-06-12T09:30:00+00:00"

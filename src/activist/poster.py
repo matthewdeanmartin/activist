@@ -61,11 +61,22 @@ def poster_tick(
     per_hour: int | None = None,
 ) -> TickResult:
     """One pass over the due queue. Safe to run from overlapping schedulers —
-    the claim CAS and the pacing backstop both hold per-row."""
+    the claim CAS and the pacing backstop both hold per-row.
+
+    ``cfg.poster_min_spacing_seconds``, when set, overrides the per-hour-
+    derived spacing outright. The per-hour pacing exists to protect a real
+    instance from a misbehaving bot; against an ephemeral local mock there is
+    nothing to protect, so mock configs can collapse it to ~0 instead of
+    waiting out real-instance pacing for content that only landed on this
+    machine ([poster].min_spacing_seconds in activist.mock.toml).
+    """
     now = ratelimit.aware_utc(now or dt.datetime.now(dt.UTC))
     if per_hour is None:
         per_hour = effective_per_hour(cfg)
-    spacing = dt.timedelta(minutes=max(1, 60 // max(1, per_hour)))
+    if cfg.poster_min_spacing_seconds is not None:
+        spacing = dt.timedelta(seconds=cfg.poster_min_spacing_seconds)
+    else:
+        spacing = dt.timedelta(minutes=max(1, 60 // max(1, per_hour)))
     identity = cfg.mastodon_id
 
     result = TickResult()

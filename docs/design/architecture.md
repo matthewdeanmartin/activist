@@ -5,7 +5,7 @@ The implemented system has three local entry points sharing one Python package, 
 ```text
 RSS/Atom feeds ---> fetch chain ----\
                                      \
-Mastodon mentions --> reply chain ----> SQLite queue ---> local Flask UI ---> dry-run poster log
+Mastodon mentions --> reply chain ----> SQLite queue ---> local Flask UI ---> poster (dry-run log, or real POST behind the triple gate)
                                            |
                                            -> persona/ memory and opinions
 ```
@@ -70,7 +70,7 @@ The local Flask app reads and updates the queue. It exposes:
 
 ### Poster
 
-The poster claims approved rows, applies a pacing backstop, and writes simulated publish receipts through `DryRunTransport`. Live Mastodon posting is not implemented.
+The poster claims approved rows, applies a pacing backstop, and publishes through a transport seam. By default that's `DryRunTransport`, which writes simulated publish receipts. A real `MastodonTransport` exists and performs the actual POST, but it only constructs when `[poster].live = true`, `ACTIVIST_LIVE=1`, and `--live` are all set together — see [Targeting mastodon-mock](../developer/mastodon-mock.md) for exercising it safely.
 
 ## Concurrency model
 

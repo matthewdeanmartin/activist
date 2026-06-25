@@ -12,9 +12,11 @@ The configured `paths.persona` directory must exist and contain `persona.toml`.
 
 The replies path requires all `MASTODON_ID_<NAME>_*` variables for the selected identity. Check `.env`, including the identity suffix.
 
-## The poster refuses to run with `poster.live=true`
+## The poster refuses to publish live
 
-That is expected. The current implementation only supports `DryRunTransport`. Set `poster.live = false`.
+`MastodonTransport` only constructs when all three gates are open: `[poster].live = true` in config, `ACTIVIST_LIVE=1` in the environment, and `--live` on the command line. If any one is missing the poster raises `PublishGateError` and refuses to start, by design — this is meant to take three separate, deliberate actions to go live against a real account. Either open all three gates, or leave `poster.live = false` (or omit `--live`/`ACTIVIST_LIVE`) to stay on `DryRunTransport`.
+
+To exercise the live path safely, point the config at the local mastodon-mock server instead of a real instance — see [Targeting mastodon-mock](../developer/mastodon-mock.md).
 
 ## The UI says another process changed the row first
 

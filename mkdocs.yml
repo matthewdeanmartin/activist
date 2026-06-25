@@ -37,4 +37,6 @@ nav:
       - Configuration System: developer/configuration.md
       - Execution Engine: developer/execution-engine.md
       - State, Errors, Observability, Testing: developer/operations.md
+      - Targeting mastodon-mock: developer/mastodon-mock.md
+      - Game Sim Personas (design): developer/game-sim-personas.md
       - CLI Internals and Contributing: developer/cli-and-contributing.md

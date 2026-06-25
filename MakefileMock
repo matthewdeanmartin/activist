@@ -1,0 +1,193 @@
+ifeq ($(origin VIRTUAL_ENV),undefined)
+    VENV := uv run
+else
+    VENV :=
+endif
+
+CONFIG ?= activist.mock.toml
+MOCK_CONFIG ?= .mastodon_mock.toml
+MOCK_HOST ?= 127.0.0.1
+MOCK_PORT ?= 3000
+# This is a mock/demo run, not a real one -- cap LLM calls per fetch so a busy
+# feed day can't silently burn dozens of openrouter calls. activist.mock.toml
+# already sets [engine].call_budget=25; CALL_BUDGET here lets you override it
+# per-invocation, e.g. `make -f MakefileMock fetch CALL_BUDGET=5`.
+CALL_BUDGET ?= 25
+MOCK_PID := .mock_server.pid
+MOCK_LOG := data/mock/server.log
+ACTIVIST := $(VENV) activist
+MASTODON_MOCK := $(VENV) mastodon_mock
+
+.PHONY: help preflight serve serve-fg up down status fetch fetch-dry fetch-replies \
+        fetch-only-replies fetch-no-replies ui poster poster-loop poster-skip-verify \
+        reset-memory mock-persona-reset fixture-run fixture-replies approve-all demo clean
+
+help:
+	@echo "Activist mock-server targets (publish for real, but only to a local,"
+	@echo "ephemeral mastodon_mock instance -- see ../mastodon_mock/docs)"
+	@echo "  make -f MakefileMock up                 # start mastodon_mock in the background"
+	@echo "  make -f MakefileMock serve-fg            # run mastodon_mock in the foreground"
+	@echo "  make -f MakefileMock status              # check whether the mock is up"
+	@echo "  make -f MakefileMock down                # stop the background mock server"
+	@echo "  make -f MakefileMock preflight           # check config + a running mock"
+	@echo "  make -f MakefileMock fetch               # fetch live feeds into the review queue"
+	@echo "  make -f MakefileMock fetch-dry           # preview fetch without changing local state"
+	@echo "  make -f MakefileMock fetch-replies       # fetch feeds and replies from the mock"
+	@echo "  make -f MakefileMock fetch-only-replies  # fetch only replies from the mock"
+	@echo "  make -f MakefileMock fetch-no-replies    # fetch feeds and skip replies"
+	@echo "  make -f MakefileMock fixture-run         # offline fixture-based post generation"
+	@echo "  make -f MakefileMock fixture-replies     # offline fixture-based reply generation"
+	@echo "  make -f MakefileMock ui                  # start the local review dashboard"
+	@echo "  make -f MakefileMock poster              # publish one tick FOR REAL to the mock"
+	@echo "  make -f MakefileMock poster-loop         # keep the live-against-mock poster running"
+	@echo "  make -f MakefileMock poster-skip-verify  # poster tick without a credential check"
+	@echo "  make -f MakefileMock reset-memory        # clear data/mock/persona/memory files"
+	@echo "  make -f MakefileMock mock-persona-reset  # re-copy persona/ into data/mock/persona"
+	@echo "  make -f MakefileMock approve-all         # skip the review UI: approve every pending row"
+	@echo "  make -f MakefileMock demo                # up + fetch + approve-all + poster, one shot"
+	@echo "  make -f MakefileMock clean               # stop server, wipe data/mock + the mock db"
+	@echo ""
+	@echo "Variables"
+	@echo "  CONFIG=$(CONFIG)"
+	@echo "  MOCK_CONFIG=$(MOCK_CONFIG)"
+	@echo "  MOCK_HOST=$(MOCK_HOST)  MOCK_PORT=$(MOCK_PORT)"
+	@echo "  CALL_BUDGET=$(CALL_BUDGET)  # cap on LLM calls per fetch (--max-engine-calls)"
+
+data/mock:
+	@mkdir -p data/mock
+
+# Scratch persona copy mock runs write into, so fetch's diary.md/seen.jsonl
+# writes never touch the real persona/ directory used by activist.toml.
+# Idempotent: skips if already seeded (rerun `make -f MakefileMock
+# mock-persona-reset` to refresh from the real persona/ contents).
+data/mock/persona: data/mock
+	@test -d data/mock/persona || cp -r persona data/mock/persona
+
+mock-persona-reset: data/mock
+	rm -rf data/mock/persona
+	cp -r persona data/mock/persona
+
+preflight: data/mock data/mock/persona
+	@echo "Checking mock-mode prerequisites"
+	@test -f "$(CONFIG)" || (echo "Missing config: $(CONFIG)" && exit 1)
+	@test -f "$(MOCK_CONFIG)" || (echo "Missing mock seed config: $(MOCK_CONFIG)" && exit 1)
+	@test -f ".env" || (echo "Missing .env" && exit 1)
+	@grep -q "MASTODON_ID_MOCK_BASE_URL" .env || \
+		(echo "Missing MASTODON_ID_MOCK_* in .env -- see .env header" && exit 1)
+	@test -f "persona/persona.toml" || (echo "Missing persona/persona.toml" && exit 1)
+	@test -f "persona/opinions.toml" || (echo "Missing persona/opinions.toml" && exit 1)
+	@test -f "persona/knowledge.md" || (echo "Missing persona/knowledge.md" && exit 1)
+	@test -d "policies" || (echo "Missing policies/" && exit 1)
+	@netstat -ano 2>/dev/null | grep -q ":$(MOCK_PORT) .*LISTENING" || \
+		(echo "Nothing listening on $(MOCK_HOST):$(MOCK_PORT) -- run 'make -f MakefileMock up' first" && exit 1)
+	@echo "Preflight OK"
+
+# Foreground server -- ctrl-C to stop. Use this when you want to watch logs.
+serve-fg: data/mock
+	$(MASTODON_MOCK) serve --config "$(MOCK_CONFIG)" --host $(MOCK_HOST) --port $(MOCK_PORT)
+
+# Background server. Liveness/teardown go by who's actually listening on
+# MOCK_PORT (via netstat), not a pidfile -- on Windows/Git Bash, `$!` after an
+# MSYS-backgrounded process is an MSYS-internal pid that `kill -0`/`kill` can't
+# reliably see or stop even though the real (Windows) process is running fine.
+up: data/mock
+	@if netstat -ano 2>/dev/null | grep -q ":$(MOCK_PORT) .*LISTENING"; then \
+		echo "something is already listening on $(MOCK_HOST):$(MOCK_PORT)"; \
+	else \
+		echo "starting mastodon_mock on $(MOCK_HOST):$(MOCK_PORT)"; \
+		nohup $(MASTODON_MOCK) serve --config "$(MOCK_CONFIG)" \
+			--host $(MOCK_HOST) --port $(MOCK_PORT) > "$(MOCK_LOG)" 2>&1 & \
+		echo $$! > "$(MOCK_PID)"; \
+		sleep 1; \
+		echo "log: $(MOCK_LOG)"; \
+	fi
+
+down:
+	@pid="$$(netstat -ano 2>/dev/null | grep ":$(MOCK_PORT) .*LISTENING" | awk '{print $$NF}' | head -1)"; \
+	if [ -n "$$pid" ]; then \
+		(taskkill //F //PID "$$pid" 2>/dev/null || kill "$$pid" 2>/dev/null) && \
+			echo "stopped mastodon_mock (pid $$pid)" || \
+			echo "failed to stop pid $$pid"; \
+	else \
+		echo "nothing listening on $(MOCK_HOST):$(MOCK_PORT)"; \
+	fi; \
+	rm -f "$(MOCK_PID)"
+
+status:
+	@if netstat -ano 2>/dev/null | grep -q ":$(MOCK_PORT) .*LISTENING"; then \
+		echo "something is listening on $(MOCK_HOST):$(MOCK_PORT)"; \
+	else \
+		echo "nothing listening on $(MOCK_HOST):$(MOCK_PORT)"; \
+	fi
+	@curl -s -o /dev/null -w "http %{http_code}\n" "http://$(MOCK_HOST):$(MOCK_PORT)/api/v1/instance" \
+		|| echo "mastodon_mock not reachable on $(MOCK_HOST):$(MOCK_PORT)"
+
+fetch: preflight
+	$(ACTIVIST) fetch --config "$(CONFIG)" --max-engine-calls $(CALL_BUDGET)
+
+fetch-dry: preflight
+	$(ACTIVIST) fetch --config "$(CONFIG)" --dry-run --max-engine-calls $(CALL_BUDGET)
+
+fetch-replies: preflight
+	$(ACTIVIST) fetch --config "$(CONFIG)" --replies --max-engine-calls $(CALL_BUDGET)
+
+fetch-only-replies: preflight
+	$(ACTIVIST) fetch --config "$(CONFIG)" --only-replies --max-engine-calls $(CALL_BUDGET)
+
+fetch-no-replies: preflight
+	$(ACTIVIST) fetch --config "$(CONFIG)" --no-replies --max-engine-calls $(CALL_BUDGET)
+
+ui: preflight
+	$(ACTIVIST) ui --config "$(CONFIG)"
+
+# poster.live=true is already set in activist.mock.toml; ACTIVIST_LIVE=1 + --live
+# complete the triple gate -- but the only thing on the other end is the local,
+# ephemeral mock, so going "live" here is exactly as safe as the old dry-run.
+poster: preflight
+	ACTIVIST_LIVE=1 $(ACTIVIST) poster --config "$(CONFIG)" --live
+
+poster-loop: preflight
+	ACTIVIST_LIVE=1 $(ACTIVIST) poster --config "$(CONFIG)" --live --loop
+
+poster-skip-verify: preflight
+	ACTIVIST_LIVE=1 $(ACTIVIST) poster --config "$(CONFIG)" --live --skip-verify
+
+reset-memory: data/mock/persona
+	$(ACTIVIST) reset-memory --persona data/mock/persona
+
+fixture-run: preflight
+	$(ACTIVIST) run --engine mockbot
+
+fixture-replies: preflight
+	$(ACTIVIST) replies --engine mockbot
+
+# Normally a human approves rows in the review UI (make ui). This is the
+# scripted shortcut for the one-shot demo below: every pending_review row in
+# the mock-mode db moves straight to approved. Safe here only because the
+# poster's destination is the local mock, never a real account.
+approve-all: preflight
+	$(VENV) python -c "from pathlib import Path; from activist.store import Store; from activist.config import load_config; \
+cfg = load_config(Path('$(CONFIG)')); store = Store(cfg.db_path); \
+rows = store.list_by_status('pending_review'); \
+[store.transition(r.id, 'pending_review', 'approved', 'mock-demo') for r in rows]; \
+print(f'approved {len(rows)} row(s)')"
+
+# One-shot walkthrough: start the mock, pull live feed content into the review
+# queue, auto-approve it, and actually publish it -- the same "what it would
+# look like" activities as MakefileOps, except the posts really land on a
+# server you can open in a browser.
+demo: up preflight
+	$(ACTIVIST) fetch --config "$(CONFIG)" --max-engine-calls $(CALL_BUDGET)
+	$(VENV) python -c "from pathlib import Path; from activist.store import Store; from activist.config import load_config; \
+cfg = load_config(Path('$(CONFIG)')); store = Store(cfg.db_path); \
+rows = store.list_by_status('pending_review'); \
+[store.transition(r.id, 'pending_review', 'approved', 'mock-demo') for r in rows]; \
+print(f'approved {len(rows)} row(s)')"
+	ACTIVIST_LIVE=1 $(ACTIVIST) poster --config "$(CONFIG)" --live
+	@echo ""
+	@echo "Posted to the local mock. Browse it at http://$(MOCK_HOST):$(MOCK_PORT)/_ui/"
+	@echo "Stop it with: make -f MakefileMock down"
+
+clean: down
+	rm -rf data/mock
+	rm -f "$(MOCK_PID)"

@@ -29,6 +29,6 @@ Configurable paths allow you to relocate:
 
 That matters if you want to package the app differently, run multiple environments, or isolate tests.
 
-## Current limitations
+## Live posting gate
 
-The config format already includes settings for poster live mode, but the runtime still blocks live posting. That field is a design placeholder in today’s codebase, not an operator switch that can enable real publishing.
+`[poster].live` is one of three independent gates `MastodonTransport` checks before it will construct: the config flag, `ACTIVIST_LIVE=1` in the environment, and `--live` on the command line. All three must be true together, or `poster.py` falls back to `DryRunTransport`. This is deliberate friction — see `src/activist/transport.py` (`PublishGateError`) and [Targeting mastodon-mock](mastodon-mock.md) for how the integration tests and the mock demo open this gate safely against a local server instead of a real account.

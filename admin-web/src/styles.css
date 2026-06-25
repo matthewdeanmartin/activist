@@ -1,0 +1,61 @@
+/* activist admin — compact, minimalistic; visual language echoes the Flask UI. */
+:root {
+  --bg: #0f1115;
+  --panel: #181b22;
+  --panel-2: #1f232c;
+  --ink: #e6e8ec;
+  --muted: #9aa3af;
+  --line: #2a2f3a;
+  --accent: #6ea8fe;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --error: #f87171;
+  --reply: #c084fc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+a { color: var(--accent); }
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button.primary { background: #1d3a6b; border-color: #2c4f8f; }
+button.danger { background: #4a1d23; border-color: #7a2c34; }
+button.danger:hover:not(:disabled) { border-color: var(--error); }
+textarea, input[type='text'] {
+  width: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  font: inherit;
+}
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.muted { color: var(--muted); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--line);
+}
+.badge.post { color: var(--accent); }
+.badge.reply { color: var(--reply); }
+.badge.warn { color: var(--warn); }
+.badge.error { color: var(--error); }
+.over { color: var(--error); font-weight: 600; }
+.under { color: var(--good); }

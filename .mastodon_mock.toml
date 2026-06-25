@@ -1,0 +1,29 @@
+# Seed for the local mastodon_mock server used by MakefileMock.
+#
+# "lowwatt" is activist's own bot identity (matches persona/persona.toml's
+# handle), seeded with a fixed token so MASTODON_ID_MOCK_* in .env can point
+# straight at it. "climatewatcher" is a human-ish account that follows the
+# bot and @-mentions it, giving the replies path something real to fetch.
+
+[[seed.accounts]]
+username = "lowwatt"
+display_name = "Lowwatt"
+bot = true
+access_token = "mock_bot_token"
+
+[[seed.accounts]]
+username = "climatewatcher"
+display_name = "Climate Watcher"
+access_token = "mock_human_token"
+
+[[seed.follows]]
+follower = "climatewatcher"
+following = "lowwatt"
+
+[[seed.statuses]]
+account = "climatewatcher"
+text = "hey @lowwatt what do you think about heat pumps?"
+visibility = "public"
+
+[database]
+path = ":memory:"

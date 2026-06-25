@@ -1,0 +1,76 @@
+# activist config for posting against the local mastodon_mock server (see
+# MakefileMock). Same shape as activist.toml, but:
+#   - identity.mastodon_id = "MOCK" -> MASTODON_ID_MOCK_* in .env, whose
+#     BASE_URL points at the mock server instead of a real instance.
+#   - poster.live = true: safe here because the *destination* is the
+#     ephemeral local mock, not a real account. MakefileMock also exports
+#     ACTIVIST_LIVE=1 and passes --live to fully open the triple gate.
+#   - paths are namespaced under data/mock/ so this never touches the data/
+#     used by real/dry-run runs.
+
+[identity]
+mastodon_id = "MOCK"
+instances = ["mastodon.social"]  # policy/pacing source only; base_url comes from .env
+
+[fetch]
+interval_minutes = 60
+cache_dir = ".cache/mock-feeds"
+article_body = false
+write_artifacts = true
+
+[[feed]]
+name = "CleanTechnica"
+url = "https://cleantechnica.com/feed/"
+
+[[feed]]
+name = "Canary Media"
+url = "https://www.canarymedia.com/rss"
+
+[replies]
+enabled = true
+interval_minutes = 15
+
+[engine]
+# openrouter (not mockbot): mockbot only ever posts when a feed item carries
+# the project's own <activist:hint> XML tag (only in fixtures/feeds/*.xml) --
+# it abstains on every real RSS item, hint tag or not. openrouter actually
+# judges live items against persona/opinions.toml, so real feeds produce real
+# drafts. Needs OPENROUTER_API_KEY in .env (already set).
+name = "openrouter"
+# This is a demo/mock config, not a real run -- a busy feed day shouldn't
+# silently burn 60+ LLM calls. Items beyond the budget are deferred (not
+# marked seen), so they get reconsidered on the next fetch instead of being
+# lost. Override per-invocation with `activist fetch --max-engine-calls N`.
+call_budget = 25
+
+[moderation]
+engine = "mockmod"
+
+[rate_limit]
+posts_per_hour = 4
+
+[rate_limit.instances]
+"mastodon.social" = 4
+
+[ui]
+host = "127.0.0.1"
+port = 8766
+
+[poster]
+live = true                      # see header note — destination is the local mock only
+check_interval_minutes = 5
+default_visibility = "unlisted"
+# The per-hour pacing backstop (rate_limit.posts_per_hour) exists to protect a
+# real instance from a misbehaving bot. There's nothing to protect here --
+# this only ever reaches the local ephemeral mock -- so collapse the wait to
+# ~instant instead of spacing posts 15 minutes apart for content that never
+# leaves this machine.
+min_spacing_seconds = 1
+
+[paths]
+db = "data/mock/activist.db"
+persona = "data/mock/persona"   # scratch copy seeded by `make -f MakefileMock up`;
+                                 # mock runs never touch the real persona/ directory
+out = "out/mock"
+dryrun_log = "data/mock/published_dryrun.jsonl"
+poster_lock = "data/mock/poster.lock"

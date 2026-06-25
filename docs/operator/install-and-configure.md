@@ -107,4 +107,4 @@ Sanity checks that matter operationally:
 - `persona/persona.toml` must exist
 - `policies/` must exist
 - every `[[feed]]` entry must include a URL
-- `poster.live` must stay `false` in the current codebase
+- if you set `poster.live = true`, you must also export `ACTIVIST_LIVE=1` and pass `--live` — all three are required together before any real Mastodon POST happens (see [Targeting mastodon-mock](../developer/mastodon-mock.md) before pointing this at a real account)

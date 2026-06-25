@@ -8,7 +8,7 @@ That leads to three operational roles in the design:
 - a local review UI where a human approves, edits, or rejects those drafts
 - a poster that handles scheduled publication
 
-In the current code, the first two roles are fully implemented and the third role exists only as a dry-run simulation. That is an important design choice, not just a missing integration: the code deliberately makes accidental live posting difficult.
+In the current code, all three roles are implemented. The poster defaults to a dry-run simulation, and a real Mastodon-posting transport exists but only activates behind a deliberate triple gate (config flag, environment variable, and CLI flag together). That is an important design choice, not a missing integration: the code makes accidental live posting difficult on purpose.
 
 ## Design sources
 

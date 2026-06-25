@@ -32,7 +32,7 @@ Today’s observability is lightweight:
 - Python logging in fetch, poster, and engine code
 - queue `event_log` in SQLite
 - HTML review artifacts under `out/`
-- dry-run publish receipts in JSONL
+- publish receipts in JSONL (dry-run) or real Mastodon status URLs (live, gated)
 
 There is no full metrics or tracing stack in the current code.
 
@@ -54,5 +54,5 @@ The test strategy relies heavily on:
 
 - fixture files
 - deterministic `MockBot` behavior
-- fake transports
-- no live network dependency
+- fake transports for unit tests, and a real local `mastodon_mock` server (see [Targeting mastodon-mock](mastodon-mock.md)) for integration tests of the publish path
+- no dependency on a real Mastodon instance

@@ -197,3 +197,51 @@ def test_row_from_draft_maps_reply_fields():
     assert row.scheduled_for == post.created
     assert row.flags[0]["rule"] == "unverified-link"
     assert row.opinion_change["reason"] == "why"
+
+
+# --- delete (admin site §4) ---------------------------------------------------
+
+
+def test_delete_removes_row_but_keeps_history(store: Store):
+    store.add_pending(make_row(id="junk"))
+    store.delete("junk")
+    assert not store.has("junk")
+    # the audit trail survives the row it described
+    actions = {e.action for e in store.events("junk")}
+    assert "delete" in actions
+
+
+def test_delete_refuses_published(store: Store):
+    store.add_pending(make_row(id="p"))
+    store.transition("p", PENDING, APPROVED, "human")
+    store.transition("p", APPROVED, PUBLISHING, "poster")
+    store.transition("p", PUBLISHING, PUBLISHED, "poster")
+    with pytest.raises(IllegalTransition):
+        store.delete("p")
+    assert store.has("p")
+
+
+def test_delete_refuses_publishing(store: Store):
+    store.add_pending(make_row(id="p"))
+    store.transition("p", PENDING, APPROVED, "human")
+    store.transition("p", APPROVED, PUBLISHING, "poster")
+    with pytest.raises(IllegalTransition):
+        store.delete("p")
+    assert store.has("p")
+
+
+def test_delete_unknown_raises(store: Store):
+    with pytest.raises(UnknownContent):
+        store.delete("ghost")
+
+
+def test_upcoming_is_approved_for_identity_in_slot_order(store: Store):
+    store.add_pending(make_row(id="b", identity="TECH", scheduled_for="2026-06-11T10:00:00"))
+    store.add_pending(make_row(id="a", identity="TECH", scheduled_for="2026-06-11T09:00:00"))
+    store.add_pending(make_row(id="other", identity="DMV", scheduled_for="2026-06-11T08:00:00"))
+    for cid in ("a", "b", "other"):
+        store.transition(cid, PENDING, APPROVED, "human")
+    # a pending row for TECH must NOT appear (upcoming = approved only)
+    store.add_pending(make_row(id="pend", identity="TECH"))
+    rows = store.upcoming("TECH")
+    assert [r.id for r in rows] == ["a", "b"]

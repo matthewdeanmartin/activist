@@ -69,17 +69,17 @@ Or in loop mode:
 activist poster --config activist.toml --loop
 ```
 
-What actually happens:
+What actually happens by default:
 
 - the poster verifies Mastodon credentials unless `--skip-verify` is used
 - it claims due `approved` rows
 - it respects a pacing backstop
-- it writes a simulated publish receipt to `data/published_dryrun.jsonl`
+- it writes a simulated publish receipt to `data/published_dryrun.jsonl` via `DryRunTransport`
 - it marks the row as `published`
 
-What does not happen:
+No call is made to create a real Mastodon status unless you deliberately open the triple publish gate (`[poster].live = true` in config, `ACTIVIST_LIVE=1` in the environment, and `--live` on the command line). With all three set, the poster uses `MastodonTransport` and actually POSTs each approved row, mapping 429s to a requeue and 401/403/404/422 to a `failed` row a human can retry from the UI.
 
-- no call is made to create a real Mastodon status
+To see this real path work without touching a live account, target the local mastodon-mock server — see [Targeting mastodon-mock](../developer/mastodon-mock.md).
 
 ## Offline fixture workflows
 

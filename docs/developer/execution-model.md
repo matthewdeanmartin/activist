@@ -50,4 +50,4 @@ The orchestrator for that path is `pipeline.run()`.
 4. publish through the configured transport
 5. mark `published` on success or `failed` on transport exception
 
-Because the transport is currently dry-run only, this flow mutates local state but not Mastodon.
+By default the transport is `DryRunTransport`, so this flow mutates local state but not Mastodon. With the triple publish gate open (`[poster].live = true`, `ACTIVIST_LIVE=1`, `--live`), step 4 uses `MastodonTransport` and really does publish — see [Targeting mastodon-mock](mastodon-mock.md) to exercise that path against a disposable local server.

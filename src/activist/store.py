@@ -370,6 +370,45 @@ class Store:
                 detail += f" url={published_url}"
             self._log(conn, content_id, actor, "publish", detail)
 
+    # Hard delete is allowed only for rows a human truly wants gone (junk
+    # drafts). publishing is mid-flight (the poster owns it) and published is a
+    # receipt — removing the live status is the P2 path, not a local delete.
+    DELETABLE = (PENDING, APPROVED, FAILED, REJECTED)
+
+    def delete(self, content_id: str, actor: str = "human") -> None:
+        """Hard-remove a queue row (not a lifecycle transition).
+
+        Guards the status in the DELETE itself so it can't race a poster claim.
+        The event_log trail is kept — we log the delete first, then drop the
+        content row, so the audit survives the row it described.
+        """
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT status FROM content WHERE id=?", (content_id,)
+            ).fetchone()
+            if row is None:
+                raise UnknownContent(content_id)
+            if row["status"] not in self.DELETABLE:
+                raise IllegalTransition(
+                    f"{content_id} is {row['status']}; delete only allowed for "
+                    f"{', '.join(self.DELETABLE)}"
+                )
+            self._log(conn, content_id, actor, "delete", f"was {row['status']}")
+            cur = conn.execute(
+                "DELETE FROM content WHERE id=? AND status IN ({})".format(
+                    ",".join("?" * len(self.DELETABLE))
+                ),
+                (content_id, *self.DELETABLE),
+            )
+            if cur.rowcount == 0:
+                # status changed between the SELECT and DELETE (poster claim).
+                current = conn.execute(
+                    "SELECT status FROM content WHERE id=?", (content_id,)
+                ).fetchone()
+                raise StaleStatus(
+                    f"{content_id}: not deletable, now {current['status'] if current else 'gone'}"
+                )
+
     def set_kv(self, key: str, value: str) -> None:
         with self._conn() as conn:
             conn.execute(
@@ -403,6 +442,21 @@ class Store:
         with self._conn() as conn:
             rows = conn.execute(
                 "SELECT * FROM content WHERE status=? ORDER BY created DESC", (status,)
+            ).fetchall()
+        return [_row_to_content(r) for r in rows]
+
+    def upcoming(self, identity: str) -> list[ContentRow]:
+        """Approved rows for an identity in slot order — the upcoming-posts view.
+
+        Unlike :meth:`due_approved`, this returns the *whole* approved runway
+        (not just rows whose slot has arrived) so the admin site can show what's
+        queued to go out and when.
+        """
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT * FROM content WHERE identity=? AND status=? "
+                "ORDER BY scheduled_for, created",
+                (identity, APPROVED),
             ).fetchall()
         return [_row_to_content(r) for r in rows]
 

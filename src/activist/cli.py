@@ -28,6 +28,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_fetch(args)
     if args.command == "ui":
         return _cmd_ui(args)
+    if args.command == "api":
+        return _cmd_api(args)
     if args.command == "poster":
         return _cmd_poster(args)
     if args.command == "replies":
@@ -76,6 +78,13 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p_fetch.add_argument("--model", default=None, help="model id for openrouter")
     p_fetch.add_argument(
+        "--max-engine-calls",
+        type=int,
+        default=None,
+        help="cap engine.react() calls this run (overrides [engine].call_budget); "
+        "each call is a real LLM request for openrouter",
+    )
+    p_fetch.add_argument(
         "--replies",
         dest="replies",
         action="store_true",
@@ -97,6 +106,19 @@ def _build_parser() -> argparse.ArgumentParser:
 
     p_ui = sub.add_parser("ui", help="run the local review dashboard (read-only in U1)")
     p_ui.add_argument("--config", type=Path, default=Path("activist.toml"))
+
+    p_api = sub.add_parser(
+        "api", help="run the FastAPI admin site (JSON API + built Angular SPA)"
+    )
+    p_api.add_argument("--config", type=Path, default=Path("activist.toml"))
+    p_api.add_argument("--host", default=None, help="override [api].host")
+    p_api.add_argument("--port", type=int, default=None, help="override [api].port")
+    p_api.add_argument(
+        "--dev-cors",
+        action="store_true",
+        help="allow the Angular dev server (localhost:4200) to call the API",
+    )
+    p_api.add_argument("--reload", action="store_true", help="uvicorn auto-reload (dev)")
 
     p_poster = sub.add_parser(
         "poster",
@@ -247,6 +269,8 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
     if not (cfg.persona_dir / "persona.toml").is_file():
         print(f"persona.toml not found in: {cfg.persona_dir}", file=sys.stderr)
         return 1
+    if args.max_engine_calls is not None:
+        cfg.engine_call_budget = args.max_engine_calls
     engine = get_engine(args.engine or cfg.engine, model=args.model or cfg.model)
     llm_moderator = None
     if cfg.moderation_engine == "openrouter":
@@ -343,6 +367,28 @@ def _cmd_ui(args: argparse.Namespace) -> int:
     app = create_app(cfg)
     print(f"review queue: http://{cfg.ui_host}:{cfg.ui_port}/")
     app.run(host=cfg.ui_host, port=cfg.ui_port)
+    return 0
+
+
+def _cmd_api(args: argparse.Namespace) -> int:
+    import uvicorn
+
+    from .api import create_api
+    from .config import ConfigError, load_config
+
+    try:
+        cfg = load_config(args.config)
+    except ConfigError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    host = args.host or cfg.api_host
+    port = args.port or cfg.api_port
+    app = create_api(cfg, dev_cors=args.dev_cors)
+    print(f"admin site:  http://{host}:{port}/")
+    print(f"API docs:    http://{host}:{port}/docs")
+    if args.dev_cors:
+        print("dev CORS on: run the Angular app with  cd admin-web && npm start")
+    uvicorn.run(app, host=host, port=port, reload=args.reload)
     return 0
 
 

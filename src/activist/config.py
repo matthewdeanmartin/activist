@@ -40,6 +40,11 @@ class AppConfig:
     # [engine]
     engine: str = "mockbot"
     model: str | None = None
+    # Caps how many items get an engine.react() call per fetch (each call is
+    # a real LLM request for openrouter). None = unlimited. Items beyond the
+    # budget are deferred (not marked seen), so a big feed day spreads its
+    # LLM cost over several runs instead of paying for all of it at once.
+    engine_call_budget: int | None = None
     # [moderation]
     moderation_engine: str = "mockmod"
     # [rate_limit]
@@ -48,9 +53,17 @@ class AppConfig:
     # [ui]
     ui_host: str = "127.0.0.1"
     ui_port: int = 8765
+    # [api] — the FastAPI + Angular admin site (spec/admin_site.md). Separate
+    # host/port from [ui] so the Flask dashboard and the API can run together.
+    api_host: str = "127.0.0.1"
+    api_port: int = 8675
     # [poster]
     poster_live: bool = False  # hard gate; see spec/poster_service.md
     poster_check_interval_minutes: int = 5
+    # Overrides the per-hour-derived pacing backstop outright when set. The
+    # backstop exists to protect a real instance from a misbehaving bot; a
+    # mock config can set this near-zero since there's nothing to protect.
+    poster_min_spacing_seconds: int | None = None
     # Audience for top-level posts; replies carry their mention's visibility.
     # "unlisted" is the recommended soft-launch default (keeps bot posts out of
     # public/federated timelines while you confirm behaviour).
@@ -109,6 +122,8 @@ def load_config(path: Path) -> AppConfig:
     if cfg.engine not in ("mockbot", "openrouter"):
         raise ConfigError(f"engine.name must be 'mockbot' or 'openrouter', got {cfg.engine!r}")
     cfg.model = engine.get("model")
+    if "call_budget" in engine:
+        cfg.engine_call_budget = _positive_int(engine["call_budget"], "engine.call_budget")
 
     moderation = data.get("moderation", {})
     cfg.moderation_engine = moderation.get("engine", cfg.moderation_engine)
@@ -134,12 +149,20 @@ def load_config(path: Path) -> AppConfig:
     cfg.ui_host = ui.get("host", cfg.ui_host)
     cfg.ui_port = _positive_int(ui.get("port", cfg.ui_port), "ui.port")
 
+    api = data.get("api", {})
+    cfg.api_host = api.get("host", cfg.api_host)
+    cfg.api_port = _positive_int(api.get("port", cfg.api_port), "api.port")
+
     poster = data.get("poster", {})
     cfg.poster_live = bool(poster.get("live", cfg.poster_live))
     cfg.poster_check_interval_minutes = _positive_int(
         poster.get("check_interval_minutes", cfg.poster_check_interval_minutes),
         "poster.check_interval_minutes",
     )
+    if "min_spacing_seconds" in poster:
+        cfg.poster_min_spacing_seconds = _non_negative_int(
+            poster["min_spacing_seconds"], "poster.min_spacing_seconds"
+        )
     visibility = str(poster.get("default_visibility", cfg.default_visibility))
     if visibility not in ("public", "unlisted", "private", "direct"):
         raise ConfigError(
@@ -177,4 +200,14 @@ def _positive_int(value: object, name: str) -> int:
         raise ConfigError(f"{name} must be an integer, got {value!r}") from exc
     if number <= 0:
         raise ConfigError(f"{name} must be positive, got {number}")
+    return number
+
+
+def _non_negative_int(value: object, name: str) -> int:
+    try:
+        number = int(value)  # type: ignore[arg-type]
+    except (TypeError, ValueError) as exc:
+        raise ConfigError(f"{name} must be an integer, got {value!r}") from exc
+    if number < 0:
+        raise ConfigError(f"{name} must be zero or positive, got {number}")
     return number

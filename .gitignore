@@ -170,3 +170,4 @@ out/
 # activist runtime artifacts
 data/
 .cache/
+.mock_server.pid

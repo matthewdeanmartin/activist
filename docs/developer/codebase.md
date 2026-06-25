@@ -44,4 +44,4 @@ Claims approved rows, enforces pacing, and publishes through the transport seam.
 
 ### `transport.py`
 
-Defines publish transport behavior. Only dry-run transport exists today.
+Defines publish transport behavior: `DryRunTransport` (default, appends a simulated receipt to `data/published_dryrun.jsonl`) and `MastodonTransport` (real POSTs, gated behind `[poster].live` + `ACTIVIST_LIVE=1` + `--live` together). See [Targeting mastodon-mock](mastodon-mock.md) for exercising the live transport against a disposable local server.

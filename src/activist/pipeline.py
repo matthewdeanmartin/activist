@@ -142,21 +142,36 @@ def react_to_items(
     engine: PersonaEngine,
     max_posts: int,
     slot_for,
+    engine_call_budget: int | None = None,
 ) -> EngineOutput:
     """The engine loop: dedupe, relevance, react, pace. No I/O sinks here.
 
     ``slot_for(index)`` supplies the scheduled timestamp for the index-th
     draft — fixture runs space within the run date, live runs continue after
     whatever the queue already holds.
+
+    ``engine_call_budget`` caps how many items get an ``engine.react()``
+    call this run (each call is a real LLM request for the openrouter
+    engine). ``max_posts`` only caps how many *drafts get kept* — without
+    this budget, a large feed still pays for an LLM call on every
+    topic-matched item even once the draft quota is full. Once the budget
+    is spent, remaining items are left off ``seen_rows`` so they are
+    reconsidered (not silently dropped) on the next run.
     """
     out = EngineOutput()
     posted_keys: set[str] = set()
+    engine_calls = 0
 
     for item in items:
         if item.id in seen_ids:
             out.log_lines.append(f"ITEM {item.id} '{item.title}' SKIP already-seen")
             continue
         matched = relevance.match_topics(item, persona.topics)
+        if matched and engine_call_budget is not None and engine_calls >= engine_call_budget:
+            out.log_lines.append(
+                f"ITEM {item.id} '{item.title}' DEFERRED engine-call-budget exhausted"
+            )
+            continue
         out.seen_rows.append(
             {
                 "id": item.id,
@@ -175,6 +190,7 @@ def react_to_items(
         relevant_ops = _relevant_opinions(opinions, matched, item)
         knowledge = state.knowledge_sections(knowledge_path, matched)
         created = slot_for(len(out.posts))
+        engine_calls += 1
         reaction = engine.react(item, persona, relevant_ops, knowledge, recent_said, created)
         if reaction.diary_note:
             out.diary.append(reaction.diary_note)
