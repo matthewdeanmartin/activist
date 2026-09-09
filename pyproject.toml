@@ -17,7 +17,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.14",
-    # "Programming Language :: Python :: 3.15",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Security",
     "Topic :: Software Development",
     "License :: OSI Approved :: MIT License"
