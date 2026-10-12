@@ -23,25 +23,25 @@ class FakeAsyncClient:
     async def get(self, url, **kwargs):
         response = self.responses.get(url)
         if response is None:
-            return fetcher.httpx.Response(
+            return fetcher.httpx2.Response(
                 500,
                 json={"error": "no route"},
-                request=fetcher.httpx.Request("GET", url),
+                request=fetcher.httpx2.Request("GET", url),
             )
         return response
 
 
 def http_response(status_code, **kwargs):
-    return fetcher.httpx.Response(
+    return fetcher.httpx2.Response(
         status_code,
-        request=fetcher.httpx.Request("GET", "https://mastodon.example/mock"),
+        request=fetcher.httpx2.Request("GET", "https://mastodon.example/mock"),
         **kwargs,
     )
 
 
 def mocked_client(monkeypatch, responses):
     monkeypatch.setattr(
-        fetcher.httpx,
+        fetcher.httpx2,
         "AsyncClient",
         lambda *args, **kwargs: FakeAsyncClient(responses, *args, **kwargs),
     )

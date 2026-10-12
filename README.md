@@ -125,3 +125,9 @@ report of posting frequency, etc.)
 ## Similar libraries and applications
 
 - [mastodon.py](http://mastodonpy.readthedocs.io/en/latest/)
+
+## HTTPX2 migration verification (2026-10-04)
+
+Direct policy/feed/Mastodon clients and mocks use HTTPX2. 200 tests pass on 3.14; API cases requiring the unavailable pytest-network plugin and separate integration tests excluded. RC3 stable/pre installs remain httptools-wheel-blocked.
+
+Dependency locks upgraded and checked. Published dependency wheels only; no native builds or GitHub jobs. Application HTTPX2 objects remain separate from third-party HTTPX objects. Current HTTPX2 releases use the OS trust store. Experimental RC3 tests may require Pydantic prerelease wheels; stable support is reported separately. Changes local; human operators decide releases and upstream reports.

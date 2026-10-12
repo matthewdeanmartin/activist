@@ -1,7 +1,7 @@
 """Fetcher Phase F3: the live replies chain notifications → engine → store.
 
 Recorded notification JSON (fixtures/notifications-sample.json, ids scrubbed)
-is served through httpx.MockTransport, so the same consent gates and engine
+is served through httpx2.MockTransport, so the same consent gates and engine
 run as the fixture path — but mentions arrive as live API shapes and survivors
 land in the queue store as pending_review rows (kind='reply').
 """
@@ -13,7 +13,7 @@ import json
 import shutil
 from pathlib import Path
 
-import httpx
+import httpx2
 import pytest
 
 from activist import state
@@ -50,10 +50,10 @@ def make_cfg(workspace: Path, repo_root: Path) -> AppConfig:
 
 
 def reader_serving(payload: list[dict], capture: dict | None = None) -> MastodonReader:
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         if capture is not None:
             capture["params"] = dict(request.url.params.multi_items())
-        return httpx.Response(200, json=payload)
+        return httpx2.Response(200, json=payload)
 
     creds = MastodonCredentials(
         identity="TECH",
@@ -62,7 +62,7 @@ def reader_serving(payload: list[dict], capture: dict | None = None) -> Mastodon
         client_secret="s",
         access_token="t",
     )
-    client = httpx.Client(transport=httpx.MockTransport(handler), base_url=creds.base_url)
+    client = httpx2.Client(transport=httpx2.MockTransport(handler), base_url=creds.base_url)
     return MastodonReader(creds, client=client)
 
 

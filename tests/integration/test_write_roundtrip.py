@@ -8,7 +8,7 @@ delete -> 404), so they would hold against real Mastodon too.
 
 from __future__ import annotations
 
-import httpx
+import httpx2
 import pytest
 
 from activist.mastodon_client import (
@@ -95,13 +95,13 @@ def test_empty_status_is_rejected_with_422(bot_writer: MastodonWriter) -> None:
     proving activist out — without it, an accidental empty draft would get a
     phantom success and a blank toot on the timeline.
     """
-    with pytest.raises(httpx.HTTPStatusError) as exc:
+    with pytest.raises(httpx2.HTTPStatusError) as exc:
         bot_writer.post_status("", idempotency_key="content-empty-1")
     assert exc.value.response.status_code == 422
 
 
 def test_over_length_status_is_rejected_with_422(bot_writer: MastodonWriter) -> None:
-    with pytest.raises(httpx.HTTPStatusError) as exc:
+    with pytest.raises(httpx2.HTTPStatusError) as exc:
         bot_writer.post_status("x" * 501, idempotency_key="content-toolong-1")
     assert exc.value.response.status_code == 422
 
@@ -113,7 +113,7 @@ def test_delete_status_then_it_404s(bot_writer: MastodonWriter, bot_reader: Mast
 
     bot_writer.delete_status(result.status_id)
 
-    with pytest.raises(httpx.HTTPStatusError) as exc:
+    with pytest.raises(httpx2.HTTPStatusError) as exc:
         bot_reader.get_status(result.status_id)
     assert exc.value.response.status_code == 404
 
@@ -126,10 +126,10 @@ def test_posted_status_appears_in_account_timeline(
     result = bot_writer.post_status(marker, idempotency_key="content-timeline-1")
 
     # Read the bot's own account id, then its statuses, with a plain client.
-    with httpx.Client(
+    with httpx2.Client(
         base_url=mock_server_url,
         headers={"Authorization": "Bearer bot_token"},
-        timeout=httpx.Timeout(10.0),
+        timeout=httpx2.Timeout(10.0),
     ) as client:
         whoami = client.get("/api/v1/accounts/verify_credentials")
         whoami.raise_for_status()

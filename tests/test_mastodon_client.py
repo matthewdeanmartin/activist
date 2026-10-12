@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-import httpx
+import httpx2
 import pytest
 
 from activist.mastodon_client import (
@@ -42,8 +42,8 @@ def test_from_env_lists_every_missing_var(monkeypatch):
 def reader_with(monkeypatch, handler) -> MastodonReader:
     set_identity(monkeypatch)
     creds = MastodonCredentials.from_env("TECH")
-    client = httpx.Client(
-        transport=httpx.MockTransport(handler),
+    client = httpx2.Client(
+        transport=httpx2.MockTransport(handler),
         base_url=creds.base_url,
         headers={"Authorization": f"Bearer {creds.access_token}"},
     )
@@ -51,10 +51,10 @@ def reader_with(monkeypatch, handler) -> MastodonReader:
 
 
 def test_verify_credentials_ok(monkeypatch):
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         assert request.url.path == "/api/v1/accounts/verify_credentials"
         assert request.headers["Authorization"] == "Bearer tok"
-        return httpx.Response(200, json={"acct": "lowwatt", "bot": True})
+        return httpx2.Response(200, json={"acct": "lowwatt", "bot": True})
 
     reader = reader_with(monkeypatch, handler)
     account = reader.verify_credentials()
@@ -63,19 +63,19 @@ def test_verify_credentials_ok(monkeypatch):
 
 
 def test_verify_credentials_bad_token_raises(monkeypatch):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(401, json={"error": "The access token is invalid"})
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(401, json={"error": "The access token is invalid"})
 
     reader = reader_with(monkeypatch, handler)
-    with pytest.raises(httpx.HTTPStatusError):
+    with pytest.raises(httpx2.HTTPStatusError):
         reader.verify_credentials()
     reader.close()
 
 
 def test_get_status(monkeypatch):
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         assert request.url.path == "/api/v1/statuses/109501"
-        return httpx.Response(200, json={"id": "109501", "visibility": "public"})
+        return httpx2.Response(200, json={"id": "109501", "visibility": "public"})
 
     reader = reader_with(monkeypatch, handler)
     status = reader.get_status("109501")
@@ -84,9 +84,9 @@ def test_get_status(monkeypatch):
 
 
 def test_get_account(monkeypatch):
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         assert request.url.path == "/api/v1/accounts/1007"
-        return httpx.Response(200, json={"id": "1007", "acct": "solarfan@mastodon.social"})
+        return httpx2.Response(200, json={"id": "1007", "acct": "solarfan@mastodon.social"})
 
     reader = reader_with(monkeypatch, handler)
     account = reader.get_account("1007")
@@ -100,12 +100,12 @@ def test_get_account(monkeypatch):
 def test_notifications_passes_type_and_since_id(monkeypatch):
     captured = {}
 
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         assert request.url.path == "/api/v1/notifications"
         captured["params"] = dict(request.url.params.multi_items())
         # multi_items keeps both types[] occurrences distinct if repeated
         captured["raw"] = str(request.url)
-        return httpx.Response(200, json=[{"id": "440000004", "type": "mention"}])
+        return httpx2.Response(200, json=[{"id": "440000004", "type": "mention"}])
 
     reader = reader_with(monkeypatch, handler)
     notes = reader.notifications(types=["mention"], since_id="440000000", limit=10)
@@ -183,8 +183,8 @@ def test_mapping_tolerates_missing_status():
 def test_notifications_sleeps_when_budget_near_zero(monkeypatch):
     reset = (dt.datetime.now(dt.UTC) + dt.timedelta(seconds=30)).isoformat()
 
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(
             200,
             json=[],
             headers={"X-RateLimit-Remaining": "1", "X-RateLimit-Reset": reset},
@@ -199,8 +199,8 @@ def test_notifications_sleeps_when_budget_near_zero(monkeypatch):
 
 
 def test_notifications_does_not_sleep_with_budget(monkeypatch):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(
             200, json=[], headers={"X-RateLimit-Remaining": "50", "X-RateLimit-Reset": "x"}
         )
 

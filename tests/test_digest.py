@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import httpx
+import httpx2
 
 from activist.digest import digest_item, extract_article_text, normalize_text, truncate
 from tests.conftest import make_item
@@ -47,11 +47,11 @@ def test_extract_falls_back_to_og_description():
 
 
 def test_digest_item_keeps_summary_on_fetch_failure():
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(500)
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(500)
 
     item = make_item(summary="The   RSS\nsummary.")
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with httpx2.Client(transport=httpx2.MockTransport(handler)) as client:
         digest_item(item, client=client, fetch_body=True)
     assert item.summary == "The RSS summary."
 
@@ -60,11 +60,11 @@ def test_digest_item_upgrades_to_article_body():
     body = "Much longer article text with real detail. " * 10
     html = ARTICLE_HTML.format(body=body)
 
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, text=html)
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(200, text=html)
 
     item = make_item(summary="Thin RSS stub.")
-    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+    with httpx2.Client(transport=httpx2.MockTransport(handler)) as client:
         digest_item(item, client=client, fetch_body=True)
     assert "real detail" in item.summary
     assert len(item.summary) <= 2001  # SUMMARY_CAP plus the ellipsis

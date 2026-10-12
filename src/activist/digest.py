@@ -10,7 +10,7 @@ from __future__ import annotations
 import logging
 import re
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 from .models import NewsItem
@@ -54,7 +54,7 @@ def extract_article_text(html: str) -> str:
 
 def digest_item(
     item: NewsItem,
-    client: httpx.Client | None = None,
+    client: httpx2.Client | None = None,
     fetch_body: bool = False,
 ) -> NewsItem:
     """Normalize (and optionally enrich) one item's summary, in place."""
@@ -67,7 +67,7 @@ def digest_item(
             # Prefer the article body only when it actually says more.
             if len(body) > len(summary):
                 summary = body
-        except httpx.HTTPError as exc:
+        except httpx2.HTTPError as exc:
             LOGGER.warning("Article fetch failed for %s (%s); keeping RSS summary", item.url, exc)
     item.summary = truncate(summary)
     return item

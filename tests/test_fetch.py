@@ -1,12 +1,12 @@
 """Live RSS fetching: conditional GET, failure isolation, dedupe. No network —
-everything goes through httpx.MockTransport."""
+everything goes through httpx2.MockTransport."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from activist.config import AppConfig, FeedConfig
 from activist.fetch import fetch_feed, fetch_news
@@ -20,8 +20,8 @@ RSS = """<?xml version="1.0"?>
 </channel></rss>"""
 
 
-def client_with(handler) -> httpx.Client:
-    return httpx.Client(transport=httpx.MockTransport(handler))
+def client_with(handler) -> httpx2.Client:
+    return httpx2.Client(transport=httpx2.MockTransport(handler))
 
 
 def make_cfg(tmp_path: Path, urls: list[str]) -> AppConfig:
@@ -36,11 +36,11 @@ def test_first_fetch_writes_validators_then_304(tmp_path: Path):
     cache = tmp_path / "cache"
     calls: list[dict] = []
 
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         calls.append(dict(request.headers))
         if request.headers.get("If-None-Match") == 'W/"v1"':
-            return httpx.Response(304)
-        return httpx.Response(200, content=RSS.encode(), headers={"ETag": 'W/"v1"'})
+            return httpx2.Response(304)
+        return httpx2.Response(200, content=RSS.encode(), headers={"ETag": 'W/"v1"'})
 
     feed = FeedConfig(name="wire", url="https://example.com/rss")
     with client_with(handler) as client:
@@ -54,10 +54,10 @@ def test_first_fetch_writes_validators_then_304(tmp_path: Path):
 
 
 def test_one_dead_feed_never_kills_the_run(tmp_path: Path):
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         if "dead" in str(request.url):
-            return httpx.Response(500)
-        return httpx.Response(200, content=RSS.encode())
+            return httpx2.Response(500)
+        return httpx2.Response(200, content=RSS.encode())
 
     cfg = make_cfg(tmp_path, ["https://example.com/dead", "https://example.com/rss"])
     with client_with(handler) as client:
@@ -67,8 +67,8 @@ def test_one_dead_feed_never_kills_the_run(tmp_path: Path):
 
 
 def test_dedupe_across_runs_via_seen_jsonl(tmp_path: Path):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, content=RSS.encode())
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(200, content=RSS.encode())
 
     cfg = make_cfg(tmp_path, ["https://example.com/rss"])
     with client_with(handler) as client:
@@ -85,8 +85,8 @@ def test_dedupe_across_runs_via_seen_jsonl(tmp_path: Path):
 
 
 def test_same_item_in_two_feeds_counted_once(tmp_path: Path):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, content=RSS.encode())
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(200, content=RSS.encode())
 
     cfg = make_cfg(tmp_path, ["https://a.example/rss", "https://b.example/rss"])
     with client_with(handler) as client:
@@ -95,8 +95,8 @@ def test_same_item_in_two_feeds_counted_once(tmp_path: Path):
 
 
 def test_dry_run_touches_nothing(tmp_path: Path):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, content=RSS.encode(), headers={"ETag": 'W/"v1"'})
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(200, content=RSS.encode(), headers={"ETag": 'W/"v1"'})
 
     cfg = make_cfg(tmp_path, ["https://example.com/rss"])
     with client_with(handler) as client:

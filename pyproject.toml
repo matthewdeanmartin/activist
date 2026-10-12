@@ -26,7 +26,7 @@ classifiers = [
 
 dependencies = [
     "beautifulsoup4",
-    "httpx[http2]>=0.28.1",
+    "httpx2[http2]>=2.0,<3",
     # for counting tests.
     "pytest>0.0.0",
     # For LLM Features. They don't run by accident, so just including them

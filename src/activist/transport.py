@@ -20,7 +20,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
 
-import httpx
+import httpx2
 
 from .mastodon_client import (
     MastodonCredentials,
@@ -124,7 +124,7 @@ class MastodonTransport:
         config_live: bool = False,
         require_gate: bool = True,
         writer: MastodonWriter | None = None,
-        client: httpx.Client | None = None,
+        client: httpx2.Client | None = None,
     ):
         if require_gate:
             env_live = os.environ.get("ACTIVIST_LIVE") == "1"
@@ -165,7 +165,7 @@ class MastodonTransport:
             )
         except MastodonRateLimited as exc:
             raise RetryablePublishError(exc.retry_after, "rate limited; re-queueing") from exc
-        except httpx.HTTPStatusError as exc:
+        except httpx2.HTTPStatusError as exc:
             # Re-raise with a tidy message; poster_tick records it on the failed row.
             code = exc.response.status_code
             raise RuntimeError(f"publish failed HTTP {code}: {exc.response.text[:200]}") from exc

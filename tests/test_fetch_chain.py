@@ -1,6 +1,6 @@
 """Fetcher Phase F2: the full live chain fetch → engine → moderate → store.
 
-The repo's fixture feeds are served through httpx.MockTransport, so MockBot
+The repo's fixture feeds are served through httpx2.MockTransport, so MockBot
 produces the same known reactions as the e2e fixture run — but arriving via
 "live" HTTP into the queue store instead of a feed.toml.
 """
@@ -11,7 +11,7 @@ import datetime as dt
 import shutil
 from pathlib import Path
 
-import httpx
+import httpx2
 import pytest
 
 from activist import state
@@ -51,16 +51,16 @@ def make_cfg(workspace: Path, repo_root: Path) -> AppConfig:
     return cfg
 
 
-def fixture_client(repo_root: Path) -> httpx.Client:
+def fixture_client(repo_root: Path) -> httpx2.Client:
     feeds_dir = repo_root / "fixtures" / "feeds"
 
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         path = feeds_dir / request.url.path.lstrip("/")
         if not path.exists():
-            return httpx.Response(404)
-        return httpx.Response(200, content=path.read_bytes())
+            return httpx2.Response(404)
+        return httpx2.Response(200, content=path.read_bytes())
 
-    return httpx.Client(transport=httpx.MockTransport(handler))
+    return httpx2.Client(transport=httpx2.MockTransport(handler))
 
 
 def test_chain_queues_moderated_spaced_drafts(workspace, repo_root):

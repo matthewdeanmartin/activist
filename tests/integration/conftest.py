@@ -45,7 +45,7 @@ pytest.importorskip(
     reason="install mastodon_mock[test] to run these tests",
 )
 
-import httpx  # noqa: E402
+import httpx2  # noqa: E402
 
 from mastodon_mock.config import (  # noqa: E402
     SeedAccount,
@@ -130,11 +130,11 @@ def _creds(base_url: str, token: str, identity: str = "BOT") -> MastodonCredenti
     )
 
 
-def _http_client(base_url: str, token: str) -> httpx.Client:
-    return httpx.Client(
+def _http_client(base_url: str, token: str) -> httpx2.Client:
+    return httpx2.Client(
         base_url=base_url,
         headers={"Authorization": f"Bearer {token}"},
-        timeout=httpx.Timeout(10.0),
+        timeout=httpx2.Timeout(10.0),
     )
 
 

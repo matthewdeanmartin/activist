@@ -93,19 +93,19 @@ class FakeAsyncClient:
 
 
 def test_fetch_instance_directory(enable_network, monkeypatch):
-    response = fetcher.httpx.Response(
+    response = fetcher.httpx2.Response(
         200,
         json=SAMPLE_ENTRIES,
-        request=fetcher.httpx.Request("GET", discover.DIRECTORY_URL),
+        request=fetcher.httpx2.Request("GET", discover.DIRECTORY_URL),
     )
     monkeypatch.setattr(
-        discover.httpx,
+        discover.httpx2,
         "AsyncClient",
         lambda *a, **kw: FakeAsyncClient(response, *a, **kw),
     )
 
     async def run():
-        async with discover.httpx.AsyncClient() as client:
+        async with discover.httpx2.AsyncClient() as client:
             return await discover.fetch_instance_directory(client)
 
     entries = asyncio.run(run())
@@ -113,19 +113,19 @@ def test_fetch_instance_directory(enable_network, monkeypatch):
 
 
 def test_fetch_instance_directory_bad_shape(enable_network, monkeypatch):
-    response = fetcher.httpx.Response(
+    response = fetcher.httpx2.Response(
         200,
         json={"not": "a list"},
-        request=fetcher.httpx.Request("GET", discover.DIRECTORY_URL),
+        request=fetcher.httpx2.Request("GET", discover.DIRECTORY_URL),
     )
     monkeypatch.setattr(
-        discover.httpx,
+        discover.httpx2,
         "AsyncClient",
         lambda *a, **kw: FakeAsyncClient(response, *a, **kw),
     )
 
     async def run():
-        async with discover.httpx.AsyncClient() as client:
+        async with discover.httpx2.AsyncClient() as client:
             return await discover.fetch_instance_directory(client)
 
     with pytest.raises(ValueError):
@@ -136,13 +136,13 @@ def test_main_appends_new_domains(enable_network, monkeypatch, tmp_path: Path):
     server_list = tmp_path / "servers.txt"
     server_list.write_text("mastodon.social\n", encoding="utf-8")
 
-    response = fetcher.httpx.Response(
+    response = fetcher.httpx2.Response(
         200,
         json=SAMPLE_ENTRIES,
-        request=fetcher.httpx.Request("GET", discover.DIRECTORY_URL),
+        request=fetcher.httpx2.Request("GET", discover.DIRECTORY_URL),
     )
     monkeypatch.setattr(
-        discover.httpx,
+        discover.httpx2,
         "AsyncClient",
         lambda *a, **kw: FakeAsyncClient(response, *a, **kw),
     )
@@ -162,10 +162,10 @@ def test_main_handles_fetch_failure(enable_network, monkeypatch, tmp_path: Path)
 
     class FailingClient(FakeAsyncClient):
         async def get(self, url):
-            raise fetcher.httpx.ConnectError("boom")
+            raise fetcher.httpx2.ConnectError("boom")
 
     monkeypatch.setattr(
-        discover.httpx,
+        discover.httpx2,
         "AsyncClient",
         lambda *a, **kw: FailingClient(None, *a, **kw),
     )

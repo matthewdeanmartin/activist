@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from . import __version__, ratelimit, relevance, state
 from .config import AppConfig, FeedConfig
@@ -25,7 +25,7 @@ from .models import NewsItem
 LOGGER = logging.getLogger(__name__)
 
 USER_AGENT = f"activist/{__version__} (+https://github.com/matthewdeanmartin/activist)"
-TIMEOUT = httpx.Timeout(20.0)
+TIMEOUT = httpx2.Timeout(20.0)
 
 OK = "ok"
 UNCHANGED = "unchanged"  # 304
@@ -61,8 +61,8 @@ class FetchResult:
         return sum(1 for o in self.outcomes if o.status == FAILED)
 
 
-def make_client() -> httpx.Client:
-    return httpx.Client(
+def make_client() -> httpx2.Client:
+    return httpx2.Client(
         headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT, follow_redirects=True
     )
 
@@ -81,7 +81,7 @@ def _load_validators(cache_dir: Path, url: str) -> dict:
         return {}
 
 
-def _save_validators(cache_dir: Path, url: str, response: httpx.Response) -> None:
+def _save_validators(cache_dir: Path, url: str, response: httpx2.Response) -> None:
     cache_dir.mkdir(parents=True, exist_ok=True)
     _cache_path(cache_dir, url).write_text(
         json.dumps(
@@ -97,7 +97,7 @@ def _save_validators(cache_dir: Path, url: str, response: httpx.Response) -> Non
 
 
 def fetch_feed(
-    client: httpx.Client, feed: FeedConfig, cache_dir: Path, write_cache: bool = True
+    client: httpx2.Client, feed: FeedConfig, cache_dir: Path, write_cache: bool = True
 ) -> FeedOutcome:
     """Fetch one feed; 304 and any HTTP/parse failure degrade, never raise."""
     headers = {}
@@ -108,7 +108,7 @@ def fetch_feed(
         headers["If-Modified-Since"] = validators["last_modified"]
     try:
         response = client.get(feed.url, headers=headers)
-    except httpx.HTTPError as exc:
+    except httpx2.HTTPError as exc:
         LOGGER.warning("Feed %s failed: %s", feed.name, exc)
         return FeedOutcome(feed.name, feed.url, FAILED, detail=str(exc))
     if response.status_code == 304:
@@ -124,7 +124,7 @@ def fetch_feed(
 
 def fetch_news(
     cfg: AppConfig,
-    client: httpx.Client | None = None,
+    client: httpx2.Client | None = None,
     dry_run: bool = False,
     topics: list[str] | None = None,
     mark_seen: bool | None = None,
@@ -203,7 +203,7 @@ def run_news_chain(
     engine,
     store,
     dry_run: bool = False,
-    client: httpx.Client | None = None,
+    client: httpx2.Client | None = None,
     now: dt.datetime | None = None,
     llm_moderator=None,
 ) -> ChainResult:

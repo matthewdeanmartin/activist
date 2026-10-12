@@ -12,7 +12,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from activist.config import AppConfig
 from activist.poster import poster_tick
@@ -60,7 +60,7 @@ def test_poster_tick_publishes_live_to_the_mock(
     assert row.published_at
 
     # And it's genuinely on the server.
-    with httpx.Client(base_url=mock_server_url, headers={"Authorization": "Bearer bot_token"}) as client:
+    with httpx2.Client(base_url=mock_server_url, headers={"Authorization": "Bearer bot_token"}) as client:
         fetched = client.get(f"/api/v1/statuses/{row.mastodon_status_id}")
         fetched.raise_for_status()
         assert "below freezing" in fetched.json()["content"]

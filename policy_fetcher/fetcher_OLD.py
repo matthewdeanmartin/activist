@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from typing import List, Optional
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 # -- Logging Setup for Module --
@@ -131,14 +131,14 @@ async def fetch_policy(domain: str, directory: Path, force_refresh: bool = False
     url = get_policy_url(domain)
     logger.info(f"Fetching policy from {url}...")
 
-    async with httpx.AsyncClient(follow_redirects=True, timeout=10.0) as client:
+    async with httpx2.AsyncClient(follow_redirects=True, timeout=10.0) as client:
         try:
             response = await client.get(url)
             response.raise_for_status()
-        except httpx.HTTPStatusError as e:
+        except httpx2.HTTPStatusError as e:
             logger.error(f"HTTP error {e.response.status_code} for {domain}")
             raise InstanceUnreachableError(f"HTTP {e.response.status_code}") from e
-        except httpx.RequestError as e:
+        except httpx2.RequestError as e:
             logger.error(f"Connection error for {domain}: {e}")
             raise InstanceUnreachableError(f"Connection failed: {e}") from e
 

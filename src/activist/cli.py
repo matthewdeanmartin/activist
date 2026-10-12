@@ -418,7 +418,7 @@ def _cmd_poster(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
     if not args.skip_verify:
-        import httpx
+        import httpx2
 
         from .mastodon_client import CredentialsError, MastodonCredentials, MastodonReader
 
@@ -427,7 +427,7 @@ def _cmd_poster(args: argparse.Namespace) -> int:
             reader = MastodonReader(MastodonCredentials.from_env(cfg.mastodon_id))
             account = reader.verify_credentials()
             print(f"token ok: @{account.get('acct', '?')} on {reader.creds.base_url}")
-        except (CredentialsError, httpx.HTTPError) as exc:
+        except (CredentialsError, httpx2.HTTPError) as exc:
             print(f"credential check failed: {exc}", file=sys.stderr)
             return 1
         finally:

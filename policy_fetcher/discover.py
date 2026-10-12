@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
-import httpx
+import httpx2
 
 from policy_fetcher.fetcher import HEADERS
 
@@ -23,11 +23,11 @@ __all__ = [
 DIRECTORY_URL = "https://api.joinmastodon.org/servers"
 
 
-async def fetch_instance_directory(client: httpx.AsyncClient) -> List[Dict[str, Any]]:
+async def fetch_instance_directory(client: httpx2.AsyncClient) -> List[Dict[str, Any]]:
     """Fetch the joinmastodon.org server directory.
 
     Returns the raw list of entries (each with at least a "domain" key).
-    Raises httpx.HTTPError on network/HTTP failure; callers should handle it.
+    Raises httpx2.HTTPError on network/HTTP failure; callers should handle it.
     """
     response = await client.get(DIRECTORY_URL)
     response.raise_for_status()
@@ -95,11 +95,11 @@ async def _run(args: argparse.Namespace) -> int:
         existing = [line.strip() for line in raw.splitlines() if line.strip()]
 
     try:
-        async with httpx.AsyncClient(
+        async with httpx2.AsyncClient(
             headers=HEADERS, timeout=15.0, follow_redirects=True
         ) as client:
             entries = await fetch_instance_directory(client)
-    except (httpx.HTTPError, ValueError) as e:
+    except (httpx2.HTTPError, ValueError) as e:
         logger.error(f"Failed to fetch instance directory: {e}")
         return 1
 

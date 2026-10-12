@@ -1,4 +1,4 @@
-"""Thin httpx wrapper for the Mastodon API, split by capability.
+"""Thin httpx2 wrapper for the Mastodon API, split by capability.
 
 MastodonReader is everything this project is allowed to do today:
 read-only calls. Publishing lives in transport.MastodonTransport, which is
@@ -17,7 +17,7 @@ import os
 import time
 from dataclasses import dataclass
 
-import httpx
+import httpx2
 
 from . import __version__
 from .ingest import strip_html
@@ -26,7 +26,7 @@ from .models import Mention
 LOGGER = logging.getLogger(__name__)
 
 USER_AGENT = f"activist/{__version__} (+https://github.com/matthewdeanmartin/activist)"
-TIMEOUT = httpx.Timeout(20.0)
+TIMEOUT = httpx2.Timeout(20.0)
 
 # When the instance says this few requests remain in the window, pause until it
 # resets rather than spending the last calls and getting a hard 429.
@@ -78,9 +78,9 @@ class MastodonCredentials:
 class MastodonReader:
     """Read-only Mastodon API access — all this round is allowed to need."""
 
-    def __init__(self, creds: MastodonCredentials, client: httpx.Client | None = None):
+    def __init__(self, creds: MastodonCredentials, client: httpx2.Client | None = None):
         self.creds = creds
-        self._client = client or httpx.Client(
+        self._client = client or httpx2.Client(
             base_url=creds.base_url,
             headers={
                 "User-Agent": USER_AGENT,
@@ -95,7 +95,7 @@ class MastodonReader:
     def verify_credentials(self) -> dict:
         """GET /api/v1/accounts/verify_credentials — the startup self-check.
 
-        Returns the account document; raises httpx.HTTPStatusError on a bad
+        Returns the account document; raises httpx2.HTTPStatusError on a bad
         or revoked token so callers fail fast before touching the queue.
         """
         response = self._client.get("/api/v1/accounts/verify_credentials")
@@ -138,7 +138,7 @@ class MastodonReader:
         return response.json()
 
     @staticmethod
-    def _respect_rate_limit(response: httpx.Response) -> None:
+    def _respect_rate_limit(response: httpx2.Response) -> None:
         """Sleep until X-RateLimit-Reset when the remaining budget is near zero.
 
         Read-only by construction, but politeness still matters: blowing
@@ -194,9 +194,9 @@ class MastodonWriter:
     against a live instance; pointed at the mock server it is exercised freely.
     """
 
-    def __init__(self, creds: MastodonCredentials, client: httpx.Client | None = None):
+    def __init__(self, creds: MastodonCredentials, client: httpx2.Client | None = None):
         self.creds = creds
-        self._client = client or httpx.Client(
+        self._client = client or httpx2.Client(
             base_url=creds.base_url,
             headers={
                 "User-Agent": USER_AGENT,
@@ -228,7 +228,7 @@ class MastodonWriter:
         audience. Empty strings are omitted so the server applies its defaults.
 
         Raises ``MastodonRateLimited`` on 429 (caller re-queues), or
-        ``httpx.HTTPStatusError`` on any other 4xx/5xx for the caller's error
+        ``httpx2.HTTPStatusError`` on any other 4xx/5xx for the caller's error
         taxonomy to classify.
         """
         data: dict[str, str] = {"status": text}
@@ -262,7 +262,7 @@ class MastodonWriter:
         return response.json()
 
 
-def _retry_after_seconds(response: httpx.Response) -> float:
+def _retry_after_seconds(response: httpx2.Response) -> float:
     """Best-effort seconds-to-wait from a 429, preferring Retry-After.
 
     Honors a plain-seconds ``Retry-After`` header first, then falls back to the

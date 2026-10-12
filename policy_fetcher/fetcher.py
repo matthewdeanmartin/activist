@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any, Tuple
 from urllib.parse import urljoin, urlparse
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 # -- Logging Setup --
@@ -108,7 +108,7 @@ async def fetch_offsite_policy(
     domain: str,
     links: List[Tuple[str, str]],
     directory: Path,
-    client: httpx.AsyncClient,
+    client: httpx2.AsyncClient,
     llm_enabled: bool = True,
     about_text: str = "",
 ) -> List[Tuple[str, str]]:
@@ -162,7 +162,7 @@ async def fetch_offsite_policy(
     return saved
 
 
-async def _get_json(client: httpx.AsyncClient, url: str) -> Optional[Dict[str, Any]]:
+async def _get_json(client: httpx2.AsyncClient, url: str) -> Optional[Dict[str, Any]]:
     """Helper to fetch JSON safely."""
     try:
         response = await client.get(url)
@@ -170,12 +170,12 @@ async def _get_json(client: httpx.AsyncClient, url: str) -> Optional[Dict[str, A
             return None
         response.raise_for_status()
         return response.json()
-    except httpx.HTTPError as e:
+    except httpx2.HTTPError as e:
         logger.warning(f"Failed to fetch {url}: {e}")
         return None
 
 
-async def _get_html(client: httpx.AsyncClient, url: str) -> Optional[str]:
+async def _get_html(client: httpx2.AsyncClient, url: str) -> Optional[str]:
     """Helper to fetch an HTML body safely. Returns None on 404/errors.
 
     Overrides the client's default `Accept: application/json` -- Mastodon
@@ -188,7 +188,7 @@ async def _get_html(client: httpx.AsyncClient, url: str) -> Optional[str]:
             return None
         response.raise_for_status()
         return response.text
-    except httpx.HTTPError as e:
+    except httpx2.HTTPError as e:
         logger.warning(f"Failed to fetch {url}: {e}")
         return None
 
@@ -227,7 +227,7 @@ async def fetch_policy(
 
     logger.info(f"Fetching policy for {domain} via API...")
 
-    async with httpx.AsyncClient(headers=HEADERS, timeout=15.0, follow_redirects=True) as client:
+    async with httpx2.AsyncClient(headers=HEADERS, timeout=15.0, follow_redirects=True) as client:
         # Construct Endpoints
         # Try v2 first (standard for modern Mastodon)
         base_url = f"https://{domain}"
