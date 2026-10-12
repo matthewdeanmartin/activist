@@ -68,13 +68,21 @@ def run(cfg: RunConfig) -> RunResult:
     memory_dir = cfg.persona_dir / "memory"
     seen_ids = state.load_seen_ids(memory_dir)
     recent_said = state.load_said(memory_dir, n=5)
-    max_posts = cfg.max_posts if cfg.max_posts is not None else persona.max_posts_per_run
-    per_hour = ratelimit.effective_hourly_limit(persona.posts_per_hour, cfg.instance_policies)
+    max_posts = (
+        cfg.max_posts if cfg.max_posts is not None else persona.max_posts_per_run
+    )
+    per_hour = ratelimit.effective_hourly_limit(
+        persona.posts_per_hour, cfg.instance_policies
+    )
 
     items = ingest.parse_fixtures_dir(cfg.fixtures_dir)
-    log: list[str] = [f"RUN date={cfg.date} engine={cfg.engine.name} fixtures={cfg.fixtures_dir}"]
+    log: list[str] = [
+        f"RUN date={cfg.date} engine={cfg.engine.name} fixtures={cfg.fixtures_dir}"
+    ]
     log.append(f"INGEST items={len(items)}")
-    log.append(f"PACING {per_hour}/hour (app={persona.posts_per_hour}, instances={sorted(cfg.instance_policies)})")
+    log.append(
+        f"PACING {per_hour}/hour (app={persona.posts_per_hour}, instances={sorted(cfg.instance_policies)})"
+    )
 
     out = react_to_items(
         items,
@@ -167,7 +175,11 @@ def react_to_items(
             out.log_lines.append(f"ITEM {item.id} '{item.title}' SKIP already-seen")
             continue
         matched = relevance.match_topics(item, persona.topics)
-        if matched and engine_call_budget is not None and engine_calls >= engine_call_budget:
+        if (
+            matched
+            and engine_call_budget is not None
+            and engine_calls >= engine_call_budget
+        ):
             out.log_lines.append(
                 f"ITEM {item.id} '{item.title}' DEFERRED engine-call-budget exhausted"
             )
@@ -191,7 +203,9 @@ def react_to_items(
         knowledge = state.knowledge_sections(knowledge_path, matched)
         created = slot_for(len(out.posts))
         engine_calls += 1
-        reaction = engine.react(item, persona, relevant_ops, knowledge, recent_said, created)
+        reaction = engine.react(
+            item, persona, relevant_ops, knowledge, recent_said, created
+        )
         if reaction.diary_note:
             out.diary.append(reaction.diary_note)
 
@@ -201,15 +215,21 @@ def react_to_items(
             continue
 
         post = reaction.post
-        if len(out.posts) >= max_posts or any(k in posted_keys for k in post.opinion_keys):
+        if len(out.posts) >= max_posts or any(
+            k in posted_keys for k in post.opinion_keys
+        ):
             out.diary.append(
                 f"Paced out: had a post for '{item.title}' but held it (rate/key limit)."
             )
             out.log_lines.append(f"ITEM {item.id} '{item.title}' PACED-OUT")
             continue
         if post.char_count > POST_CHAR_LIMIT:
-            LOGGER.warning("Post %s is %d chars (> %d)", post.id, post.char_count, POST_CHAR_LIMIT)
-            out.log_lines.append(f"ITEM {item.id} '{item.title}' WARN over-{POST_CHAR_LIMIT}-chars")
+            LOGGER.warning(
+                "Post %s is %d chars (> %d)", post.id, post.char_count, POST_CHAR_LIMIT
+            )
+            out.log_lines.append(
+                f"ITEM {item.id} '{item.title}' WARN over-{POST_CHAR_LIMIT}-chars"
+            )
 
         out.posts.append(post)
         posted_keys.update(post.opinion_keys)
@@ -218,7 +238,9 @@ def react_to_items(
         out.pushbacks.extend(reaction.pushbacks)
         out.said_entries.append(_said_entry(date, post, relevant_ops, reaction))
         kind = "CHANGED-MIND" if post.opinion_change else "POST"
-        out.log_lines.append(f"ITEM {item.id} '{item.title}' {kind} keys={post.opinion_keys}")
+        out.log_lines.append(
+            f"ITEM {item.id} '{item.title}' {kind} keys={post.opinion_keys}"
+        )
 
     return out
 
@@ -232,7 +254,9 @@ def apply_engine_state(
 ) -> None:
     """Write everything an engine pass changed back into persona/."""
     memory_dir = persona_dir / "memory"
-    _apply_state(persona_dir, date, opinions, out.changes, out.reinforcements, out.pushbacks)
+    _apply_state(
+        persona_dir, date, opinions, out.changes, out.reinforcements, out.pushbacks
+    )
     state.append_seen(memory_dir, out.seen_rows)
     state.append_said(memory_dir, out.said_entries)
     state.append_diary(memory_dir, date, engine_name, out.diary)
@@ -250,7 +274,9 @@ def _relevant_opinions(
     }
 
 
-def _said_entry(date: str, post: DraftPost, opinions: dict[str, Opinion], reaction) -> SaidEntry:
+def _said_entry(
+    date: str, post: DraftPost, opinions: dict[str, Opinion], reaction
+) -> SaidEntry:
     key = post.opinion_keys[0]
     opinion = opinions.get(key)
     topic = opinion.topic if opinion else ""
@@ -261,7 +287,11 @@ def _said_entry(date: str, post: DraftPost, opinions: dict[str, Opinion], reacti
     else:
         summary = f"reaffirmed on {topic}: {opinion.stance if opinion else ''}"
     return SaidEntry(
-        date=date, post_id=post.id, topic=topic, opinion_keys=post.opinion_keys, summary=summary
+        date=date,
+        post_id=post.id,
+        topic=topic,
+        opinion_keys=post.opinion_keys,
+        summary=summary,
     )
 
 
@@ -281,7 +311,9 @@ def _apply_state(
         op.stance = change.new_stance
         op.since = date
         op.basis = change.reason
-        op.history.append({"date": date, "stance": change.new_stance, "trigger": change.reason})
+        op.history.append(
+            {"date": date, "stance": change.new_stance, "trigger": change.reason}
+        )
     for key in reinforcements:
         op = opinions.get(key)
         if op is not None:
@@ -290,6 +322,10 @@ def _apply_state(
         op = opinions.get(push["key"])
         if op is not None:
             op.history.append(
-                {"date": date, "stance": op.stance, "trigger": f"pushed back: {push['reason']}"}
+                {
+                    "date": date,
+                    "stance": op.stance,
+                    "trigger": f"pushed back: {push['reason']}",
+                }
             )
     state.save_opinions(persona_dir / "opinions.toml", opinions)

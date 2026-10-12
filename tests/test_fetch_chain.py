@@ -8,6 +8,7 @@ produces the same known reactions as the e2e fixture run — but arriving via
 from __future__ import annotations
 
 import datetime as dt
+import itertools
 import shutil
 from pathlib import Path
 
@@ -29,7 +30,8 @@ def workspace(tmp_path, repo_root):
     """Same pristine-seed staging as test_e2e: pinned opinions, empty memory."""
     shutil.copytree(repo_root / "persona", tmp_path / "persona")
     shutil.copyfile(
-        repo_root / "tests" / "seed_opinions.toml", tmp_path / "persona" / "opinions.toml"
+        repo_root / "tests" / "seed_opinions.toml",
+        tmp_path / "persona" / "opinions.toml",
     )
     memory = tmp_path / "persona" / "memory"
     shutil.rmtree(memory, ignore_errors=True)
@@ -87,7 +89,9 @@ def test_chain_queues_moderated_spaced_drafts(workspace, repo_root):
     slots = sorted(r.scheduled_for for r in rows)
     assert slots[0] == "2026-06-12T09:00:00+00:00"
     parsed = [dt.datetime.fromisoformat(s) for s in slots]
-    assert all((b - a) == dt.timedelta(minutes=15) for a, b in zip(parsed, parsed[1:]))
+    assert all(
+        (b - a) == dt.timedelta(minutes=15) for a, b in itertools.pairwise(parsed)
+    )
 
     # Persona state applied exactly like the fixture path.
     opinions = state.load_opinions(cfg.persona_dir / "opinions.toml")
@@ -117,10 +121,14 @@ def test_chain_dry_run_touches_nothing(workspace, repo_root):
     store = Store(cfg.db_path)
     before_opinions = (cfg.persona_dir / "opinions.toml").read_text(encoding="utf-8")
     with fixture_client(repo_root) as client:
-        result = run_news_chain(cfg, MockBot(), store, client=client, now=NOW, dry_run=True)
+        result = run_news_chain(
+            cfg, MockBot(), store, client=client, now=NOW, dry_run=True
+        )
     assert len(result.posts) == 5  # full preview...
     assert store.counts()[PENDING] == 0  # ...but nothing landed
-    assert (cfg.persona_dir / "opinions.toml").read_text(encoding="utf-8") == before_opinions
+    assert (cfg.persona_dir / "opinions.toml").read_text(
+        encoding="utf-8"
+    ) == before_opinions
     assert not (cfg.persona_dir / "memory" / "seen.jsonl").exists()
     assert not cfg.cache_dir.exists()
     assert not cfg.out_dir.exists()
@@ -161,7 +169,9 @@ def test_chain_engine_call_budget_caps_calls_and_defers_rest(workspace, repo_roo
     assert len(state.load_seen_ids(cfg.persona_dir / "memory")) < 8
 
 
-def test_chain_engine_call_budget_then_unbudgeted_run_picks_up_rest(workspace, repo_root):
+def test_chain_engine_call_budget_then_unbudgeted_run_picks_up_rest(
+    workspace, repo_root
+):
     """Items deferred by the budget aren't lost -- a follow-up run without a
     (or with a higher) budget reconsiders them, since they were never marked
     seen."""
@@ -171,11 +181,15 @@ def test_chain_engine_call_budget_then_unbudgeted_run_picks_up_rest(workspace, r
     with fixture_client(repo_root) as client:
         run_news_chain(cfg, MockBot(), store, client=client, now=NOW)
         cfg.engine_call_budget = None
-        second = run_news_chain(cfg, MockBot(), store, client=client, now=NOW + dt.timedelta(hours=1))
+        second = run_news_chain(
+            cfg, MockBot(), store, client=client, now=NOW + dt.timedelta(hours=1)
+        )
 
     # Together the two runs see everything the unbudgeted single run would.
     assert len(state.load_seen_ids(cfg.persona_dir / "memory")) == 8
-    assert len(second.posts) > 0  # the deferred items got their engine.react() this time
+    assert (
+        len(second.posts) > 0
+    )  # the deferred items got their engine.react() this time
 
 
 def test_continued_slot_from_empty_queue():
@@ -192,7 +206,10 @@ def test_continued_slot_after_future_backlog():
 
 def test_continued_slot_ignores_stale_history():
     # Everything queued is long published; new drafts start from now.
-    assert continued_slot(0, 4, NOW, "2026-06-01T09:00:00+00:00") == "2026-06-12T09:00:00+00:00"
+    assert (
+        continued_slot(0, 4, NOW, "2026-06-01T09:00:00+00:00")
+        == "2026-06-12T09:00:00+00:00"
+    )
 
 
 def test_continued_slot_one_per_hour():

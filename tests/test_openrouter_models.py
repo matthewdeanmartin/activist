@@ -7,7 +7,11 @@ from types import SimpleNamespace
 
 import pytest
 
-from activist.engine.openrouter import RotatingCompleter, _env_file_values, candidate_models
+from activist.engine.openrouter import (
+    RotatingCompleter,
+    _env_file_values,
+    candidate_models,
+)
 
 ENV_TEXT = """\
 # comment line
@@ -60,7 +64,9 @@ def _fake_client(behavior):
         message = SimpleNamespace(content=result)
         return SimpleNamespace(choices=[SimpleNamespace(message=message)])
 
-    return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+    return SimpleNamespace(
+        chat=SimpleNamespace(completions=SimpleNamespace(create=create))
+    )
 
 
 def test_rotation_skips_failing_model_and_sticks():

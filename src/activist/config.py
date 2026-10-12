@@ -94,7 +94,8 @@ def load_config(path: Path) -> AppConfig:
 
     fetch = data.get("fetch", {})
     cfg.fetch_interval_minutes = _positive_int(
-        fetch.get("interval_minutes", cfg.fetch_interval_minutes), "fetch.interval_minutes"
+        fetch.get("interval_minutes", cfg.fetch_interval_minutes),
+        "fetch.interval_minutes",
     )
     cfg.cache_dir = Path(fetch.get("cache_dir", cfg.cache_dir))
     cfg.fetch_article_body = bool(fetch.get("article_body", cfg.fetch_article_body))
@@ -114,16 +115,21 @@ def load_config(path: Path) -> AppConfig:
     replies = data.get("replies", {})
     cfg.replies_enabled = bool(replies.get("enabled", cfg.replies_enabled))
     cfg.replies_interval_minutes = _positive_int(
-        replies.get("interval_minutes", cfg.replies_interval_minutes), "replies.interval_minutes"
+        replies.get("interval_minutes", cfg.replies_interval_minutes),
+        "replies.interval_minutes",
     )
 
     engine = data.get("engine", {})
     cfg.engine = engine.get("name", cfg.engine)
     if cfg.engine not in ("mockbot", "openrouter"):
-        raise ConfigError(f"engine.name must be 'mockbot' or 'openrouter', got {cfg.engine!r}")
+        raise ConfigError(
+            f"engine.name must be 'mockbot' or 'openrouter', got {cfg.engine!r}"
+        )
     cfg.model = engine.get("model")
     if "call_budget" in engine:
-        cfg.engine_call_budget = _positive_int(engine["call_budget"], "engine.call_budget")
+        cfg.engine_call_budget = _positive_int(
+            engine["call_budget"], "engine.call_budget"
+        )
 
     moderation = data.get("moderation", {})
     cfg.moderation_engine = moderation.get("engine", cfg.moderation_engine)
@@ -139,7 +145,9 @@ def load_config(path: Path) -> AppConfig:
         )
     instance_limits = rate_limit.get("instances", {})
     if not isinstance(instance_limits, dict):
-        raise ConfigError("rate_limit.instances must be a table of domain = posts_per_hour")
+        raise ConfigError(
+            "rate_limit.instances must be a table of domain = posts_per_hour"
+        )
     cfg.instance_rate_limits = {
         str(domain): _positive_int(limit, f"rate_limit.instances.{domain}")
         for domain, limit in instance_limits.items()
@@ -186,11 +194,17 @@ def load_config(path: Path) -> AppConfig:
 
 def _validate_paths(cfg: AppConfig) -> None:
     if not cfg.persona_dir.is_dir():
-        raise ConfigError(f"paths.persona must be an existing directory: {cfg.persona_dir}")
+        raise ConfigError(
+            f"paths.persona must be an existing directory: {cfg.persona_dir}"
+        )
     if not cfg.policies_dir.is_dir():
-        raise ConfigError(f"paths.policies must be an existing directory: {cfg.policies_dir}")
+        raise ConfigError(
+            f"paths.policies must be an existing directory: {cfg.policies_dir}"
+        )
     if cfg.app_policy is not None and not cfg.app_policy.is_file():
-        raise ConfigError(f"paths.app_policy must be an existing file: {cfg.app_policy}")
+        raise ConfigError(
+            f"paths.app_policy must be an existing file: {cfg.app_policy}"
+        )
 
 
 def _positive_int(value: object, name: str) -> int:

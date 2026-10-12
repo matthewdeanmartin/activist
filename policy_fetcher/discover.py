@@ -2,8 +2,9 @@ import argparse
 import asyncio
 import logging
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any
 
 import httpx2
 
@@ -14,8 +15,8 @@ logger = logging.getLogger(__name__)
 __all__ = [
     "DIRECTORY_URL",
     "fetch_instance_directory",
-    "merge_servers_txt",
     "main",
+    "merge_servers_txt",
 ]
 
 # Public, unauthenticated directory of Mastodon servers maintained by
@@ -23,7 +24,7 @@ __all__ = [
 DIRECTORY_URL = "https://api.joinmastodon.org/servers"
 
 
-async def fetch_instance_directory(client: httpx2.AsyncClient) -> List[Dict[str, Any]]:
+async def fetch_instance_directory(client: httpx2.AsyncClient) -> list[dict[str, Any]]:
     """Fetch the joinmastodon.org server directory.
 
     Returns the raw list of entries (each with at least a "domain" key).
@@ -38,14 +39,14 @@ async def fetch_instance_directory(client: httpx2.AsyncClient) -> List[Dict[str,
 
 
 def merge_servers_txt(
-    entries: Sequence[Dict[str, Any]],
+    entries: Sequence[dict[str, Any]],
     existing: Sequence[str],
     *,
     min_users: int = 0,
-    languages: Optional[Sequence[str]] = None,
-    categories: Optional[Sequence[str]] = None,
-    limit: Optional[int] = None,
-) -> List[str]:
+    languages: Sequence[str] | None = None,
+    categories: Sequence[str] | None = None,
+    limit: int | None = None,
+) -> list[str]:
     """Return new domains (not in `existing`) to append to servers.txt.
 
     Pure function, no I/O. `entries` is the raw joinmastodon directory list.
@@ -54,7 +55,7 @@ def merge_servers_txt(
     """
     existing_set = {d.strip().lower() for d in existing if d.strip()}
     seen: set[str] = set()
-    candidates: List[str] = []
+    candidates: list[str] = []
 
     for entry in entries:
         domain = str(entry.get("domain", "")).strip().lower()
@@ -89,7 +90,7 @@ def merge_servers_txt(
 
 async def _run(args: argparse.Namespace) -> int:
     server_list_path: Path = args.append
-    existing: List[str] = []
+    existing: list[str] = []
     if server_list_path.exists():
         raw = server_list_path.read_text(encoding="utf-8")
         existing = [line.strip() for line in raw.splitlines() if line.strip()]
@@ -124,7 +125,7 @@ async def _run(args: argparse.Namespace) -> int:
     return 0
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Discover Mastodon instances from the joinmastodon.org directory"
     )
@@ -158,7 +159,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         default=None,
         help="Maximum number of new domains to add",
     )
-    parser.add_argument("-v", "--verbose", action="store_true", help="Enable DEBUG logging")
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Enable DEBUG logging"
+    )
 
     args = parser.parse_args(argv)
 

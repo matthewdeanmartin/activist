@@ -31,7 +31,9 @@ def test_parse_hourly_limit(text, expected):
 
 def test_real_instance_policies_parse():
     policies_dir = REPO_ROOT / "policies"
-    assert parse_hourly_limit(load_instance_policy(policies_dir, "infosec.exchange")) == 1
+    assert (
+        parse_hourly_limit(load_instance_policy(policies_dir, "infosec.exchange")) == 1
+    )
     assert parse_hourly_limit(load_instance_policy(policies_dir, "mas.to")) == 1
 
 

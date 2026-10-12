@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 
 from activist.config import AppConfig
-from activist.moderation import ModerationContext
 from activist.models import Flag
+from activist.moderation import ModerationContext
 from activist.store import APPROVED, FAILED, PENDING, PUBLISHED, REJECTED, Store
 from activist.web import create_app
 from tests.test_store import make_row
@@ -39,8 +39,13 @@ def store(tmp_path: Path) -> Store:
     s.transition("pub1", APPROVED, "publishing", "poster")
     s.transition("pub1", "publishing", PUBLISHED, "poster")
     s.add_pending(
-        make_row(id="reply1", kind="reply", text=f"answer\n{DISCLOSURE}",
-                 in_reply_to_status_id="109501", reply_to_author="@fan@mas.to")
+        make_row(
+            id="reply1",
+            kind="reply",
+            text=f"answer\n{DISCLOSURE}",
+            in_reply_to_status_id="109501",
+            reply_to_author="@fan@mas.to",
+        )
     )
     return s
 
@@ -71,7 +76,9 @@ def test_reject_records_reason(client, store):
     client.post("/content/pend1/act/reject", data={"reason": "off-voice"})
     row = store.get("pend1")
     assert row.status == REJECTED and row.rejected_reason == "off-voice"
-    assert any(e.action == "reject" and e.detail == "off-voice" for e in store.events("pend1"))
+    assert any(
+        e.action == "reject" and e.detail == "off-voice" for e in store.events("pend1")
+    )
 
 
 def test_unapprove(client, store):
@@ -86,9 +93,9 @@ def test_retry_failed(client, store):
 
 def test_lost_race_flashes_and_changes_nothing(client, store):
     store.transition("pend1", PENDING, REJECTED, "human")  # someone else won
-    html = client.post(
-        "/content/pend1/act/approve", follow_redirects=True
-    ).get_data(as_text=True)
+    html = client.post("/content/pend1/act/approve", follow_redirects=True).get_data(
+        as_text=True
+    )
     assert "another process got there first" in html
     assert store.get("pend1").status == REJECTED
 
@@ -99,7 +106,9 @@ def test_unknown_action_and_id_404(client):
 
 
 def test_next_param_redirects_to_list(client):
-    resp = client.post("/content/pend1/act/approve", data={"next": "/?status=pending_review"})
+    resp = client.post(
+        "/content/pend1/act/approve", data={"next": "/?status=pending_review"}
+    )
     assert resp.headers["Location"] == "/?status=pending_review"
 
 
@@ -143,7 +152,9 @@ def test_edit_approved_row_is_allowed(client, store):
 
 def test_edit_published_row_refused(client, store):
     html = client.post(
-        "/content/pub1/edit", data={"text": GOOD_TEXT + " sneaky"}, follow_redirects=True
+        "/content/pub1/edit",
+        data={"text": GOOD_TEXT + " sneaky"},
+        follow_redirects=True,
     ).get_data(as_text=True)
     assert "Not editable" in html
     assert store.get("pub1").text == GOOD_TEXT
@@ -167,7 +178,9 @@ def test_llm_recheck_replaces_flags_without_editing_text(client, store):
 
 def test_llm_recheck_published_row_refused(client, store):
     before_flags = store.get("pub1").flags
-    html = client.post("/content/pub1/recheck-llm", follow_redirects=True).get_data(as_text=True)
+    html = client.post("/content/pub1/recheck-llm", follow_redirects=True).get_data(
+        as_text=True
+    )
     assert "Not re-checkable" in html
     assert store.get("pub1").flags == before_flags
 

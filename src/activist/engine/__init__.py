@@ -5,7 +5,7 @@ from __future__ import annotations
 from .base import PersonaEngine
 from .mockbot import MockBot
 
-__all__ = ["PersonaEngine", "MockBot", "get_engine"]
+__all__ = ["MockBot", "PersonaEngine", "get_engine"]
 
 
 def get_engine(name: str, model: str | None = None) -> PersonaEngine:

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from activist.moderation import ModerationContext, MockModerator, moderate_feed
+from activist.moderation import MockModerator, ModerationContext, moderate_feed
 from activist.moderation.policies import load_app_policy, load_instance_policy
 from activist.queue_io import read_feed, write_feed
 from tests.test_render import RUN_META, make_post
@@ -20,7 +20,9 @@ GOOD_TEXT = f"Induction wins again. https://example.com/article\n\n{DISCLOSURE}"
 
 
 def ctx(**overrides) -> ModerationContext:
-    defaults = dict(disclosure=DISCLOSURE, app_policy="(policy text)", instance_policies={})
+    defaults = dict(
+        disclosure=DISCLOSURE, app_policy="(policy text)", instance_policies={}
+    )
     defaults.update(overrides)
     return ModerationContext(**defaults)
 
@@ -75,7 +77,9 @@ def test_cold_mention():
 
 
 def test_human_experience_claims():
-    flags = review(f"I installed one in my garage last week. https://e.com/a\n\n{DISCLOSURE}")
+    flags = review(
+        f"I installed one in my garage last week. https://e.com/a\n\n{DISCLOSURE}"
+    )
     assert "human-claim" in rules(flags)
 
 
@@ -87,9 +91,13 @@ def test_opinion_phrases_are_not_human_claims():
 
 def test_no_rate_limit_rules_exist():
     # rate limiting is the scheduler's job (activist.ratelimit), never the moderator's
-    context = ctx(instance_policies={"strict.example": "bots are limited to one post per hour."})
+    context = ctx(
+        instance_policies={"strict.example": "bots are limited to one post per hour."}
+    )
     for position in range(20):
-        assert review(GOOD_TEXT, context=context) == [], f"flagged at position {position}"
+        assert (
+            review(GOOD_TEXT, context=context) == []
+        ), f"flagged at position {position}"
 
 
 def test_replies_may_mention_their_author():

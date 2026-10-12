@@ -52,8 +52,32 @@ def test_knowledge_sections_filters_by_topic():
 def test_seen_memory_round_trip(tmp_path):
     mem = tmp_path / "memory"
     assert state.load_seen_ids(mem) == set()
-    state.append_seen(mem, [{"id": "aaa", "url": "u", "title": "t", "date_seen": "d", "topics": [], "relevant": False}])
-    state.append_seen(mem, [{"id": "bbb", "url": "u", "title": "t", "date_seen": "d", "topics": ["EVs"], "relevant": True}])
+    state.append_seen(
+        mem,
+        [
+            {
+                "id": "aaa",
+                "url": "u",
+                "title": "t",
+                "date_seen": "d",
+                "topics": [],
+                "relevant": False,
+            }
+        ],
+    )
+    state.append_seen(
+        mem,
+        [
+            {
+                "id": "bbb",
+                "url": "u",
+                "title": "t",
+                "date_seen": "d",
+                "topics": ["EVs"],
+                "relevant": True,
+            }
+        ],
+    )
     assert state.load_seen_ids(mem) == {"aaa", "bbb"}
 
 
@@ -61,7 +85,13 @@ def test_said_memory_round_trip(tmp_path):
     mem = tmp_path / "memory"
     assert state.load_said(mem) == []
     entries = [
-        SaidEntry(date=f"2026-06-{i:02d}", post_id=f"p{i}", topic="EVs", opinion_keys=["used-ev-value"], summary=f"s{i}")
+        SaidEntry(
+            date=f"2026-06-{i:02d}",
+            post_id=f"p{i}",
+            topic="EVs",
+            opinion_keys=["used-ev-value"],
+            summary=f"s{i}",
+        )
         for i in range(1, 8)
     ]
     state.append_said(mem, entries)

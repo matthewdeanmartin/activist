@@ -1,9 +1,9 @@
 import asyncio
+from pathlib import Path
 
 import pytest
-from pathlib import Path
-import policy_fetcher.fetcher as fetcher
 
+from policy_fetcher import fetcher
 
 # pytest-network blocks socket.connect globally. On Windows, pytest-asyncio's
 # default loop setup also uses a local socketpair, so these async tests need the
@@ -127,9 +127,7 @@ def test_server_list_processing(enable_network, monkeypatch, tmp_path: Path):
                 "description": "Short description",
             },
         )
-        responses[f"{base}/api/v1/instance/extended_description"] = (
-            http_response(404)
-        )
+        responses[f"{base}/api/v1/instance/extended_description"] = http_response(404)
     mocked_client(monkeypatch, responses)
 
     asyncio.run(fetcher.fetch_many(domains, tmp_path))
@@ -141,6 +139,7 @@ def test_server_list_processing(enable_network, monkeypatch, tmp_path: Path):
 
 
 # -- Off-site policy discovery --
+
 
 def test_extract_policy_links_keyword_match():
     html = """
@@ -179,7 +178,7 @@ def test_fetch_offsite_policy_single_link(enable_network, monkeypatch, tmp_path:
         client = FakeAsyncClient(responses)
 
         # Spy: rank_policy_links must not be called for a single candidate.
-        import policy_fetcher.llm_spider as llm_spider
+        from policy_fetcher import llm_spider
 
         called = {"value": False}
 
@@ -203,7 +202,9 @@ def test_fetch_offsite_policy_single_link(enable_network, monkeypatch, tmp_path:
     assert "https://mastodon.example/terms" in content
 
 
-def test_fetch_offsite_policy_ambiguous_uses_llm(enable_network, monkeypatch, tmp_path: Path):
+def test_fetch_offsite_policy_ambiguous_uses_llm(
+    enable_network, monkeypatch, tmp_path: Path
+):
     domain = "mastodon.example"
     links = [
         ("Terms of Service", "https://mastodon.example/terms"),
@@ -219,7 +220,7 @@ def test_fetch_offsite_policy_ambiguous_uses_llm(enable_network, monkeypatch, tm
         }
         client = FakeAsyncClient(responses)
 
-        import policy_fetcher.llm_spider as llm_spider
+        from policy_fetcher import llm_spider
 
         def fake_rank(about_text, candidate_links, **kwargs):
             # Only pick the terms link, ignoring privacy/donate and any
@@ -241,12 +242,16 @@ def test_fetch_offsite_policy_ambiguous_uses_llm(enable_network, monkeypatch, tm
 def test_fetch_offsite_policy_no_links_returns_empty(enable_network, tmp_path: Path):
     async def run():
         client = FakeAsyncClient({})
-        return await fetcher.fetch_offsite_policy("mastodon.example", [], tmp_path, client)
+        return await fetcher.fetch_offsite_policy(
+            "mastodon.example", [], tmp_path, client
+        )
 
     assert asyncio.run(run()) == []
 
 
-def test_fetch_policy_thin_report_fetches_offsite(enable_network, monkeypatch, tmp_path: Path):
+def test_fetch_policy_thin_report_fetches_offsite(
+    enable_network, monkeypatch, tmp_path: Path
+):
     """
     A report with no rules and a short description is "thin": /about is
     fetched, a single matching link is found, and its content is saved and
@@ -286,10 +291,14 @@ def test_fetch_policy_thin_report_fetches_offsite(enable_network, monkeypatch, t
     assert "## OFFSITE POLICIES" in content
     assert f"{base}/terms" in content
     assert (tmp_path / f"{domain}.offsite.0.txt").exists()
-    assert "Play nice." in (tmp_path / f"{domain}.offsite.0.txt").read_text(encoding="utf-8")
+    assert "Play nice." in (tmp_path / f"{domain}.offsite.0.txt").read_text(
+        encoding="utf-8"
+    )
 
 
-def test_fetch_policy_rich_report_skips_offsite(enable_network, monkeypatch, tmp_path: Path):
+def test_fetch_policy_rich_report_skips_offsite(
+    enable_network, monkeypatch, tmp_path: Path
+):
     """A report with real rules/description is not "thin" -- /about content
     is fetched (cheap, concurrent) but not used for offsite spidering."""
     domain = "mastodon.example"

@@ -129,7 +129,9 @@ def act(content_id: str, action: str):
         abort(404)
     detail_text = request.form.get("reason", "").strip()
     try:
-        _store().transition(content_id, pair[0], pair[1], actor="human", detail=detail_text)
+        _store().transition(
+            content_id, pair[0], pair[1], actor="human", detail=detail_text
+        )
         flash(f"{action}: {content_id} → {pair[1].replace('_', ' ')}")
     except UnknownContent:
         abort(404)
@@ -137,7 +139,9 @@ def act(content_id: str, action: str):
         flash(f"Nothing changed — another process got there first ({exc}).", "error")
     except IllegalTransition:
         abort(409)
-    return redirect(request.form.get("next") or url_for("queue.detail", content_id=content_id))
+    return redirect(
+        request.form.get("next") or url_for("queue.detail", content_id=content_id)
+    )
 
 
 @bp.post("/content/<content_id>/edit")

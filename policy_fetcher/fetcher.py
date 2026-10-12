@@ -1,8 +1,8 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import List, Optional, Dict, Any, Tuple
-from urllib.parse import urljoin, urlparse
+from typing import Any
+from urllib.parse import urljoin
 
 import httpx2
 from bs4 import BeautifulSoup
@@ -21,22 +21,22 @@ class InstanceUnreachableError(PolicyFetchError):
 
 
 __all__ = [
-    'ensure_policy_dir',
-    'save_policy',
-    'fetch_policy',
-    'get_cached_policy',
-    'fetch_many',
-    'extract_policy_links',
-    'fetch_offsite_policy',
-    'PolicyFetchError',
-    'InstanceUnreachableError'
+    "InstanceUnreachableError",
+    "PolicyFetchError",
+    "ensure_policy_dir",
+    "extract_policy_links",
+    "fetch_many",
+    "fetch_offsite_policy",
+    "fetch_policy",
+    "get_cached_policy",
+    "save_policy",
 ]
 
 # -- Configuration --
 # User-Agent is polite and prevents some default-blocking by WAFs
 HEADERS = {
     "User-Agent": "MastodonPolicyFetcher/1.0 (+https://github.com/your/repo)",
-    "Accept": "application/json"
+    "Accept": "application/json",
 }
 
 # A report this short (rules empty AND description under this many chars)
@@ -70,7 +70,7 @@ def clean_html(html_text: str) -> str:
     return soup.get_text(separator="\n", strip=True)
 
 
-def extract_policy_links(html_text: str, base_url: str) -> List[Tuple[str, str]]:
+def extract_policy_links(html_text: str, base_url: str) -> list[tuple[str, str]]:
     """Find links on a page that plausibly point to a ToS/Privacy/Rules page.
 
     Matches `<a>` tags whose link text or href contains one of
@@ -82,7 +82,7 @@ def extract_policy_links(html_text: str, base_url: str) -> List[Tuple[str, str]]
         return []
 
     soup = BeautifulSoup(html_text, "html.parser")
-    results: List[Tuple[str, str]] = []
+    results: list[tuple[str, str]] = []
     seen_urls: set[str] = set()
 
     for anchor in soup.find_all("a", href=True):
@@ -106,12 +106,12 @@ def extract_policy_links(html_text: str, base_url: str) -> List[Tuple[str, str]]
 
 async def fetch_offsite_policy(
     domain: str,
-    links: List[Tuple[str, str]],
+    links: list[tuple[str, str]],
     directory: Path,
     client: httpx2.AsyncClient,
     llm_enabled: bool = True,
     about_text: str = "",
-) -> List[Tuple[str, str]]:
+) -> list[tuple[str, str]]:
     """Resolve, fetch, and save off-site policy pages for `domain`.
 
     `links` is the candidate (text, url) list from `extract_policy_links`.
@@ -146,7 +146,7 @@ async def fetch_offsite_policy(
             )
             return []
 
-    saved: List[Tuple[str, str]] = []
+    saved: list[tuple[str, str]] = []
     for index, (text, url) in enumerate(chosen):
         html_text = await _get_html(client, url)
         if not html_text:
@@ -162,7 +162,7 @@ async def fetch_offsite_policy(
     return saved
 
 
-async def _get_json(client: httpx2.AsyncClient, url: str) -> Optional[Dict[str, Any]]:
+async def _get_json(client: httpx2.AsyncClient, url: str) -> dict[str, Any] | None:
     """Helper to fetch JSON safely."""
     try:
         response = await client.get(url)
@@ -175,7 +175,7 @@ async def _get_json(client: httpx2.AsyncClient, url: str) -> Optional[Dict[str, 
         return None
 
 
-async def _get_html(client: httpx2.AsyncClient, url: str) -> Optional[str]:
+async def _get_html(client: httpx2.AsyncClient, url: str) -> str | None:
     """Helper to fetch an HTML body safely. Returns None on 404/errors.
 
     Overrides the client's default `Accept: application/json` -- Mastodon
@@ -227,7 +227,9 @@ async def fetch_policy(
 
     logger.info(f"Fetching policy for {domain} via API...")
 
-    async with httpx2.AsyncClient(headers=HEADERS, timeout=15.0, follow_redirects=True) as client:
+    async with httpx2.AsyncClient(
+        headers=HEADERS, timeout=15.0, follow_redirects=True
+    ) as client:
         # Construct Endpoints
         # Try v2 first (standard for modern Mastodon)
         base_url = f"https://{domain}"
@@ -249,7 +251,9 @@ async def fetch_policy(
                 instance_data = await _get_json(client, f"{base_url}/api/v1/instance")
 
             if not instance_data:
-                raise InstanceUnreachableError(f"Could not retrieve instance data for {domain}")
+                raise InstanceUnreachableError(
+                    f"Could not retrieve instance data for {domain}"
+                )
 
         except Exception as e:
             logger.error(f"Network error fetching {domain}: {e}")
@@ -301,7 +305,12 @@ async def fetch_policy(
             about_text = clean_html(about_html)
             candidate_links = extract_policy_links(about_html, base_url)
             saved = await fetch_offsite_policy(
-                domain, candidate_links, directory, client, llm_enabled=llm, about_text=about_text
+                domain,
+                candidate_links,
+                directory,
+                client,
+                llm_enabled=llm,
+                about_text=about_text,
             )
             if saved:
                 if email:
@@ -325,7 +334,7 @@ async def save_policy(domain: str, text: str, directory: Path) -> Path:
     return file_path
 
 
-async def get_cached_policy(domain: str, directory: Path) -> Optional[str]:
+async def get_cached_policy(domain: str, directory: Path) -> str | None:
     file_path = directory / f"{domain}.txt"
     if file_path.exists():
         logger.debug(f"Cache hit for {domain}")
@@ -334,14 +343,16 @@ async def get_cached_policy(domain: str, directory: Path) -> Optional[str]:
 
 
 async def fetch_many(
-    domains: List[str], directory: Path, offsite: bool = True, llm: bool = True
+    domains: list[str], directory: Path, offsite: bool = True, llm: bool = True
 ) -> None:
     logger.info(f"Batch fetching {len(domains)} domains...")
-    tasks = [fetch_policy(domain, directory, offsite=offsite, llm=llm) for domain in domains]
+    tasks = [
+        fetch_policy(domain, directory, offsite=offsite, llm=llm) for domain in domains
+    ]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
     success_count = 0
-    for domain, res in zip(domains, results):
+    for domain, res in zip(domains, results, strict=False):
         if isinstance(res, Exception):
             logger.error(f"FAILED {domain}: {res}")
         else:

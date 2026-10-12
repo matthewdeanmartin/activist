@@ -1,7 +1,6 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import List, Optional
 
 import httpx2
 from bs4 import BeautifulSoup
@@ -13,30 +12,27 @@ logger = logging.getLogger(__name__)
 # -- Custom Exceptions --
 class PolicyFetchError(Exception):
     """Base exception for policy fetching errors."""
-    pass
 
 
 class InstanceUnreachableError(PolicyFetchError):
     """Raised when the network request fails."""
-    pass
 
 
 class PolicyNotFoundError(PolicyFetchError):
     """Raised when the page loads but policy content is missing."""
-    pass
 
 
 __all__ = [
-    'ensure_policy_dir',
-    'get_policy_url',
-    'extract_policy_text',
-    'save_policy',
-    'fetch_policy',
-    'get_cached_policy',
-    'fetch_many',
-    'PolicyFetchError',
-    'InstanceUnreachableError',
-    'PolicyNotFoundError'
+    "InstanceUnreachableError",
+    "PolicyFetchError",
+    "PolicyNotFoundError",
+    "ensure_policy_dir",
+    "extract_policy_text",
+    "fetch_many",
+    "fetch_policy",
+    "get_cached_policy",
+    "get_policy_url",
+    "save_policy",
 ]
 
 
@@ -76,7 +72,9 @@ def extract_policy_text(html_content: str) -> str:
 
         if not content_div:
             # Fallback for older instances or different themes
-            logger.debug("Class .rich-formatting not found, attempting fallback search.")
+            logger.debug(
+                "Class .rich-formatting not found, attempting fallback search."
+            )
             content_div = soup.find("div", id="mastodon") or soup.body
 
         if not content_div:
@@ -107,7 +105,7 @@ async def save_policy(domain: str, text: str, directory: Path) -> Path:
     return file_path
 
 
-async def get_cached_policy(domain: str, directory: Path) -> Optional[str]:
+async def get_cached_policy(domain: str, directory: Path) -> str | None:
     """Returns the text if file exists, else None."""
     file_path = directory / f"{domain}.txt"
     if file_path.exists():
@@ -117,7 +115,9 @@ async def get_cached_policy(domain: str, directory: Path) -> Optional[str]:
     return None
 
 
-async def fetch_policy(domain: str, directory: Path, force_refresh: bool = False) -> str:
+async def fetch_policy(
+    domain: str, directory: Path, force_refresh: bool = False
+) -> str:
     """Main logic: Check cache -> Fetch -> Parse -> Save -> Return."""
     ensure_policy_dir(directory)
 
@@ -151,7 +151,7 @@ async def fetch_policy(domain: str, directory: Path, force_refresh: bool = False
     return text
 
 
-async def fetch_many(domains: List[str], directory: Path) -> None:
+async def fetch_many(domains: list[str], directory: Path) -> None:
     """Batch processes multiple domains."""
     logger.info(f"Starting batch fetch for {len(domains)} domains.")
 
@@ -161,7 +161,7 @@ async def fetch_many(domains: List[str], directory: Path) -> None:
     # doesn't crash the whole batch.
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
-    for domain, result in zip(domains, results):
+    for domain, result in zip(domains, results, strict=False):
         if isinstance(result, Exception):
             logger.error(f"Failed to process {domain}: {result}")
         else:

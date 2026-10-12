@@ -3,9 +3,7 @@ from pathlib import Path
 
 import pytest
 
-import policy_fetcher.discover as discover
-import policy_fetcher.fetcher as fetcher
-
+from policy_fetcher import discover, fetcher
 
 SAMPLE_ENTRIES = [
     {
@@ -73,7 +71,7 @@ def test_merge_servers_txt_limit_and_sorted():
 
 
 def test_merge_servers_txt_no_duplicates_in_entries():
-    entries = SAMPLE_ENTRIES + [SAMPLE_ENTRIES[0]]
+    entries = [*SAMPLE_ENTRIES, SAMPLE_ENTRIES[0]]
     result = discover.merge_servers_txt(entries, [])
     assert result.count("mastodon.social") == 1
 
@@ -150,7 +148,11 @@ def test_main_appends_new_domains(enable_network, monkeypatch, tmp_path: Path):
     rc = discover.main(["--append", str(server_list), "--min-users", "1000"])
     assert rc == 0
 
-    lines = [l.strip() for l in server_list.read_text(encoding="utf-8").splitlines() if l.strip()]
+    lines = [
+        l.strip()
+        for l in server_list.read_text(encoding="utf-8").splitlines()
+        if l.strip()
+    ]
     assert "mastodon.social" in lines
     assert "infosec.exchange" in lines
     assert "tiny.example" not in lines

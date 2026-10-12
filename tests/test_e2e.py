@@ -23,7 +23,8 @@ def workspace(tmp_path, repo_root):
     shutil.copytree(repo_root / "persona", tmp_path / "persona")
     shutil.copytree(repo_root / "fixtures", tmp_path / "fixtures")
     shutil.copyfile(
-        repo_root / "tests" / "seed_opinions.toml", tmp_path / "persona" / "opinions.toml"
+        repo_root / "tests" / "seed_opinions.toml",
+        tmp_path / "persona" / "opinions.toml",
     )
     memory = tmp_path / "persona" / "memory"
     shutil.rmtree(memory, ignore_errors=True)
@@ -105,10 +106,14 @@ def test_second_run_is_deduped(workspace):
 
 
 def test_dry_state_leaves_persona_untouched(workspace):
-    before_opinions = (workspace / "persona" / "opinions.toml").read_text(encoding="utf-8")
+    before_opinions = (workspace / "persona" / "opinions.toml").read_text(
+        encoding="utf-8"
+    )
     result = run(make_config(workspace, dry_state=True))
     assert len(result.posts) == 5
-    assert (workspace / "persona" / "opinions.toml").read_text(encoding="utf-8") == before_opinions
+    assert (workspace / "persona" / "opinions.toml").read_text(
+        encoding="utf-8"
+    ) == before_opinions
     assert not (workspace / "persona" / "memory" / "seen.jsonl").exists()
 
 
@@ -122,4 +127,6 @@ def test_max_posts_cap(workspace):
 def test_determinism_across_runs(workspace, tmp_path):
     first = run(make_config(workspace, dry_state=True))
     second = run(make_config(workspace, dry_state=True, out_dir=workspace / "out2"))
-    assert first.feed_toml.read_text(encoding="utf-8") == second.feed_toml.read_text(encoding="utf-8")
+    assert first.feed_toml.read_text(encoding="utf-8") == second.feed_toml.read_text(
+        encoding="utf-8"
+    )

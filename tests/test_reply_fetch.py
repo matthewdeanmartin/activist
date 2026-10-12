@@ -32,7 +32,8 @@ FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "notifications-samp
 def workspace(tmp_path, repo_root):
     shutil.copytree(repo_root / "persona", tmp_path / "persona")
     shutil.copyfile(
-        repo_root / "tests" / "seed_opinions.toml", tmp_path / "persona" / "opinions.toml"
+        repo_root / "tests" / "seed_opinions.toml",
+        tmp_path / "persona" / "opinions.toml",
     )
     memory = tmp_path / "persona" / "memory"
     shutil.rmtree(memory, ignore_errors=True)
@@ -62,7 +63,9 @@ def reader_serving(payload: list[dict], capture: dict | None = None) -> Mastodon
         client_secret="s",
         access_token="t",
     )
-    client = httpx2.Client(transport=httpx2.MockTransport(handler), base_url=creds.base_url)
+    client = httpx2.Client(
+        transport=httpx2.MockTransport(handler), base_url=creds.base_url
+    )
     return MastodonReader(creds, client=client)
 
 
@@ -169,12 +172,22 @@ def test_since_id_checkpoint_is_set_and_sent(workspace, repo_root):
 def test_handled_set_dedups_a_replayed_notification(workspace, repo_root):
     cfg = make_cfg(workspace, repo_root)
     store = Store(cfg.db_path)
-    run_reply_chain(cfg, TopicEngine(), store, reader=reader_serving(fixture_notifications()), now=NOW)
+    run_reply_chain(
+        cfg,
+        TopicEngine(),
+        store,
+        reader=reader_serving(fixture_notifications()),
+        now=NOW,
+    )
     assert store.counts()[PENDING] == 1
 
     # same notifications replayed (e.g. checkpoint lost) -> handled set + PK guard
     second = run_reply_chain(
-        cfg, TopicEngine(), store, reader=reader_serving(fixture_notifications()), now=NOW
+        cfg,
+        TopicEngine(),
+        store,
+        reader=reader_serving(fixture_notifications()),
+        now=NOW,
     )
     assert second.eligible == 0  # already handled
     assert second.inserted == 0
@@ -228,8 +241,12 @@ def test_dry_run_touches_nothing(workspace, repo_root):
     cfg = make_cfg(workspace, repo_root)
     store = Store(cfg.db_path)
     result = run_reply_chain(
-        cfg, TopicEngine(), store, reader=reader_serving(fixture_notifications()),
-        now=NOW, dry_run=True,
+        cfg,
+        TopicEngine(),
+        store,
+        reader=reader_serving(fixture_notifications()),
+        now=NOW,
+        dry_run=True,
     )
     assert result.eligible == 1
     assert result.inserted == 0  # nothing written

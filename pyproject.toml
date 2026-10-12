@@ -157,3 +157,6 @@ plugins = "pydantic.mypy"
 [tool.troml-dev-status]
 mode = "application"  # or "library"
 use_ai = true
+
+[tool.ruff.lint]
+ignore = ["RUF100", "B008", "BLE001", "C408", "FURB162", "N999", "PLW1510", "PYI034", "RUF007", "SIM117", "TRY004"]  # unused noqa differs across Python versions

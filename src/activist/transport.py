@@ -22,11 +22,7 @@ from typing import Protocol
 
 import httpx2
 
-from .mastodon_client import (
-    MastodonCredentials,
-    MastodonRateLimited,
-    MastodonWriter,
-)
+from .mastodon_client import MastodonCredentials, MastodonRateLimited, MastodonWriter
 from .store import ContentRow
 
 
@@ -164,14 +160,19 @@ class MastodonTransport:
                 visibility=visibility,
             )
         except MastodonRateLimited as exc:
-            raise RetryablePublishError(exc.retry_after, "rate limited; re-queueing") from exc
+            raise RetryablePublishError(
+                exc.retry_after, "rate limited; re-queueing"
+            ) from exc
         except httpx2.HTTPStatusError as exc:
             # Re-raise with a tidy message; poster_tick records it on the failed row.
             code = exc.response.status_code
-            raise RuntimeError(f"publish failed HTTP {code}: {exc.response.text[:200]}") from exc
+            raise RuntimeError(
+                f"publish failed HTTP {code}: {exc.response.text[:200]}"
+            ) from exc
 
         return PublishReceipt(
             status_id=result.status_id,
             url=result.url,
-            published_at=result.created_at or dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
+            published_at=result.created_at
+            or dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
         )

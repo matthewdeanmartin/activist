@@ -1,9 +1,6 @@
 import subprocess
 
-import pytest
-
-import policy_fetcher.llm_spider as llm_spider
-
+from policy_fetcher import llm_spider
 
 LINKS = [
     ("Terms of Service", "https://example.org/terms"),
@@ -61,7 +58,9 @@ def test_rank_policy_links_none_response(monkeypatch):
     monkeypatch.setattr(llm_spider.shutil, "which", lambda name: "/usr/bin/llm")
 
     def fake_run(cmd, capture_output, text, timeout):
-        return subprocess.CompletedProcess(cmd, returncode=0, stdout="NONE\n", stderr="")
+        return subprocess.CompletedProcess(
+            cmd, returncode=0, stdout="NONE\n", stderr=""
+        )
 
     monkeypatch.setattr(llm_spider.subprocess, "run", fake_run)
 

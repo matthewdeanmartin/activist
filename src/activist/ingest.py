@@ -99,7 +99,9 @@ def _parse_atom(root: ET.Element, source: str) -> list[NewsItem]:
         if not title or not url:
             LOGGER.warning("Skipping entry without title/link in %s", source)
             continue
-        published = el.findtext(f"{ATOM}published") or el.findtext(f"{ATOM}updated") or ""
+        published = (
+            el.findtext(f"{ATOM}published") or el.findtext(f"{ATOM}updated") or ""
+        )
         summary = el.findtext(f"{ATOM}summary") or el.findtext(f"{ATOM}content") or ""
         items.append(
             NewsItem(

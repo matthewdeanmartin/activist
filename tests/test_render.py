@@ -34,7 +34,11 @@ def make_post(**overrides) -> DraftPost:
 
 def test_feed_toml_round_trip(tmp_path):
     change = OpinionChange(
-        key="heat-pump-top-pick", old_stance="old", new_stance="new", trigger_item="i1", reason="data"
+        key="heat-pump-top-pick",
+        old_stance="old",
+        new_stance="new",
+        trigger_item="i1",
+        reason="data",
     )
     posts = [make_post(), make_post(id="ccc333ddd444", opinion_change=change)]
     feed = tmp_path / "feed.toml"
@@ -48,7 +52,11 @@ def test_feed_toml_round_trip(tmp_path):
 
 def test_render_basics(tmp_path):
     change = OpinionChange(
-        key="heat-pump-top-pick", old_stance="old stance", new_stance="new stance", trigger_item="i1", reason="data"
+        key="heat-pump-top-pick",
+        old_stance="old stance",
+        new_stance="new stance",
+        trigger_item="i1",
+        reason="data",
     )
     posts = [make_post(opinion_change=change)]
     feed = tmp_path / "feed.toml"

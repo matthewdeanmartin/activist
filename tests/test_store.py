@@ -47,8 +47,15 @@ def store(tmp_path: Path) -> Store:
 
 
 def test_round_trip_preserves_json_fields(store: Store):
-    row = make_row(opinion_change={"key": "k", "old_stance": "a", "new_stance": "b",
-                                   "trigger_item": "t", "reason": "r"})
+    row = make_row(
+        opinion_change={
+            "key": "k",
+            "old_stance": "a",
+            "new_stance": "b",
+            "trigger_item": "t",
+            "reason": "r",
+        }
+    )
     store.add_pending(row)
     got = store.get(row.id)
     assert got.opinion_keys == ["heat-pump-top-pick"]
@@ -79,11 +86,11 @@ def test_full_legal_lifecycle(store: Store):
 def test_every_illegal_transition_raises(store: Store):
     store.add_pending(make_row())
     for src, dst in [
-        (PENDING, PUBLISHED),     # can't skip approval
-        (PENDING, PUBLISHING),    # poster can't claim unapproved content
-        (REJECTED, APPROVED),     # rejected is terminal
-        (PUBLISHED, PENDING),     # published is terminal
-        (FAILED, PUBLISHING),     # retry goes through approved
+        (PENDING, PUBLISHED),  # can't skip approval
+        (PENDING, PUBLISHING),  # poster can't claim unapproved content
+        (REJECTED, APPROVED),  # rejected is terminal
+        (PUBLISHED, PENDING),  # published is terminal
+        (FAILED, PUBLISHING),  # retry goes through approved
     ]:
         with pytest.raises(IllegalTransition):
             store.transition("a3f9c1d20e77", src, dst, "test")
@@ -236,9 +243,15 @@ def test_delete_unknown_raises(store: Store):
 
 
 def test_upcoming_is_approved_for_identity_in_slot_order(store: Store):
-    store.add_pending(make_row(id="b", identity="TECH", scheduled_for="2026-06-11T10:00:00"))
-    store.add_pending(make_row(id="a", identity="TECH", scheduled_for="2026-06-11T09:00:00"))
-    store.add_pending(make_row(id="other", identity="DMV", scheduled_for="2026-06-11T08:00:00"))
+    store.add_pending(
+        make_row(id="b", identity="TECH", scheduled_for="2026-06-11T10:00:00")
+    )
+    store.add_pending(
+        make_row(id="a", identity="TECH", scheduled_for="2026-06-11T09:00:00")
+    )
+    store.add_pending(
+        make_row(id="other", identity="DMV", scheduled_for="2026-06-11T08:00:00")
+    )
     for cid in ("a", "b", "other"):
         store.transition(cid, PENDING, APPROVED, "human")
     # a pending row for TECH must NOT appear (upcoming = approved only)

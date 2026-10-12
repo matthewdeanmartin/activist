@@ -45,7 +45,9 @@ def test_unknown_root_degrades_to_empty(tmp_path):
 
 
 def test_parse_hints_grammar():
-    hints = ingest.parse_hints("challenges=key-a; claim=COP of 3.4 at -20C; subject=ABC's GW-200")
+    hints = ingest.parse_hints(
+        "challenges=key-a; claim=COP of 3.4 at -20C; subject=ABC's GW-200"
+    )
     assert hints == {
         "challenges": "key-a",
         "claim": "COP of 3.4 at -20C",
@@ -56,8 +58,12 @@ def test_parse_hints_grammar():
 
 
 def test_item_id_is_stable():
-    assert ingest.item_id("https://example.com/a") == ingest.item_id("https://example.com/a")
-    assert ingest.item_id("https://example.com/a") != ingest.item_id("https://example.com/b")
+    assert ingest.item_id("https://example.com/a") == ingest.item_id(
+        "https://example.com/a"
+    )
+    assert ingest.item_id("https://example.com/a") != ingest.item_id(
+        "https://example.com/b"
+    )
 
 
 def test_parse_fixtures_dir_sorted_by_filename():

@@ -2,7 +2,6 @@ import logging
 import os
 import shutil
 import subprocess
-from typing import List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ Links:
 """
 
 
-def select_model(override: Optional[str] = None) -> str:
+def select_model(override: str | None = None) -> str:
     """Pick which `llm` model to use.
 
     Priority: explicit `override` > `OPENROUTER_MODEL` from the environment
@@ -53,10 +52,10 @@ def select_model(override: Optional[str] = None) -> str:
 
 def rank_policy_links(
     about_text: str,
-    links: List[Tuple[str, str]],
-    model: Optional[str] = None,
+    links: list[tuple[str, str]],
+    model: str | None = None,
     timeout: float = 60.0,
-) -> List[str]:
+) -> list[str]:
     """Ask the `llm` CLI which of `links` are policy/ToS/privacy pages.
 
     `links` is a list of (text, url) pairs. Returns the subset of URLs (from
@@ -93,14 +92,16 @@ def rank_policy_links(
         return []
 
     if result.returncode != 0:
-        logger.warning(f"`llm` exited with {result.returncode}: {result.stderr.strip()}")
+        logger.warning(
+            f"`llm` exited with {result.returncode}: {result.stderr.strip()}"
+        )
         return []
 
     output = result.stdout.strip()
     if not output or output.upper() == "NONE":
         return []
 
-    selected: List[str] = []
+    selected: list[str] = []
     for line in output.splitlines():
         candidate = line.strip()
         if candidate in candidate_urls and candidate not in selected:

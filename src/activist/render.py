@@ -29,7 +29,11 @@ def render_feed(feed_path: Path, out_path: Path | None = None) -> Path:
         '<div class="card empty">No posts this run — nothing new on the beat.</div>'
     )
     changes = [p["opinion_change"] for p in posts if "opinion_change" in p]
-    template = files("activist").joinpath("templates/feed.html.tmpl").read_text(encoding="utf-8")
+    template = (
+        files("activist")
+        .joinpath("templates/feed.html.tmpl")
+        .read_text(encoding="utf-8")
+    )
     page = Template(template).substitute(
         persona_name=html.escape(run.get("persona_name", "activist")),
         persona_handle=html.escape(run.get("persona_handle", "")),
@@ -40,7 +44,11 @@ def render_feed(feed_path: Path, out_path: Path | None = None) -> Path:
             f"{run.get('items_ingested', 0)} ingested · "
             f"{run.get('items_relevant', 0)} relevant · "
             f"{run.get('posts', 0)} posts"
-            + (f" · ⏱️ paced {run['posts_per_hour']}/hour" if run.get("posts_per_hour") else "")
+            + (
+                f" · ⏱️ paced {run['posts_per_hour']}/hour"
+                if run.get("posts_per_hour")
+                else ""
+            )
             + _moderation_stats(run.get("moderation"))
         ),
         cards=cards,
@@ -77,7 +85,7 @@ def _post_card(post: dict) -> str:
         change = post["opinion_change"]
         change_strip = (
             '<div class="change-strip">🔄 <strong>Changed my mind</strong> '
-            f'(<code>{html.escape(change["key"])}</code>)<br>'
+            f"(<code>{html.escape(change['key'])}</code>)<br>"
             f'<span class="old">was: {html.escape(change["old_stance"])}</span> ▸ '
             f'<span class="new">now: {html.escape(change["new_stance"])}</span><br>'
             f'<span class="why">because: {html.escape(change["reason"])}</span></div>'
@@ -86,16 +94,18 @@ def _post_card(post: dict) -> str:
     if post.get("reply_to_author"):
         reply_strip = (
             '<div class="reply-strip">↩️ replying to '
-            f'<strong>{html.escape(post["reply_to_author"])}</strong>: '
-            f'<em>“{html.escape(post.get("reply_to_text", ""))}”</em></div>'
+            f"<strong>{html.escape(post['reply_to_author'])}</strong>: "
+            f"<em>“{html.escape(post.get('reply_to_text', ''))}”</em></div>"
         )
     if post.get("source_url"):
         source = (
             f'<div class="source">source: <a href="{html.escape(post["source_url"], quote=True)}">'
-            f'{html.escape(post.get("source_title", ""))}</a></div>'
+            f"{html.escape(post.get('source_title', ''))}</a></div>"
         )
     else:
-        source = f'<div class="source">{html.escape(post.get("source_title", ""))}</div>'
+        source = (
+            f'<div class="source">{html.escape(post.get("source_title", ""))}</div>'
+        )
     return f"""<article class="card">
   <div class="meta">
     <span class="badge {badge_class}">{count}/{POST_CHAR_LIMIT}</span>
@@ -115,9 +125,9 @@ def _flags_strip(flags: list[dict]) -> str:
         return ""
     rows = "".join(
         f'<li class="flag {html.escape(f.get("severity", "warn"))}">'
-        f'{"⛔" if f.get("severity") == "error" else "⚠️"} '
-        f'<code>{html.escape(f.get("policy", "app"))}/{html.escape(f.get("rule", ""))}</code> '
-        f'{html.escape(f.get("detail", ""))}</li>'
+        f"{'⛔' if f.get('severity') == 'error' else '⚠️'} "
+        f"<code>{html.escape(f.get('policy', 'app'))}/{html.escape(f.get('rule', ''))}</code> "
+        f"{html.escape(f.get('detail', ''))}</li>"
         for f in flags
     )
     return f'<div class="flags-strip"><strong>Moderation flags</strong><ul>{rows}</ul></div>'
@@ -138,5 +148,7 @@ def _changes_html(changes: list[dict]) -> str:
 def _diary_html(diary: str) -> str:
     if not diary.strip():
         return "<p>(empty)</p>"
-    items = "".join(f"<li>{html.escape(line)}</li>" for line in diary.splitlines() if line.strip())
+    items = "".join(
+        f"<li>{html.escape(line)}</li>" for line in diary.splitlines() if line.strip()
+    )
     return f"<ul>{items}</ul>"

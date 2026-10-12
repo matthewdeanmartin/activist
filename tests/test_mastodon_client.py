@@ -86,7 +86,9 @@ def test_get_status(monkeypatch):
 def test_get_account(monkeypatch):
     def handler(request: httpx2.Request) -> httpx2.Response:
         assert request.url.path == "/api/v1/accounts/1007"
-        return httpx2.Response(200, json={"id": "1007", "acct": "solarfan@mastodon.social"})
+        return httpx2.Response(
+            200, json={"id": "1007", "acct": "solarfan@mastodon.social"}
+        )
 
     reader = reader_with(monkeypatch, handler)
     account = reader.get_account("1007")
@@ -191,7 +193,9 @@ def test_notifications_sleeps_when_budget_near_zero(monkeypatch):
         )
 
     slept = {}
-    monkeypatch.setattr("activist.mastodon_client.time.sleep", lambda s: slept.setdefault("s", s))
+    monkeypatch.setattr(
+        "activist.mastodon_client.time.sleep", lambda s: slept.setdefault("s", s)
+    )
     reader = reader_with(monkeypatch, handler)
     reader.notifications(types=["mention"])
     reader.close()
@@ -201,11 +205,15 @@ def test_notifications_sleeps_when_budget_near_zero(monkeypatch):
 def test_notifications_does_not_sleep_with_budget(monkeypatch):
     def handler(request: httpx2.Request) -> httpx2.Response:
         return httpx2.Response(
-            200, json=[], headers={"X-RateLimit-Remaining": "50", "X-RateLimit-Reset": "x"}
+            200,
+            json=[],
+            headers={"X-RateLimit-Remaining": "50", "X-RateLimit-Reset": "x"},
         )
 
     slept = {}
-    monkeypatch.setattr("activist.mastodon_client.time.sleep", lambda s: slept.setdefault("s", s))
+    monkeypatch.setattr(
+        "activist.mastodon_client.time.sleep", lambda s: slept.setdefault("s", s)
+    )
     reader = reader_with(monkeypatch, handler)
     reader.notifications(types=["mention"])
     reader.close()

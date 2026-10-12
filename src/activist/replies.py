@@ -78,7 +78,9 @@ def _summoned(mention: Mention, persona: Persona) -> bool:
     return bool(local) and f"@{local}" in mention.text
 
 
-def consent_skip_reason(mention: Mention, persona: Persona, handled_ids: set[str]) -> str | None:
+def consent_skip_reason(
+    mention: Mention, persona: Persona, handled_ids: set[str]
+) -> str | None:
     """The governing policy's consent gates. None means the engine may draft."""
     if mention.id in handled_ids:
         return "already handled"
@@ -98,8 +100,12 @@ def run_replies(cfg: ReplyRunConfig) -> ReplyRunResult:
     memory_dir = cfg.persona_dir / "memory"
     handled_ids = state.load_handled_mentions(memory_dir)
     recent_said = state.load_said(memory_dir, n=5)
-    max_replies = cfg.max_replies if cfg.max_replies is not None else persona.max_posts_per_run
-    per_hour = ratelimit.effective_hourly_limit(persona.posts_per_hour, cfg.instance_policies)
+    max_replies = (
+        cfg.max_replies if cfg.max_replies is not None else persona.max_posts_per_run
+    )
+    per_hour = ratelimit.effective_hourly_limit(
+        persona.posts_per_hour, cfg.instance_policies
+    )
 
     mentions = load_mentions(cfg.mentions_path)
     log: list[str] = [
@@ -140,10 +146,14 @@ def run_replies(cfg: ReplyRunConfig) -> ReplyRunResult:
 
         if reaction.post is None:
             log.append(f"MENTION {mention.id} from {mention.author} DECLINED")
-            handled_rows.append(_handled(mention, cfg.date, "declined", reaction.diary_note))
+            handled_rows.append(
+                _handled(mention, cfg.date, "declined", reaction.diary_note)
+            )
             continue
         if len(posts) >= max_replies:
-            diary.append(f"Paced out: had a reply for {mention.author} but held it (rate limit).")
+            diary.append(
+                f"Paced out: had a reply for {mention.author} but held it (rate limit)."
+            )
             log.append(f"MENTION {mention.id} from {mention.author} PACED-OUT")
             continue
 

@@ -55,7 +55,9 @@ def test_dry_run_publishes_one_and_defers_backlog(tmp_path):
     assert row.published_at
     assert store.get("two").status == APPROVED
 
-    lines = [json.loads(l) for l in cfg.dryrun_log.read_text(encoding="utf-8").splitlines()]
+    lines = [
+        json.loads(l) for l in cfg.dryrun_log.read_text(encoding="utf-8").splitlines()
+    ]
     assert len(lines) == 1
     assert lines[0]["content_id"] == "one" and lines[0]["text"] == row.text
 
@@ -73,7 +75,9 @@ def test_dry_run_publishes_one_and_defers_backlog(tmp_path):
 def test_future_slots_are_not_due(tmp_path):
     cfg = make_cfg(tmp_path)
     store = Store(cfg.db_path)
-    future = (dt.datetime.now(dt.UTC) + dt.timedelta(hours=2)).isoformat(timespec="seconds")
+    future = (dt.datetime.now(dt.UTC) + dt.timedelta(hours=2)).isoformat(
+        timespec="seconds"
+    )
     approved_row(store, "later", future)
     tick = poster_tick(cfg, store, DryRunTransport(cfg.dryrun_log), per_hour=PER_HOUR)
     assert tick.due == 0
@@ -134,7 +138,9 @@ def test_transport_failure_lands_in_failed(tmp_path):
 def test_identity_isolation(tmp_path):
     cfg = make_cfg(tmp_path)  # cfg.mastodon_id == "TECH"
     store = Store(cfg.db_path)
-    store.add_pending(make_row(id="other", identity="DMV", scheduled_for="2026-06-01T09:00:00"))
+    store.add_pending(
+        make_row(id="other", identity="DMV", scheduled_for="2026-06-01T09:00:00")
+    )
     store.transition("other", PENDING, APPROVED, "human")
     tick = poster_tick(cfg, store, DryRunTransport(cfg.dryrun_log), per_hour=PER_HOUR)
     assert tick.due == 0

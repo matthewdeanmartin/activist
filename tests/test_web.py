@@ -20,16 +20,27 @@ def store(tmp_path: Path) -> Store:
             id="pending1",
             text='I think <script>alert("xss")</script> heat pumps win. https://example.com/hp',
             source_title="<b>Sneaky</b> title",
-            opinion_change={"key": "heat-pump-top-pick", "old_stance": "XYZ best",
-                            "new_stance": "ABC best", "trigger_item": "t", "reason": "new COP data"},
+            opinion_change={
+                "key": "heat-pump-top-pick",
+                "old_stance": "XYZ best",
+                "new_stance": "ABC best",
+                "trigger_item": "t",
+                "reason": "new COP data",
+            },
         )
     )
     s.add_pending(
         make_row(
             id="reply1",
             kind="reply",
-            flags=[{"severity": "warn", "policy": "app", "rule": "unverified-link",
-                    "detail": "model-supplied URL"}],
+            flags=[
+                {
+                    "severity": "warn",
+                    "policy": "app",
+                    "rule": "unverified-link",
+                    "detail": "model-supplied URL",
+                }
+            ],
             reply_to_author="@fan@mas.to",
             reply_to_text="what about cold climates?",
             in_reply_to_status_id="109501",
@@ -72,7 +83,9 @@ def test_unknown_status_404(client):
 
 def test_detail_renders_strips_and_history(client):
     html = client.get("/content/pending1").get_data(as_text=True)
-    assert "changed my mind on" in html and "ABC best" in html and "new COP data" in html
+    assert (
+        "changed my mind on" in html and "ABC best" in html and "new COP data" in html
+    )
     assert "created" in html  # event log row
     # text is escaped, never executed
     assert "<script>alert" not in html and "&lt;script&gt;" in html

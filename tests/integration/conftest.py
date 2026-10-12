@@ -29,38 +29,21 @@ Run just this suite::
 from __future__ import annotations
 
 import socket
-import sys
 from collections.abc import Iterator
 
 import pytest
-
-if sys.version_info < (3, 13):
-    pytest.skip(
-        "mastodon_mock requires Python >= 3.13; skipping mock integration suite",
-        allow_module_level=True,
-    )
 
 pytest.importorskip(
     "mastodon_mock",
     reason="install mastodon_mock[test] to run these tests",
 )
 
-import httpx2  # noqa: E402
+import httpx2
+from mastodon_mock.config import SeedAccount, SeedConfig, SeedFollow, SeedStatus
+from mastodon_mock.testing import MockServer
 
-from mastodon_mock.config import (  # noqa: E402
-    SeedAccount,
-    SeedConfig,
-    SeedFollow,
-    SeedStatus,
-)
-from mastodon_mock.testing import MockServer  # noqa: E402
-
-from activist.mastodon_client import (  # noqa: E402
-    MastodonCredentials,
-    MastodonReader,
-    MastodonWriter,
-)
-from activist.transport import MastodonTransport  # noqa: E402
+from activist.mastodon_client import MastodonCredentials, MastodonReader, MastodonWriter
+from activist.transport import MastodonTransport
 
 # The bot's own seeded account + a human who can @-mention it (so we can post
 # replies that thread onto a real inbound status).
@@ -69,12 +52,19 @@ HUMAN_TOKEN = "human_token"
 
 INTEGRATION_SEED = SeedConfig(
     accounts=[
-        SeedAccount(username="activistbot", display_name="Activist Bot", bot=True, access_token=BOT_TOKEN),
+        SeedAccount(
+            username="activistbot",
+            display_name="Activist Bot",
+            bot=True,
+            access_token=BOT_TOKEN,
+        ),
         SeedAccount(username="human", display_name="A Human", access_token=HUMAN_TOKEN),
     ],
     follows=[SeedFollow(follower="human", following="activistbot")],
     statuses=[
-        SeedStatus(account="human", text="hey @activistbot what do you think about heat pumps?"),
+        SeedStatus(
+            account="human", text="hey @activistbot what do you think about heat pumps?"
+        ),
     ],
 )
 
@@ -141,7 +131,10 @@ def _http_client(base_url: str, token: str) -> httpx2.Client:
 @pytest.fixture
 def bot_writer(mock_server_url: str) -> Iterator[MastodonWriter]:
     """activist's write client, authenticated as the bot, pointed at the mock."""
-    writer = MastodonWriter(_creds(mock_server_url, BOT_TOKEN), client=_http_client(mock_server_url, BOT_TOKEN))
+    writer = MastodonWriter(
+        _creds(mock_server_url, BOT_TOKEN),
+        client=_http_client(mock_server_url, BOT_TOKEN),
+    )
     try:
         yield writer
     finally:
@@ -151,7 +144,10 @@ def bot_writer(mock_server_url: str) -> Iterator[MastodonWriter]:
 @pytest.fixture
 def bot_reader(mock_server_url: str) -> Iterator[MastodonReader]:
     """activist's read client (bot) — to read back what the writer posted."""
-    reader = MastodonReader(_creds(mock_server_url, BOT_TOKEN), client=_http_client(mock_server_url, BOT_TOKEN))
+    reader = MastodonReader(
+        _creds(mock_server_url, BOT_TOKEN),
+        client=_http_client(mock_server_url, BOT_TOKEN),
+    )
     try:
         yield reader
     finally:
@@ -161,7 +157,10 @@ def bot_reader(mock_server_url: str) -> Iterator[MastodonReader]:
 @pytest.fixture
 def human_writer(mock_server_url: str) -> Iterator[MastodonWriter]:
     """A second identity (the human), so tests can create inbound mentions."""
-    writer = MastodonWriter(_creds(mock_server_url, HUMAN_TOKEN, "HUMAN"), client=_http_client(mock_server_url, HUMAN_TOKEN))
+    writer = MastodonWriter(
+        _creds(mock_server_url, HUMAN_TOKEN, "HUMAN"),
+        client=_http_client(mock_server_url, HUMAN_TOKEN),
+    )
     try:
         yield writer
     finally:
@@ -177,7 +176,10 @@ def bot_transport(mock_server_url: str) -> Iterator[MastodonTransport]:
     localhost mock, so there is nothing to protect against.
     """
     transport = MastodonTransport(
-        writer=MastodonWriter(_creds(mock_server_url, BOT_TOKEN), client=_http_client(mock_server_url, BOT_TOKEN)),
+        writer=MastodonWriter(
+            _creds(mock_server_url, BOT_TOKEN),
+            client=_http_client(mock_server_url, BOT_TOKEN),
+        ),
         default_visibility="unlisted",
         require_gate=False,
     )

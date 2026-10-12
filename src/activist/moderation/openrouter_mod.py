@@ -72,7 +72,8 @@ class OpenRouterModerator:
             LOGGER.warning("Moderator reply was not valid TOML, retrying once: %s", exc)
             raw = self._completer.complete(
                 SYSTEM_PROMPT,
-                user + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only.",
+                user
+                + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only.",
             )
             try:
                 data = tomllib.loads(_strip_fences(raw))

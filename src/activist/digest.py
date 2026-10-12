@@ -68,6 +68,8 @@ def digest_item(
             if len(body) > len(summary):
                 summary = body
         except httpx2.HTTPError as exc:
-            LOGGER.warning("Article fetch failed for %s (%s); keeping RSS summary", item.url, exc)
+            LOGGER.warning(
+                "Article fetch failed for %s (%s); keeping RSS summary", item.url, exc
+            )
     item.summary = truncate(summary)
     return item

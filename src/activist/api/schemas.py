@@ -54,7 +54,7 @@ class ContentOut(BaseModel):
     warn_count: int = 0
 
     @classmethod
-    def from_row(cls, row: ContentRow) -> "ContentOut":
+    def from_row(cls, row: ContentRow) -> ContentOut:
         return cls(
             id=row.id,
             kind=row.kind,
@@ -96,7 +96,7 @@ class EventOut(BaseModel):
     detail: str
 
     @classmethod
-    def from_event(cls, ev: Event) -> "EventOut":
+    def from_event(cls, ev: Event) -> EventOut:
         return cls(
             ts=ev.ts,
             content_id=ev.content_id,

@@ -4,7 +4,7 @@ import logging
 import sys
 from pathlib import Path
 
-import policy_fetcher.fetcher as fetcher
+from policy_fetcher import fetcher
 
 
 def setup_logging(verbose: bool):
@@ -12,7 +12,7 @@ def setup_logging(verbose: bool):
     logging.basicConfig(
         level=level,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        datefmt="%H:%M:%S"
+        datefmt="%H:%M:%S",
     )
 
 
@@ -20,12 +20,20 @@ async def main():
     parser = argparse.ArgumentParser(description="Mastodon Policy Fetcher Utility")
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--server-list", type=Path, help="Path to a text file with domains (one per line)")
+    group.add_argument(
+        "--server-list",
+        type=Path,
+        help="Path to a text file with domains (one per line)",
+    )
     group.add_argument("--fetch", type=str, help="Single domain to fetch")
-    group.add_argument("--cached", type=str, help="Read a single domain from cache only")
+    group.add_argument(
+        "--cached", type=str, help="Read a single domain from cache only"
+    )
 
     parser.add_argument("--version", action="store_true", help="Show version info")
-    parser.add_argument("-v", "--verbose", action="store_true", help="Enable DEBUG logging")
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Enable DEBUG logging"
+    )
     parser.add_argument(
         "--no-offsite",
         action="store_true",
@@ -76,9 +84,13 @@ async def main():
 
             # Read domains from file (blocking read is okay in CLI startup)
             raw_content = args.server_list.read_text(encoding="utf-8")
-            domains = [line.strip() for line in raw_content.splitlines() if line.strip()]
+            domains = [
+                line.strip() for line in raw_content.splitlines() if line.strip()
+            ]
 
-            await fetcher.fetch_many(domains, policy_dir, offsite=offsite, llm=llm_enabled)
+            await fetcher.fetch_many(
+                domains, policy_dir, offsite=offsite, llm=llm_enabled
+            )
             logger.info("Batch processing complete.")
 
         else:

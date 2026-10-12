@@ -19,10 +19,10 @@ from __future__ import annotations
 import datetime as dt
 import json
 import sqlite3
+from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterator
 
 from .models import DraftPost, Flag
 
@@ -89,7 +89,9 @@ class ContentRow:
     in_reply_to_status_id: str = ""
     reply_to_author: str = ""
     reply_to_text: str = ""
-    visibility: str = ""  # reply audience, carried from the mention (F3); "" = config default
+    visibility: str = (
+        ""  # reply audience, carried from the mention (F3); "" = config default
+    )
     mastodon_status_id: str = ""
     published_url: str = ""
     published_at: str = ""
@@ -223,20 +225,41 @@ class Store:
                      rejected_reason, updated_at)
                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
-                    row.id, row.kind, row.status, row.text, row.original_text,
-                    row.created, row.scheduled_for, row.not_before, row.source_url, row.source_title,
+                    row.id,
+                    row.kind,
+                    row.status,
+                    row.text,
+                    row.original_text,
+                    row.created,
+                    row.scheduled_for,
+                    row.not_before,
+                    row.source_url,
+                    row.source_title,
                     json.dumps(row.opinion_keys),
                     json.dumps(row.opinion_change) if row.opinion_change else None,
-                    json.dumps(row.flags), row.engine, row.identity,
-                    row.in_reply_to_status_id, row.reply_to_author, row.reply_to_text,
-                    row.visibility, row.mastodon_status_id, row.published_url, row.published_at,
-                    row.rejected_reason, row.updated_at,
+                    json.dumps(row.flags),
+                    row.engine,
+                    row.identity,
+                    row.in_reply_to_status_id,
+                    row.reply_to_author,
+                    row.reply_to_text,
+                    row.visibility,
+                    row.mastodon_status_id,
+                    row.published_url,
+                    row.published_at,
+                    row.rejected_reason,
+                    row.updated_at,
                 ),
             )
             self._log(conn, row.id, actor, "created", f"kind={row.kind}")
 
     def transition(
-        self, content_id: str, from_status: str, to_status: str, actor: str, detail: str = ""
+        self,
+        content_id: str,
+        from_status: str,
+        to_status: str,
+        actor: str,
+        detail: str = "",
     ) -> None:
         """Compare-and-swap status change. The ONLY way status moves.
 
@@ -246,7 +269,9 @@ class Store:
         """
         action = LEGAL_TRANSITIONS.get((from_status, to_status))
         if action is None:
-            raise IllegalTransition(f"{from_status} -> {to_status} is not a legal transition")
+            raise IllegalTransition(
+                f"{from_status} -> {to_status} is not a legal transition"
+            )
         with self._conn() as conn:
             if to_status == REJECTED and detail:
                 cur = conn.execute(
@@ -295,9 +320,17 @@ class Store:
                 if row is None:
                     raise UnknownContent(content_id)
                 raise NotEditable(f"{content_id} is {row['status']}; edits not allowed")
-            self._log(conn, content_id, actor, "edit", f"{len(new_text)} chars, {len(flags)} flags")
+            self._log(
+                conn,
+                content_id,
+                actor,
+                "edit",
+                f"{len(new_text)} chars, {len(flags)} flags",
+            )
 
-    def update_flags(self, content_id: str, flags: list[dict], actor: str = "human") -> None:
+    def update_flags(
+        self, content_id: str, flags: list[dict], actor: str = "human"
+    ) -> None:
         """Replace moderation flags without changing text or original_text."""
         with self._conn() as conn:
             cur = conn.execute(
@@ -312,7 +345,9 @@ class Store:
                 ).fetchone()
                 if row is None:
                     raise UnknownContent(content_id)
-                raise NotEditable(f"{content_id} is {row['status']}; re-check not allowed")
+                raise NotEditable(
+                    f"{content_id} is {row['status']}; re-check not allowed"
+                )
             self._log(conn, content_id, actor, "recheck", f"{len(flags)} flags")
 
     def release_for_backoff(
@@ -331,7 +366,9 @@ class Store:
                 ).fetchone()
                 if row is None:
                     raise UnknownContent(content_id)
-                raise StaleStatus(f"{content_id}: expected {PUBLISHING}, found {row['status']}")
+                raise StaleStatus(
+                    f"{content_id}: expected {PUBLISHING}, found {row['status']}"
+                )
             suffix = f" until {retry_after}"
             self._log(conn, content_id, actor, "release", (detail + suffix).strip())
 
@@ -364,7 +401,9 @@ class Store:
                 ).fetchone()
                 if row is None:
                     raise UnknownContent(content_id)
-                raise StaleStatus(f"{content_id}: expected {PUBLISHING}, found {row['status']}")
+                raise StaleStatus(
+                    f"{content_id}: expected {PUBLISHING}, found {row['status']}"
+                )
             detail = f"status_id={status_id}"
             if published_url:
                 detail += f" url={published_url}"
@@ -417,13 +456,17 @@ class Store:
                 (key, value),
             )
 
-    def log_event(self, content_id: str, actor: str, action: str, detail: str = "") -> None:
+    def log_event(
+        self, content_id: str, actor: str, action: str, detail: str = ""
+    ) -> None:
         """Append a non-transition event (fetch summaries use content_id='-')."""
         with self._conn() as conn:
             self._log(conn, content_id, actor, action, detail)
 
     @staticmethod
-    def _log(conn: sqlite3.Connection, content_id: str, actor: str, action: str, detail: str) -> None:
+    def _log(
+        conn: sqlite3.Connection, content_id: str, actor: str, action: str, detail: str
+    ) -> None:
         conn.execute(
             "INSERT INTO event_log (ts, content_id, actor, action, detail) VALUES (?,?,?,?,?)",
             (_now(), content_id, actor, action, detail),
@@ -433,7 +476,9 @@ class Store:
 
     def get(self, content_id: str) -> ContentRow:
         with self._conn() as conn:
-            row = conn.execute("SELECT * FROM content WHERE id=?", (content_id,)).fetchone()
+            row = conn.execute(
+                "SELECT * FROM content WHERE id=?", (content_id,)
+            ).fetchone()
         if row is None:
             raise UnknownContent(content_id)
         return _row_to_content(row)
@@ -462,13 +507,17 @@ class Store:
 
     def counts(self) -> dict[str, int]:
         with self._conn() as conn:
-            rows = conn.execute("SELECT status, COUNT(*) n FROM content GROUP BY status").fetchall()
+            rows = conn.execute(
+                "SELECT status, COUNT(*) n FROM content GROUP BY status"
+            ).fetchall()
         found = {r["status"]: r["n"] for r in rows}
         return {status: found.get(status, 0) for status in STATUSES}
 
     def has(self, content_id: str) -> bool:
         with self._conn() as conn:
-            row = conn.execute("SELECT 1 FROM content WHERE id=?", (content_id,)).fetchone()
+            row = conn.execute(
+                "SELECT 1 FROM content WHERE id=?", (content_id,)
+            ).fetchone()
         return row is not None
 
     def events(self, content_id: str) -> list[Event]:
@@ -476,16 +525,22 @@ class Store:
             rows = conn.execute(
                 "SELECT * FROM event_log WHERE content_id=? ORDER BY ts", (content_id,)
             ).fetchall()
-        return [Event(r["ts"], r["content_id"], r["actor"], r["action"], r["detail"]) for r in rows]
+        return [
+            Event(r["ts"], r["content_id"], r["actor"], r["action"], r["detail"])
+            for r in rows
+        ]
 
     def last_event(self, action: str) -> Event | None:
         with self._conn() as conn:
             row = conn.execute(
-                "SELECT * FROM event_log WHERE action=? ORDER BY ts DESC LIMIT 1", (action,)
+                "SELECT * FROM event_log WHERE action=? ORDER BY ts DESC LIMIT 1",
+                (action,),
             ).fetchone()
         if row is None:
             return None
-        return Event(row["ts"], row["content_id"], row["actor"], row["action"], row["detail"])
+        return Event(
+            row["ts"], row["content_id"], row["actor"], row["action"], row["detail"]
+        )
 
     def due_approved(self, identity: str, now: str) -> list[ContentRow]:
         """Approved rows whose slot has arrived, oldest slot first."""
@@ -539,7 +594,9 @@ def _row_to_content(row: sqlite3.Row) -> ContentRow:
         source_url=row["source_url"],
         source_title=row["source_title"],
         opinion_keys=json.loads(row["opinion_keys"] or "[]"),
-        opinion_change=json.loads(row["opinion_change"]) if row["opinion_change"] else None,
+        opinion_change=(
+            json.loads(row["opinion_change"]) if row["opinion_change"] else None
+        ),
         flags=json.loads(row["flags"] or "[]"),
         engine=row["engine"],
         identity=row["identity"],

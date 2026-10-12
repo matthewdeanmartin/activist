@@ -10,8 +10,8 @@ from fastapi.testclient import TestClient
 
 from activist.api import create_api
 from activist.config import AppConfig
-from activist.moderation import ModerationContext
 from activist.models import Flag
+from activist.moderation import ModerationContext
 from activist.store import APPROVED, FAILED, PENDING, PUBLISHED, REJECTED, Store
 from tests.test_store import make_row
 
@@ -150,7 +150,9 @@ def test_edit_preserves_original(client, store):
 
 
 def test_empty_edit_422(client):
-    assert client.post("/api/content/pend1/edit", json={"text": "  "}).status_code == 422
+    assert (
+        client.post("/api/content/pend1/edit", json={"text": "  "}).status_code == 422
+    )
 
 
 def test_edit_published_409(client, store):
@@ -160,7 +162,9 @@ def test_edit_published_409(client, store):
 
 
 def test_edit_approve_in_one_call(client, store):
-    resp = client.post("/api/content/pend1/edit-approve", json={"text": GOOD_TEXT + " ok"})
+    resp = client.post(
+        "/api/content/pend1/edit-approve", json={"text": GOOD_TEXT + " ok"}
+    )
     assert resp.status_code == 200
     row = store.get("pend1")
     assert row.status == APPROVED and row.text.endswith("ok")

@@ -51,7 +51,9 @@ def moderate_feed(
     mock = MockModerator()
     engines = f"{mock.name}+{llm_moderator.name}" if llm_moderator else mock.name
 
-    result = ModerationResult(feed_toml=feed_path, feed_html=feed_path.with_suffix(".html"))
+    result = ModerationResult(
+        feed_toml=feed_path, feed_html=feed_path.with_suffix(".html")
+    )
     result.posts = len(posts)
     for post in posts:
         flags = mock.review(post, ctx)

@@ -9,7 +9,12 @@ from activist import state
 from activist.engine import MockBot
 from activist.models import Mention
 from activist.queue_io import read_feed
-from activist.replies import ReplyRunConfig, consent_skip_reason, load_mentions, run_replies
+from activist.replies import (
+    ReplyRunConfig,
+    consent_skip_reason,
+    load_mentions,
+    run_replies,
+)
 from tests.conftest import make_opinion, make_persona
 
 DATE = "2026-06-11"
@@ -62,7 +67,12 @@ def test_gate_blocks_bot_authors():
 
 def reply(mention, opinions):
     return MockBot().reply(
-        mention, make_persona(), opinions, knowledge="", recent_said=[], created="2026-06-11T09:00:00"
+        mention,
+        make_persona(),
+        opinions,
+        knowledge="",
+        recent_said=[],
+        created="2026-06-11T09:00:00",
     )
 
 
@@ -99,7 +109,8 @@ def test_no_engaged_opinion_stays_quiet():
 def workspace(tmp_path, repo_root):
     shutil.copytree(repo_root / "persona", tmp_path / "persona")
     shutil.copyfile(
-        repo_root / "tests" / "seed_opinions.toml", tmp_path / "persona" / "opinions.toml"
+        repo_root / "tests" / "seed_opinions.toml",
+        tmp_path / "persona" / "opinions.toml",
     )
     memory = tmp_path / "persona" / "memory"
     shutil.rmtree(memory, ignore_errors=True)

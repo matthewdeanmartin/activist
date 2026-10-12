@@ -162,7 +162,9 @@ def run_reply_chain(
                 result.log_lines.append(
                     f"MENTION {mention.id} from {mention.author} DECLINED"
                 )
-                handled_rows.append(_handled(mention, now, "declined", reaction.diary_note))
+                handled_rows.append(
+                    _handled(mention, now, "declined", reaction.diary_note)
+                )
                 continue
 
             flags = moderate_post(_post_dict(reaction.post), ctx, llm_moderator)
@@ -249,9 +251,9 @@ def build_reader(cfg: AppConfig) -> MastodonReader:
 
 
 __all__ = [
+    "CredentialsError",
     "ReplyFetchResult",
+    "build_reader",
     "run_reply_chain",
     "since_id_key",
-    "build_reader",
-    "CredentialsError",
 ]

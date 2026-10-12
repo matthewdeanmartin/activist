@@ -17,13 +17,7 @@ from .. import state
 from ..config import AppConfig
 from ..store import Store
 from .deps import get_cfg, get_store
-from .schemas import (
-    AccountOut,
-    EngineProfileOut,
-    EventOut,
-    PersonaOut,
-    ProfileOut,
-)
+from .schemas import AccountOut, EngineProfileOut, EventOut, PersonaOut, ProfileOut
 
 log = logging.getLogger("activist.api")
 router = APIRouter(prefix="/api", tags=["who"])
@@ -123,7 +117,7 @@ def account(cfg: AppConfig = Depends(get_cfg)) -> AccountOut:
 def profile(
     cfg: AppConfig = Depends(get_cfg), store: Store = Depends(get_store)
 ) -> ProfileOut:
-    active_id = _persona_id(cfg)
+    _persona_id(cfg)
     persona_out = _load_persona_out(cfg.persona_dir, active=True)
     if persona_out is None:
         raise HTTPException(500, f"active persona not loadable: {cfg.persona_dir}")

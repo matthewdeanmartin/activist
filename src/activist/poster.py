@@ -85,7 +85,10 @@ def poster_tick(
     last_pub = store.last_published_at(identity)
 
     for index, row in enumerate(due):
-        if last_pub and now - ratelimit.aware_utc(dt.datetime.fromisoformat(last_pub)) < spacing:
+        if (
+            last_pub
+            and now - ratelimit.aware_utc(dt.datetime.fromisoformat(last_pub)) < spacing
+        ):
             # Backstop wins over the queue: the rest of the backlog waits for
             # later ticks no matter what their slots claim.
             result.deferred_pacing = len(due) - index
@@ -97,7 +100,9 @@ def poster_tick(
             )
             break
         try:
-            store.transition(row.id, APPROVED, PUBLISHING, actor="poster", detail=transport.name)
+            store.transition(
+                row.id, APPROVED, PUBLISHING, actor="poster", detail=transport.name
+            )
         except StaleStatus:
             result.skipped_race += 1
             LOGGER.info("lost claim race for %s; skipping", row.id)
@@ -110,20 +115,32 @@ def poster_tick(
             # idempotency key means a retry can't double-post even if this one
             # actually landed server-side.
             store.transition(
-                row.id, PUBLISHING, APPROVED, actor="poster",
+                row.id,
+                PUBLISHING,
+                APPROVED,
+                actor="poster",
                 detail=f"requeue after {exc.retry_after:.0f}s: {exc}",
             )
             result.requeued.append(row.id)
-            LOGGER.info("publish re-queued for %s (retry_after=%.0fs): %s", row.id, exc.retry_after, exc)
+            LOGGER.info(
+                "publish re-queued for %s (retry_after=%.0fs): %s",
+                row.id,
+                exc.retry_after,
+                exc,
+            )
             # Stop the tick: if we're being rate-limited, the rest of the backlog
             # would only pile up more 429s.
             break
         except Exception as exc:  # any transport failure → failed, human retries via UI
-            store.transition(row.id, PUBLISHING, FAILED, actor="poster", detail=str(exc))
+            store.transition(
+                row.id, PUBLISHING, FAILED, actor="poster", detail=str(exc)
+            )
             result.failed.append(row.id)
             LOGGER.warning("publish failed for %s: %s", row.id, exc)
             continue
-        store.mark_published(row.id, receipt.status_id, receipt.published_at, receipt.url)
+        store.mark_published(
+            row.id, receipt.status_id, receipt.published_at, receipt.url
+        )
         result.published.append(row.id)
         last_pub = receipt.published_at
         LOGGER.info("published %s as %s", row.id, receipt.status_id)
@@ -168,7 +185,9 @@ class PosterLock:
 def poster_loop(cfg: AppConfig, store: Store, transport: Transport) -> None:
     """--loop mode: tick, sleep, repeat until Ctrl-C."""
     interval = cfg.poster_check_interval_minutes * 60
-    LOGGER.info("poster loop: every %d min, transport=%s", interval // 60, transport.name)
+    LOGGER.info(
+        "poster loop: every %d min, transport=%s", interval // 60, transport.name
+    )
     try:
         while True:
             tick = poster_tick(cfg, store, transport)

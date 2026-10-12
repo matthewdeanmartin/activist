@@ -10,7 +10,12 @@ CREATED = "2026-06-11T09:00:00"
 def react(item, opinions, recent_said=None):
     bot = MockBot()
     return bot.react(
-        item, make_persona(), opinions, knowledge="", recent_said=recent_said or [], created=CREATED
+        item,
+        make_persona(),
+        opinions,
+        knowledge="",
+        recent_said=recent_said or [],
+        created=CREATED,
     )
 
 
@@ -55,13 +60,18 @@ def test_challenge_at_threshold_pushes_back():
     assert reaction.opinion_changes == []
     assert reaction.post.opinion_change is None
     assert reaction.pushbacks == [
-        {"key": "heat-pump-top-pick", "reason": "ABC's new GW-200 just posted a COP of 3.4 at -20C"}
+        {
+            "key": "heat-pump-top-pick",
+            "reason": "ABC's new GW-200 just posted a COP of 3.4 at -20C",
+        }
     ]
 
 
 def test_support_reinforces():
     opinion = make_opinion(strength=0.8)
-    item = make_item(hints={"supports": "heat-pump-top-pick", "claim": "installs are up 40%"})
+    item = make_item(
+        hints={"supports": "heat-pump-top-pick", "claim": "installs are up 40%"}
+    )
     reaction = react(item, {opinion.key: opinion})
 
     assert reaction.post is not None
@@ -72,7 +82,9 @@ def test_support_reinforces():
 
 def test_support_with_prior_said_gets_continuity_callback():
     opinion = make_opinion(strength=0.8)
-    item = make_item(hints={"supports": "heat-pump-top-pick", "claim": "installs are up 40%"})
+    item = make_item(
+        hints={"supports": "heat-pump-top-pick", "claim": "installs are up 40%"}
+    )
     prior = SaidEntry(
         date="2026-06-01",
         post_id="aaa",
@@ -83,7 +95,10 @@ def test_support_with_prior_said_gets_continuity_callback():
     reaction = react(item, {opinion.key: opinion}, recent_said=[prior])
 
     assert reaction.post is not None
-    assert 'Last time I said "reaffirmed on heat pumps: XYZ is top pick"' in reaction.post.text
+    assert (
+        'Last time I said "reaffirmed on heat pumps: XYZ is top pick"'
+        in reaction.post.text
+    )
 
 
 def test_no_hints_abstains_with_diary_note():

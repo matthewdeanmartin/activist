@@ -24,7 +24,7 @@ from .base import CONVICTION_THRESHOLD
 
 
 def _post_id(item_id: str, opinion_key: str) -> str:
-    return hashlib.sha256(f"{item_id}:{opinion_key}".encode("utf-8")).hexdigest()[:12]
+    return hashlib.sha256(f"{item_id}:{opinion_key}".encode()).hexdigest()[:12]
 
 
 class MockBot:
@@ -125,7 +125,10 @@ class MockBot:
         self, item: NewsItem, persona: Persona, opinion: Opinion, created: str
     ) -> Reaction:
         claim = item.hints.get("claim", item.title)
-        new_stance = item.hints.get("new_stance") or f"{item.title} has changed my outlook on {opinion.topic}"
+        new_stance = (
+            item.hints.get("new_stance")
+            or f"{item.title} has changed my outlook on {opinion.topic}"
+        )
         old_subject = opinion.subject or opinion.stance
         change = OpinionChange(
             key=opinion.key,

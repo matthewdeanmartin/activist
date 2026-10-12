@@ -18,9 +18,13 @@ from activist.mastodon_client import (
 )
 
 
-def test_post_status_then_read_it_back(bot_writer: MastodonWriter, bot_reader: MastodonReader) -> None:
+def test_post_status_then_read_it_back(
+    bot_writer: MastodonWriter, bot_reader: MastodonReader
+) -> None:
     text = "heat pumps move heat, they don't make it — 3-4x more efficient than resistance heat."
-    result = bot_writer.post_status(text, idempotency_key="content-roundtrip-1", visibility="unlisted")
+    result = bot_writer.post_status(
+        text, idempotency_key="content-roundtrip-1", visibility="unlisted"
+    )
 
     assert result.status_id
     assert result.created_at
@@ -70,7 +74,11 @@ def test_reply_threads_onto_an_inbound_mention(
 
     # The bot sees it as a notification → Mention (the real ingest mapping).
     notifs = bot_reader.notifications(types=["mention"], limit=10)
-    matching = [n for n in notifs if str((n.get("status") or {}).get("id")) == mention_status.status_id]
+    matching = [
+        n
+        for n in notifs
+        if str((n.get("status") or {}).get("id")) == mention_status.status_id
+    ]
     assert matching, "bot should have a mention notification for the human's post"
     mention = notification_to_mention(matching[0])
     assert mention.status_id == mention_status.status_id
@@ -106,9 +114,13 @@ def test_over_length_status_is_rejected_with_422(bot_writer: MastodonWriter) -> 
     assert exc.value.response.status_code == 422
 
 
-def test_delete_status_then_it_404s(bot_writer: MastodonWriter, bot_reader: MastodonReader) -> None:
+def test_delete_status_then_it_404s(
+    bot_writer: MastodonWriter, bot_reader: MastodonReader
+) -> None:
     """The "oh no" tool: a published post can be retracted and is then gone."""
-    result = bot_writer.post_status("this one gets retracted", idempotency_key="content-delete-1")
+    result = bot_writer.post_status(
+        "this one gets retracted", idempotency_key="content-delete-1"
+    )
     bot_reader.get_status(result.status_id)  # exists now
 
     bot_writer.delete_status(result.status_id)
@@ -135,7 +147,9 @@ def test_posted_status_appears_in_account_timeline(
         whoami.raise_for_status()
         account_id = whoami.json()["id"]
 
-        statuses = client.get(f"/api/v1/accounts/{account_id}/statuses", params={"limit": 40})
+        statuses = client.get(
+            f"/api/v1/accounts/{account_id}/statuses", params={"limit": 40}
+        )
         statuses.raise_for_status()
         ids = {str(s["id"]) for s in statuses.json()}
 

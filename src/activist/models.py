@@ -91,7 +91,9 @@ class Mention:
     author_bio: str = ""
     author_is_bot: bool = False
     created: str = ""
-    hints: dict[str, str] = field(default_factory=dict)  # fixture-only, like NewsItem.hints
+    hints: dict[str, str] = field(
+        default_factory=dict
+    )  # fixture-only, like NewsItem.hints
     # carried from the live API (fetcher F3); empty on fixture mentions.
     status_id: str = ""  # the status to thread the reply onto (in_reply_to_id)
     visibility: str = ""  # public | unlisted | private | direct — the reply must match
@@ -124,6 +126,8 @@ class Reaction:
 
     post: DraftPost | None  # None = "read it, nothing worth saying"
     opinion_changes: list[OpinionChange] = field(default_factory=list)
-    reinforcements: list[str] = field(default_factory=list)  # opinion keys to strengthen
+    reinforcements: list[str] = field(
+        default_factory=list
+    )  # opinion keys to strengthen
     pushbacks: list[dict[str, str]] = field(default_factory=list)  # {key, reason}
     diary_note: str = ""

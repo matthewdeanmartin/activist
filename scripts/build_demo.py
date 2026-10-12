@@ -44,7 +44,9 @@ def stage_workspace(work: Path) -> Path:
     """A pristine persona: seeded opinions + empty memory (matches the test fixtures)."""
     persona = work / "persona"
     shutil.copytree(REPO_ROOT / "persona", persona)
-    shutil.copyfile(REPO_ROOT / "tests" / "seed_opinions.toml", persona / "opinions.toml")
+    shutil.copyfile(
+        REPO_ROOT / "tests" / "seed_opinions.toml", persona / "opinions.toml"
+    )
     memory = persona / "memory"
     shutil.rmtree(memory, ignore_errors=True)
     memory.mkdir(parents=True)
@@ -52,7 +54,9 @@ def stage_workspace(work: Path) -> Path:
 
 
 def persona_meta() -> tuple[str, str, str]:
-    data = tomllib.loads((REPO_ROOT / "persona" / "persona.toml").read_text(encoding="utf-8"))
+    data = tomllib.loads(
+        (REPO_ROOT / "persona" / "persona.toml").read_text(encoding="utf-8")
+    )
     identity = data.get("identity", {})
     return (
         identity.get("name", "activist"),
@@ -71,20 +75,28 @@ def generate(date: str, demo_dir: Path) -> dict:
         run_activist(
             [
                 "run",
-                "--fixtures", str(REPO_ROOT / "fixtures" / "feeds"),
-                "--persona", str(persona),
-                "--out", str(out),
-                "--date", date,
+                "--fixtures",
+                str(REPO_ROOT / "fixtures" / "feeds"),
+                "--persona",
+                str(persona),
+                "--out",
+                str(out),
+                "--date",
+                date,
                 "--dry-state",
             ]
         )
         run_activist(
             [
                 "replies",
-                "--mentions", str(REPO_ROOT / "fixtures" / "mentions-sample.toml"),
-                "--persona", str(persona),
-                "--out", str(out),
-                "--date", date,
+                "--mentions",
+                str(REPO_ROOT / "fixtures" / "mentions-sample.toml"),
+                "--persona",
+                str(persona),
+                "--out",
+                str(out),
+                "--date",
+                date,
                 "--dry-state",
             ]
         )
@@ -177,7 +189,9 @@ def write_index(demo_dir: Path, manifest: dict) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build the GitHub Pages demo site.")
-    parser.add_argument("--date", default=dt.date.today().isoformat(), help="run date label")
+    parser.add_argument(
+        "--date", default=dt.date.today().isoformat(), help="run date label"
+    )
     parser.add_argument("--demo-dir", type=Path, default=REPO_ROOT / "demo")
     args = parser.parse_args(argv)
 

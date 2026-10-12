@@ -21,7 +21,9 @@ def main(argv: list[str] | None = None) -> int:
             stream.reconfigure(errors="replace")
     parser = _build_parser()
     args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(levelname)s %(name)s: %(message)s"
+    )
     if args.command == "run":
         return _cmd_run(args)
     if args.command == "fetch":
@@ -49,18 +51,35 @@ def _build_parser() -> argparse.ArgumentParser:
         prog="activist",
         description="Human-in-the-loop activist bot POC. Simulates posts; never publishes.",
     )
-    parser.add_argument("--version", action="version", version=f"activist {__version__}")
+    parser.add_argument(
+        "--version", action="version", version=f"activist {__version__}"
+    )
     sub = parser.add_subparsers(dest="command")
 
-    p_run = sub.add_parser("run", help="ingest fixtures and produce the feed that would have been")
-    p_run.add_argument("--fixtures", type=Path, default=Path("fixtures/feeds"), help="dir of *.xml feed files")
-    p_run.add_argument("--persona", type=Path, default=Path("persona"), help="persona state dir")
+    p_run = sub.add_parser(
+        "run", help="ingest fixtures and produce the feed that would have been"
+    )
+    p_run.add_argument(
+        "--fixtures",
+        type=Path,
+        default=Path("fixtures/feeds"),
+        help="dir of *.xml feed files",
+    )
+    p_run.add_argument(
+        "--persona", type=Path, default=Path("persona"), help="persona state dir"
+    )
     p_run.add_argument("--out", type=Path, default=Path("out"), help="output dir")
-    p_run.add_argument("--date", default=dt.date.today().isoformat(), help="run date YYYY-MM-DD")
+    p_run.add_argument(
+        "--date", default=dt.date.today().isoformat(), help="run date YYYY-MM-DD"
+    )
     p_run.add_argument("--engine", choices=["mockbot", "openrouter"], default="mockbot")
     p_run.add_argument("--model", default=None, help="model id for --engine openrouter")
-    p_run.add_argument("--max-posts", type=int, default=None, help="override persona post cap")
-    p_run.add_argument("--dry-state", action="store_true", help="do not write opinions/memory")
+    p_run.add_argument(
+        "--max-posts", type=int, default=None, help="override persona post cap"
+    )
+    p_run.add_argument(
+        "--dry-state", action="store_true", help="do not write opinions/memory"
+    )
     _add_instance_args(p_run)
 
     p_fetch = sub.add_parser(
@@ -74,7 +93,10 @@ def _build_parser() -> argparse.ArgumentParser:
         help="preview the chain without touching the cache, persona/, the store, or out/",
     )
     p_fetch.add_argument(
-        "--engine", choices=["mockbot", "openrouter"], default=None, help="override config engine"
+        "--engine",
+        choices=["mockbot", "openrouter"],
+        default=None,
+        help="override config engine",
     )
     p_fetch.add_argument("--model", default=None, help="model id for openrouter")
     p_fetch.add_argument(
@@ -118,7 +140,9 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="allow the Angular dev server (localhost:4200) to call the API",
     )
-    p_api.add_argument("--reload", action="store_true", help="uvicorn auto-reload (dev)")
+    p_api.add_argument(
+        "--reload", action="store_true", help="uvicorn auto-reload (dev)"
+    )
 
     p_poster = sub.add_parser(
         "poster",
@@ -143,7 +167,8 @@ def _build_parser() -> argparse.ArgumentParser:
     )
 
     p_rep = sub.add_parser(
-        "replies", help="draft replies to inbound mentions (simulated; consent gates in code)"
+        "replies",
+        help="draft replies to inbound mentions (simulated; consent gates in code)",
     )
     p_rep.add_argument(
         "--mentions",
@@ -156,7 +181,9 @@ def _build_parser() -> argparse.ArgumentParser:
     p_rep.add_argument("--date", default=dt.date.today().isoformat())
     p_rep.add_argument("--engine", choices=["mockbot", "openrouter"], default="mockbot")
     p_rep.add_argument("--model", default=None, help="model id for --engine openrouter")
-    p_rep.add_argument("--max-replies", type=int, default=None, help="override persona reply cap")
+    p_rep.add_argument(
+        "--max-replies", type=int, default=None, help="override persona reply cap"
+    )
     p_rep.add_argument("--dry-state", action="store_true", help="do not write memory")
     _add_instance_args(p_rep)
 
@@ -164,7 +191,12 @@ def _build_parser() -> argparse.ArgumentParser:
         "moderate", help="flag posts in a feed.toml against app and instance policies"
     )
     p_mod.add_argument("feed_toml", type=Path)
-    p_mod.add_argument("--persona", type=Path, default=Path("persona"), help="for the disclosure footer")
+    p_mod.add_argument(
+        "--persona",
+        type=Path,
+        default=Path("persona"),
+        help="for the disclosure footer",
+    )
     p_mod.add_argument(
         "--app-policy",
         type=Path,
@@ -185,12 +217,16 @@ def _build_parser() -> argparse.ArgumentParser:
         default="mockmod",
         help="mockmod = deterministic checks only; openrouter adds LLM judgment on top",
     )
-    p_mod.add_argument("--model", default=None, help="model id(s) for --engine openrouter")
+    p_mod.add_argument(
+        "--model", default=None, help="model id(s) for --engine openrouter"
+    )
 
     p_render = sub.add_parser("render", help="re-render an existing feed.toml to HTML")
     p_render.add_argument("feed_toml", type=Path)
 
-    p_reset = sub.add_parser("reset-memory", help="clear memory/ (seen, said, mentions, diary)")
+    p_reset = sub.add_parser(
+        "reset-memory", help="clear memory/ (seen, said, mentions, diary)"
+    )
     p_reset.add_argument("--persona", type=Path, default=Path("persona"))
     return parser
 
@@ -309,7 +345,11 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
         else:
             print(
                 f"queued: {result.inserted} pending review"
-                + (f" ({result.duplicates} duplicates skipped)" if result.duplicates else "")
+                + (
+                    f" ({result.duplicates} duplicates skipped)"
+                    if result.duplicates
+                    else ""
+                )
             )
         news_failed = fetched.feeds_failed >= len(cfg.feeds)
 
@@ -319,7 +359,9 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
 
     if not args.dry_run:
         counts = store.counts()
-        print(f"queue now: {counts['pending_review']} pending, {counts['approved']} approved")
+        print(
+            f"queue now: {counts['pending_review']} pending, {counts['approved']} approved"
+        )
         print("review with: activist ui")
     return 1 if (news_failed or replies_failed) else 0
 
@@ -336,7 +378,12 @@ def _run_replies_pass(cfg, engine, store, args, llm_moderator) -> bool:
         return True
     try:
         rresult = run_reply_chain(
-            cfg, engine, store, reader=reader, dry_run=args.dry_run, llm_moderator=llm_moderator
+            cfg,
+            engine,
+            store,
+            reader=reader,
+            dry_run=args.dry_run,
+            llm_moderator=llm_moderator,
         )
     except Exception as exc:  # network/API failure shouldn't crash the whole run
         print(f"replies pass failed: {exc}", file=sys.stderr)
@@ -420,7 +467,11 @@ def _cmd_poster(args: argparse.Namespace) -> int:
     if not args.skip_verify:
         import httpx2
 
-        from .mastodon_client import CredentialsError, MastodonCredentials, MastodonReader
+        from .mastodon_client import (
+            CredentialsError,
+            MastodonCredentials,
+            MastodonReader,
+        )
 
         reader = None
         try:
@@ -519,7 +570,9 @@ def _cmd_moderate(args: argparse.Namespace) -> int:
     instance_policies: dict[str, str] = {}
     for instance in args.instance:
         try:
-            instance_policies[instance] = load_instance_policy(args.policies_dir, instance)
+            instance_policies[instance] = load_instance_policy(
+                args.policies_dir, instance
+            )
         except FileNotFoundError as exc:
             print(str(exc), file=sys.stderr)
             return 1
@@ -558,7 +611,12 @@ def _cmd_render(args: argparse.Namespace) -> int:
 def _cmd_reset_memory(args: argparse.Namespace) -> int:
     memory_dir = args.persona / "memory"
     cleared = []
-    for name in (state.SEEN_FILE, state.SAID_FILE, state.MENTIONS_FILE, state.DIARY_FILE):
+    for name in (
+        state.SEEN_FILE,
+        state.SAID_FILE,
+        state.MENTIONS_FILE,
+        state.DIARY_FILE,
+    ):
         path = memory_dir / name
         if path.exists():
             path.unlink()

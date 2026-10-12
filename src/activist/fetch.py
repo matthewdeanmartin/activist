@@ -46,7 +46,9 @@ class FetchResult:
     outcomes: list[FeedOutcome] = field(default_factory=list)
     new_items: list[NewsItem] = field(default_factory=list)
     seen_skipped: int = 0
-    relevant_topics: dict[str, list[str]] = field(default_factory=dict)  # item id → topics
+    relevant_topics: dict[str, list[str]] = field(
+        default_factory=dict
+    )  # item id → topics
 
     @property
     def feeds_ok(self) -> int:
@@ -77,7 +79,7 @@ def _load_validators(cache_dir: Path, url: str) -> dict:
         return {}
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+    except OSError, json.JSONDecodeError:
         return {}
 
 
@@ -115,7 +117,9 @@ def fetch_feed(
         return FeedOutcome(feed.name, feed.url, UNCHANGED)
     if response.status_code != 200:
         LOGGER.warning("Feed %s returned HTTP %s", feed.name, response.status_code)
-        return FeedOutcome(feed.name, feed.url, FAILED, detail=f"HTTP {response.status_code}")
+        return FeedOutcome(
+            feed.name, feed.url, FAILED, detail=f"HTTP {response.status_code}"
+        )
     if write_cache:
         _save_validators(cache_dir, feed.url, response)
     items = parse_feed_bytes(response.content, source=feed.name)
@@ -217,7 +221,7 @@ def run_news_chain(
     from .moderation import ModerationContext, moderate_post
     from .moderation.policies import load_app_policy, load_instance_policy
     from .pipeline import apply_engine_state, react_to_items
-    from .queue_io import write_feed, _post_dict
+    from .queue_io import _post_dict, write_feed
     from .store import row_from_draft
 
     persona = state.load_persona(cfg.persona_dir / "persona.toml")
@@ -261,7 +265,9 @@ def run_news_chain(
         date=date,
         engine=engine,
         max_posts=persona.max_posts_per_run,
-        slot_for=lambda index: ratelimit.continued_slot(index, per_hour, now, last_slot),
+        slot_for=lambda index: ratelimit.continued_slot(
+            index, per_hour, now, last_slot
+        ),
         engine_call_budget=cfg.engine_call_budget,
     )
     result.posts = out.posts

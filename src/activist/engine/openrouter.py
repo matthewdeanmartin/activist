@@ -81,7 +81,11 @@ def candidate_models(env_path: Path | None = None) -> list[str]:
 
 
 def _rotation_enabled() -> bool:
-    return os.environ.get("OPENROUTER_ROTATE_MODELS", "true").strip().lower() in {"1", "true", "yes"}
+    return os.environ.get("OPENROUTER_ROTATE_MODELS", "true").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
 
 
 class RotatingCompleter:
@@ -123,7 +127,10 @@ class RotatingCompleter:
                 last_exc = exc
                 if idx + 1 < len(self.models):
                     LOGGER.warning(
-                        "Model %s failed (%s); rotating to %s", model, exc, self.models[idx + 1]
+                        "Model %s failed (%s); rotating to %s",
+                        model,
+                        exc,
+                        self.models[idx + 1],
                     )
                     self._active = idx + 1
         raise RuntimeError(
@@ -162,6 +169,7 @@ def make_completer(model: str | None = None) -> RotatingCompleter:
         max_retries=1,
     )
     return RotatingCompleter(models, client)
+
 
 SYSTEM_TEMPLATE = """You are {name} ({handle}), a Mastodon account on the low-carbon \
 lifestyle beat. Bio: {bio}
@@ -278,7 +286,8 @@ class OpenRouterBot:
         user = USER_TEMPLATE.format(
             opinions=_opinions_toml(opinions),
             knowledge=knowledge or "(none)",
-            recent="\n".join(f"- {s.date}: {s.summary}" for s in recent_said) or "(none)",
+            recent="\n".join(f"- {s.date}: {s.summary}" for s in recent_said)
+            or "(none)",
             title=item.title,
             feed=item.feed,
             url=item.url,
@@ -291,12 +300,17 @@ class OpenRouterBot:
         except tomllib.TOMLDecodeError as exc:
             LOGGER.warning("Model reply was not valid TOML, retrying once: %s", exc)
             raw = self._complete(
-                system, user + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only."
+                system,
+                user
+                + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only.",
             )
             try:
                 data = tomllib.loads(_strip_fences(raw))
             except tomllib.TOMLDecodeError:
-                return Reaction(post=None, diary_note=f"Read '{item.title}' — model reply unparseable, abstained.")
+                return Reaction(
+                    post=None,
+                    diary_note=f"Read '{item.title}' — model reply unparseable, abstained.",
+                )
         return self._to_reaction(data, item, persona, opinions, created)
 
     def reply(
@@ -320,7 +334,8 @@ class OpenRouterBot:
         user = REPLY_USER_TEMPLATE.format(
             opinions=_opinions_toml(opinions),
             knowledge=knowledge or "(none)",
-            recent="\n".join(f"- {s.date}: {s.summary}" for s in recent_said) or "(none)",
+            recent="\n".join(f"- {s.date}: {s.summary}" for s in recent_said)
+            or "(none)",
             author=mention.author,
             mention_text=mention.text,
         )
@@ -330,7 +345,9 @@ class OpenRouterBot:
         except tomllib.TOMLDecodeError as exc:
             LOGGER.warning("Reply was not valid TOML, retrying once: %s", exc)
             raw = self._complete(
-                system, user + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only."
+                system,
+                user
+                + f"\n\nYour previous reply failed to parse as TOML: {exc}. TOML only.",
             )
             try:
                 data = tomllib.loads(_strip_fences(raw))
@@ -409,9 +426,14 @@ class OpenRouterBot:
         if persona.disclosure not in text:
             text = f"{text}\n\n{persona.disclosure}"
         if item.url not in text or len(text) > POST_CHAR_LIMIT:
-            LOGGER.warning("Post failed guardrails (url present / %d chars), abstaining.", len(text))
+            LOGGER.warning(
+                "Post failed guardrails (url present / %d chars), abstaining.",
+                len(text),
+            )
             return Reaction(
-                post=None, opinion_changes=[], diary_note=f"Read '{item.title}' — draft failed guardrails."
+                post=None,
+                opinion_changes=[],
+                diary_note=f"Read '{item.title}' — draft failed guardrails.",
             )
         if not keys:
             # Post engages opinions even when none changed; attribute by topic.

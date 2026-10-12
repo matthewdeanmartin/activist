@@ -7,10 +7,10 @@ from .mockmod import MockModerator
 from .moderate import ModerationResult, moderate_feed, moderate_post
 
 __all__ = [
-    "ModerationContext",
-    "ModeratorEngine",
     "MockModerator",
+    "ModerationContext",
     "ModerationResult",
+    "ModeratorEngine",
     "moderate_feed",
     "moderate_post",
 ]

@@ -14,7 +14,9 @@ import re
 START_HOUR = 9
 
 _WORD_NUMBERS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6}
-_HOURLY_RE = re.compile(r"\b(\d+|one|two|three|four|five|six)\s+posts?\s+per\s+hour", re.IGNORECASE)
+_HOURLY_RE = re.compile(
+    r"\b(\d+|one|two|three|four|five|six)\s+posts?\s+per\s+hour", re.IGNORECASE
+)
 
 
 def parse_hourly_limit(policy_text: str) -> int | None:
@@ -70,7 +72,9 @@ def continued_slot(
     interval = dt.timedelta(minutes=max(1, 60 // max(1, per_hour)))
     base = aware_utc(now)
     if last_scheduled:
-        base = max(base, aware_utc(dt.datetime.fromisoformat(last_scheduled)) + interval)
+        base = max(
+            base, aware_utc(dt.datetime.fromisoformat(last_scheduled)) + interval
+        )
     return (base + index * interval).isoformat(timespec="seconds")
 
 

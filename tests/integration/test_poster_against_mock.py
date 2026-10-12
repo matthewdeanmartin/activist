@@ -37,7 +37,9 @@ def make_cfg(tmp_path: Path) -> AppConfig:
 
 
 def approve(store: Store, row_id: str, text: str, slot: str) -> None:
-    store.add_pending(make_row(id=row_id, identity=IDENTITY, text=text, scheduled_for=slot))
+    store.add_pending(
+        make_row(id=row_id, identity=IDENTITY, text=text, scheduled_for=slot)
+    )
     store.transition(row_id, PENDING, APPROVED, "human")
 
 
@@ -46,7 +48,12 @@ def test_poster_tick_publishes_live_to_the_mock(
 ) -> None:
     cfg = make_cfg(tmp_path)
     store = Store(cfg.db_path)
-    approve(store, "live-post-1", "Heat pumps work below freezing; the myth is decades out of date.", "2026-06-01T09:00:00")
+    approve(
+        store,
+        "live-post-1",
+        "Heat pumps work below freezing; the myth is decades out of date.",
+        "2026-06-01T09:00:00",
+    )
 
     tick = poster_tick(cfg, store, bot_transport, per_hour=PER_HOUR)
 
@@ -60,7 +67,9 @@ def test_poster_tick_publishes_live_to_the_mock(
     assert row.published_at
 
     # And it's genuinely on the server.
-    with httpx2.Client(base_url=mock_server_url, headers={"Authorization": "Bearer bot_token"}) as client:
+    with httpx2.Client(
+        base_url=mock_server_url, headers={"Authorization": "Bearer bot_token"}
+    ) as client:
         fetched = client.get(f"/api/v1/statuses/{row.mastodon_status_id}")
         fetched.raise_for_status()
         assert "below freezing" in fetched.json()["content"]
